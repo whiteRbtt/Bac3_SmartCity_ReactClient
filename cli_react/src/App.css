@@ -36,3 +36,62 @@
     transform: rotate(360deg);
   }
 }
+
+
+#logo{
+  height: 65px;
+}
+
+.headerContainer{
+  padding-left: 24px;
+  padding-right: 24px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: rgb(233, 241, 239);
+  box-shadow: 1px 1px 10px rgb(164, 165, 165);
+}
+
+.linkContainer{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-right: 50px;
+}
+
+.headerLink{
+  text-transform: initial;
+  letter-spacing: 0px;
+  font-family: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-size: 0.875rem;
+  line-height: 1.75;
+  text-decoration: none;
+  color: rgb(51, 153, 255);
+  font-weight: 700;
+  padding-left: 30px ;
+}
+
+.login{
+  display: flex;
+  flex-direction: column;
+  margin-top:50px;
+  align-items: center;
+}
+
+.loginContainer{
+  border: 2px solid rgb(231, 223, 223);
+  box-shadow: 1px 1px 10px rgb(164, 165, 165);
+  height: 400px;
+  width:300px;
+  display: flex;
+  flex-direction: column;
+  margin-top:100px;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+
+.registerLink{
+  text-decoration: none;
+  color:rgb(105, 105, 105);
+}
