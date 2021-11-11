@@ -8,12 +8,15 @@ import { Link } from 'react-router-dom';
 
 const Home = (props) => {
     const handleClick = () => {
-        sessionStorage.setItem('token', document.getElementById('txt').value);
+        alert(sessionStorage.getItem('jwtToken'));
     };
 
     return (
         <div>
             <Header />
+            <Button variant='contained' onClick={handleClick}>
+                token
+            </Button>
             <Link to={`/connexion`}>login</Link>
         </div>
     );

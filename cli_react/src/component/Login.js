@@ -1,12 +1,38 @@
 import React from 'react';
+import { useState } from 'react';
 import '../App.css';
 import Header from './Header';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
 
 const Login = () => {
+    const [isErrorHidden, setIsErrorHidden] = useState(true);
+    const [errorMessage, setErrorMessage] = useState('');
+    const [isLogged, setIsLogged] = useState(false);
+
+    const fetchToken = async (basicAuth) => {
+        await axios
+            .post(
+                `http://localhost:3001/user/login`,
+                {},
+                {
+                    headers: { authorization: `Basic ${basicAuth}` },
+                }
+            )
+            .then((res) => {
+                const token = res.data.token;
+                sessionStorage.setItem('jwtToken', token);
+                setIsLogged(true);
+                console.log('jwtToken stored in browser session');
+            })
+            .catch((err) => {
+                setIsErrorHidden(false);
+                setErrorMessage(err.response.data.error);
+            });
+    };
+
     const handleClick = () => {
         const mail = document.getElementById('mail').value;
         const password = document.getElementById('pwd').value;
@@ -16,12 +42,7 @@ const Login = () => {
                 `${mail}:${password}`,
                 'utf8'
             ).toString('base64');
-            login(basicAuth).then((token) => {
-                if (token) {
-                    sessionStorage.setItem('jwtToken', token);
-                    console.log('jwtToken stored in browser session');
-                }
-            });
+            fetchToken(basicAuth);
         }
     };
 
@@ -30,6 +51,9 @@ const Login = () => {
             <Header />
             <div className='login'>
                 <div className='loginContainer'>
+                    <label hidden={isErrorHidden} id='errorMessage'>
+                        {errorMessage}
+                    </label>
                     <TextField id='mail' label='Mail' variant='outlined' />
                     <TextField
                         id='pwd'
@@ -43,24 +67,10 @@ const Login = () => {
                         Inscription
                     </Link>
                 </div>
+                {isLogged ? <Redirect to='/' /> : null}
             </div>
         </div>
     );
 };
-
-async function login(basicAuth) {
-    try {
-        const response = await axios.post(
-            `http://localhost:3001/user/login`,
-            {},
-            {
-                headers: { authorization: `Basic ${basicAuth}` },
-            }
-        );
-        return response.data.token;
-    } catch (error) {
-        console.log(error);
-    }
-}
 
 export default Login;
