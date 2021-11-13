@@ -1,48 +1,35 @@
-import React from 'react';
-import { useState } from 'react';
-import '../App.css';
-import Header from './Header';
+import React, { useState } from 'react';
+import { Link, Redirect } from 'react-router-dom';
+
+import '../../App.css';
+import Header from '../Header';
+import { login } from '../../services/api/User';
+
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import { Link, Redirect } from 'react-router-dom';
-import axios from 'axios';
 
 const Login = () => {
     const [isErrorHidden, setIsErrorHidden] = useState(true);
     const [errorMessage, setErrorMessage] = useState('');
     const [isLogged, setIsLogged] = useState(false);
 
-    const fetchToken = async (basicAuth) => {
-        await axios
-            .post(
-                `http://localhost:3001/user/login`,
-                {},
-                {
-                    headers: { authorization: `Basic ${basicAuth}` },
-                }
-            )
-            .then((res) => {
-                const token = res.data.token;
-                sessionStorage.setItem('jwtToken', token);
-                setIsLogged(true);
-                console.log('jwtToken stored in browser session');
-            })
-            .catch((err) => {
-                setIsErrorHidden(false);
-                setErrorMessage(err.response.data.error);
-            });
-    };
-
-    const handleClick = () => {
+    const handleClick = async () => {
         const mail = document.getElementById('mail').value;
         const password = document.getElementById('pwd').value;
 
         if (mail && password) {
-            const basicAuth = Buffer.from(
-                `${mail}:${password}`,
-                'utf8'
-            ).toString('base64');
-            fetchToken(basicAuth);
+            try {
+                await login(mail, password).then(() => {
+                    setIsLogged(true);
+                });
+            } catch (e) {
+                setIsErrorHidden(false);
+                if (e.response)
+                    setErrorMessage(e.response.data.error);
+                else {
+                    setErrorMessage('Vérifiez votre connexion au réseau');
+                }
+            }
         }
     };
 

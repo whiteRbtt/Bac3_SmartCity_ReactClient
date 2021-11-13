@@ -1,13 +1,13 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Home from '../component/Home';
-import Admin from '../component/Admin';
-import Event from '../component/Event';
-import Register from '../component/Register';
-import Login from '../component/Login';
-import Profile from '../component/Profile';
-import Research from '../component/Research';
-import Settings from '../component/Settings';
+import Home from '../component/view/Home';
+import Admin from '../component/view/Admin';
+import Event from '../component/view/Event';
+import Register from '../component/view/Register';
+import Login from '../component/view/Login';
+import Profile from '../component/view/Profile';
+import Research from '../component/view/Research';
+import Settings from '../component/view/Settings';
 
 export default function Routes() {    
 	return (        

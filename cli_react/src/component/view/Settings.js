@@ -1,6 +1,9 @@
 import React from 'react';
-import '../App.css';
-import Header from './Header'
+import {Redirect } from 'react-router-dom';
+
+
+import '../../App.css';
+import Header from '../Header'
 
 
 export default function Settings(props) {
@@ -8,6 +11,7 @@ export default function Settings(props) {
         <div>
             <Header/>
             <p>settings</p>
+            {/* {isLogged() ?null:<Redirect to='/connexion' />} */}
         </div>
     );
 }
