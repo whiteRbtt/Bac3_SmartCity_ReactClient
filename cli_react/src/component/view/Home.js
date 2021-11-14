@@ -4,18 +4,24 @@ import { Link, Redirect } from 'react-router-dom';
 import '../../App.css';
 import Header from '../Header';
 import { isLogged } from '../../services/Toolbox';
-import { getAllEvents } from '../../services/api/Event';
+import {
+    getAllEvents,
+    getEvent,
+    popularEvents,
+} from '../../services/api/Event';
 
 import Button from '@mui/material/Button';
 
 const Home = (props) => {
-
-    const handleClick = () => {
+    const handleClick = async () => {
         //alert(sessionStorage.getItem('jwtToken'));
         try {
-            getAllEvents().then((res) => {
-                console.log(`res`, res);
-            });
+            const e = await getEvent(1);
+            const t = await getAllEvents();
+            const p = await popularEvents();
+            console.log(`p`, p);
+            console.log(`t`, t);
+            console.log(`e`, e);
         } catch (e) {
             console.log(e);
         }
