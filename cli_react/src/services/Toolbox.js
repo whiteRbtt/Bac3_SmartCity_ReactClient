@@ -2,4 +2,8 @@ const isLogged = () => {
     return sessionStorage.getItem('jwtToken')?true:false;
 };
 
-export default isLogged;
+const getToken = () => {
+    return sessionStorage.getItem('jwtToken');
+}
+
+export {isLogged, getToken};
