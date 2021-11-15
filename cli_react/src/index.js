@@ -7,10 +7,14 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
+import DateAdapter from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <LocalizationProvider dateAdapter={DateAdapter}>
+      <App />
+    </LocalizationProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

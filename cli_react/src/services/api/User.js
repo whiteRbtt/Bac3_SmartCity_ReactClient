@@ -18,7 +18,9 @@ const login = async (mail, password) => {
         )
         .then((res) => {
             sessionStorage.setItem('jwtToken', res.data.token);
-            console.log('jwtToken stored in browser session');
+            console.log(
+                'login succesfull - token stored in browser session'
+            );
         })
         .catch((err) => {
             throw err;
@@ -33,14 +35,17 @@ const register = async (mail, password, name, birthDate) => {
                 mailAddress: mail,
                 password: password,
                 name: name,
-                birthDate: birthDate,
+                birthdate: birthDate,
             },
             {
                 headers: { authorization: `Bearer ${getToken()}` },
             }
         )
         .then((res) => {
-            console.log(res);
+            sessionStorage.setItem('jwtToken', res.data.token);
+            console.log(
+                'register succesfull - token stored in browser session'
+            );
         })
         .catch((err) => {
             throw err;

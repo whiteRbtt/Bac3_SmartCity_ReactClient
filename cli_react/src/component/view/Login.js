@@ -12,7 +12,8 @@ const Login = () => {
     const [errorMessage, setErrorMessage] = useState('');
     const [isLogged, setIsLogged] = useState(false);
 
-    const handleClick = async () => {
+    const handleClick = async (e) => {
+        e.preventDefault();
         const mail = document.getElementById('mail').value;
         const password = document.getElementById('pwd').value;
 
@@ -26,7 +27,7 @@ const Login = () => {
                 if (e.response)
                     setErrorMessage(e.response.data.error);
                 else {
-                    setErrorMessage('Vérifiez votre connexion au réseau');
+                    setErrorMessage('Veuillez réessayer plus tard');
                 }
             }
         }

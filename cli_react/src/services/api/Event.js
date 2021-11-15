@@ -39,7 +39,7 @@ const getPopularEvents = async () => {
             return res.data.events;
         })
         .catch((err) => {
-            console.log(err);
+            throw err;
         });
 };
 

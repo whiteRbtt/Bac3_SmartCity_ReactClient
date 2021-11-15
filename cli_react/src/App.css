@@ -1,105 +1,192 @@
 .App {
-  text-align: center;
+    text-align: center;
 }
 
 .App-logo {
-  height: 40vmin;
-  pointer-events: none;
+    height: 40vmin;
+    pointer-events: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+    .App-logo {
+        animation: App-logo-spin infinite 20s linear;
+    }
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
 }
 
 .App-link {
-  color: #61dafb;
+    color: #61dafb;
 }
 
 @keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
-
-#logo{
-  height: 65px;
+#logo {
+    height: 65px;
 }
 
-.headerContainer{
-  padding-left: 24px;
-  padding-right: 24px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  background-color: rgb(233, 241, 239);
-  box-shadow: 1px 1px 10px rgb(164, 165, 165);
+.headerContainer {
+    padding-left: 24px;
+    padding-right: 24px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: rgb(233, 241, 239);
+    box-shadow: 1px 1px 10px rgb(164, 165, 165);
 }
 
-.linkContainer{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin-right: 50px;
+.linkContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-right: 50px;
 }
 
-.headerLink{
-  text-transform: initial;
-  letter-spacing: 0px;
-  font-family: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-  font-size: 0.875rem;
-  line-height: 1.75;
-  text-decoration: none;
-  color: rgb(51, 153, 255);
-  font-weight: 700;
-  padding-left: 30px ;
+.headerLink {
+    text-transform: initial;
+    letter-spacing: 0px;
+    font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+        Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji',
+        'Segoe UI Emoji', 'Segoe UI Symbol';
+    font-size: 0.875rem;
+    line-height: 1.75;
+    text-decoration: none;
+    color: rgb(51, 153, 255);
+    font-weight: 700;
+    padding-left: 30px;
 }
 
-.login{
-  display: flex;
-  flex-direction: column;
-  margin-top:50px;
-  align-items: center;
+.login {
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+    align-items: center;
 }
 
-.loginContainer{
-  border: 2px solid rgb(231, 223, 223);
-  box-shadow: 1px 1px 10px rgb(164, 165, 165);
-  height: 400px;
-  width:300px;
-  display: flex;
-  flex-direction: column;
-  margin-top:100px;
-  align-items: center;
-  justify-content: space-evenly;
+.loginContainer {
+    border: 2px solid rgb(231, 223, 223);
+    box-shadow: 1px 1px 10px rgb(164, 165, 165);
+    height: 400px;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 100px;
+    align-items: center;
+    justify-content: space-evenly;
 }
 
-
-.registerLink{
-  text-decoration: none;
-  color:rgb(105, 105, 105);
+.register {
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+    align-items: center;
 }
 
-#errorMessage{
-  color:rgb(177, 22, 22);
+.registerContainer {
+    border: 2px solid rgb(231, 223, 223);
+    box-shadow: 1px 1px 10px rgb(164, 165, 165);
+    height: 600px;
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.registerLink {
+    text-decoration: none;
+    color: rgb(105, 105, 105);
+}
+
+#errorMessage {
+    color: rgb(177, 22, 22);
 }
 
 #toAdminButtonContainer {
-  margin-right: 20px;
+    margin-right: 20px;
+}
+
+.tilesContainer {
+    border: 2px solid rgb(231, 223, 223);
+    box-shadow: 1px 1px 10px rgb(164, 165, 165);
+    margin-top: 50px;
+    height: 200px;
+    width: 400px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    background-color: rgb(220, 231, 231);
+}
+
+.tilesContainer:hover {
+    box-shadow: 1px 1px 10px rgb(93, 194, 194);
+}
+
+.contentTilesContainer {
+    height: 170px;
+    width: 180px;
+}
+
+.tilesImg {
+    height: 170px;
+    width: 180px;
+    opacity: 0.9;
+    border-radius: 5px;
+}
+
+.homeContainer1 {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    height: 400px;
+    display: flex;
+    flex-direction: row;
+    background-image: url('./halcyondays.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    opacity: 0.9;
+}
+
+.welcomeContainer {
+    margin-left: 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    color:ivory;
+}
+
+.homeContainer2 {
+    margin-top: 75px;
+    height: auto;
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    color:rgb(85, 84, 84);
+}
+
+.trendingTilesContainer {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
 }

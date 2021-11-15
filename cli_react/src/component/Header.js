@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, withRouter, useLocation, useHistory } from 'react-router-dom';
+import { Link, useLocation, useHistory } from 'react-router-dom';
 
 import '../App.css';
 import logo from '../logo.svg';
@@ -7,7 +7,7 @@ import { isAdmin, logout } from '../services/Toolbox';
 
 import Button from '@mui/material/Button';
 
-const Header = (props) => {
+const Header = () => {
     const history = useHistory();
     const [buttonTarget, setButtonTarget] = useState();
     const [buttonLabel, setButtonLabel] = useState();
@@ -33,12 +33,14 @@ const Header = (props) => {
         displayAdminButton();
     }, []);
 
-    const handleLogout = () => {
+    const handleLogout = (e) => {
+        e.preventDefault();
         logout();
         history.push('/');
     };
 
-    const handleClick = () => {
+    const handleClick = (e) => {
+        e.preventDefault();
         history.push(buttonTarget);
     };
 
@@ -79,4 +81,4 @@ const Header = (props) => {
     );
 };
 
-export default withRouter(Header);
+export default Header;

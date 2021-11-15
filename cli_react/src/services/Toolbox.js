@@ -17,4 +17,11 @@ const getToken = () => {
     return sessionStorage.getItem('jwtToken');
 };
 
-export { isLogged, getToken, isAdmin, logout };
+const transformDate = (date) => {
+    const day = date.getDate()
+    const month = date.getMonth()
+    const year = date.getFullYear()
+    return `${year}-${month}-${day}`
+};
+
+export { isLogged, getToken, isAdmin, logout, transformDate };
