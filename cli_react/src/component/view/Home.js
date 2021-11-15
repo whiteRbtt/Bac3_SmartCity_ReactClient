@@ -6,19 +6,13 @@ import Header from '../Header';
 
 import Button from '@mui/material/Button';
 
-import { isLogged, getToken } from '../../services/Toolbox';
+import { isLogged } from '../../services/Toolbox';
 
 import { getOwnUser } from '../../services/api/User';
 
 const Home = (props) => {
     const handleClick = async () => {
-        //alert(sessionStorage.getItem('jwtToken'));
-        try {
-            const a = await getOwnUser();
-            console.log(`res = `, a);
-        } catch (e) {
-            console.log(e);
-        }
+        console.log("bouh")
     };
 
     return (
@@ -29,7 +23,7 @@ const Home = (props) => {
                 onClick={handleClick}
                 style={{ margin: '100px 0px 0px 0px' }}
             >
-                token
+                click
             </Button>
             {isLogged() ? null : <Redirect to='/connexion' />}
         </div>

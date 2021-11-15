@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 
 import '../../App.css';
-import Header from '../Header';
 import { login } from '../../services/api/User';
 
 import Button from '@mui/material/Button';
@@ -35,7 +34,6 @@ const Login = () => {
 
     return (
         <div>
-            <Header />
             <div className='login'>
                 <div className='loginContainer'>
                     <label hidden={isErrorHidden} id='errorMessage'>

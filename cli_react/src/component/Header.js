@@ -3,6 +3,7 @@ import { Link, withRouter, useLocation, useHistory } from 'react-router-dom';
 
 import '../App.css';
 import logo from '../logo.svg';
+import { isAdmin, logout } from '../services/Toolbox';
 
 import Button from '@mui/material/Button';
 
@@ -13,14 +14,29 @@ const Header = (props) => {
     const [location] = useState(useLocation().pathname);
 
     useEffect(() => {
-        if (location === '/admin') {
-            setButtonTarget('/');
-            setButtonLabel('Vers accueil');
-        } else {
-            setButtonTarget('/admin');
-            setButtonLabel('Vers admin');
-        }
+        const displayAdminButton = async () => {
+            const res = await isAdmin();
+            if (res) {
+                const adminButton = document.getElementById(
+                    'toAdminButtonContainer'
+                );
+                adminButton.hidden = false;
+                if (location === '/admin') {
+                    setButtonTarget('/');
+                    setButtonLabel('Vers accueil');
+                } else {
+                    setButtonTarget('/admin');
+                    setButtonLabel('Vers admin');
+                }
+            }
+        };
+        displayAdminButton();
     }, []);
+
+    const handleLogout = () => {
+        logout();
+        history.push('/');
+    };
 
     const handleClick = () => {
         history.push(buttonTarget);
@@ -47,9 +63,15 @@ const Header = (props) => {
                     </nav>
                 </div>
 
-                <div>
+                <div id='toAdminButtonContainer' hidden={true}>
                     <Button variant='outlined' onClick={handleClick}>
                         {buttonLabel}
+                    </Button>
+                </div>
+
+                <div>
+                    <Button variant='text' onClick={handleLogout}>
+                        Déconnexion
                     </Button>
                 </div>
             </div>

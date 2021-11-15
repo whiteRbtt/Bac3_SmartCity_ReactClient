@@ -1,7 +1,7 @@
 import React from 'react';
 import {Redirect } from 'react-router-dom';
 
-import { isLogged, getToken } from '../../services/Toolbox';
+import { isLogged } from '../../services/Toolbox';
 import '../../App.css';
 import Header from '../Header'
 
