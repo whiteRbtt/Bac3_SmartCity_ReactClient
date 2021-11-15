@@ -4,7 +4,7 @@ import { Link, Redirect } from 'react-router-dom';
 
 import '../../App.css';
 import Header from '../Header'
-import isLogged from '../../services/Toolbox'
+import { isLogged, getToken } from '../../services/Toolbox';
 
 const Profile = (props) => {
 
@@ -12,7 +12,7 @@ const Profile = (props) => {
         <div>
             <Header />
             <p>profil</p>
-            {/* {isLogged() ?null:<Redirect to='/connexion' />} */}
+            {isLogged() ?null:<Redirect to='/connexion' />}
         </div>
     );
 };

@@ -3,25 +3,19 @@ import { Link, Redirect } from 'react-router-dom';
 
 import '../../App.css';
 import Header from '../Header';
-import { isLogged } from '../../services/Toolbox';
-import {
-    getAllEvents,
-    getEvent,
-    popularEvents,
-} from '../../services/api/Event';
 
 import Button from '@mui/material/Button';
+
+import { isLogged, getToken } from '../../services/Toolbox';
+
+import { getOwnUser } from '../../services/api/User';
 
 const Home = (props) => {
     const handleClick = async () => {
         //alert(sessionStorage.getItem('jwtToken'));
         try {
-            const e = await getEvent(1);
-            const t = await getAllEvents();
-            const p = await popularEvents();
-            console.log(`p`, p);
-            console.log(`t`, t);
-            console.log(`e`, e);
+            const a = await getOwnUser();
+            console.log(`res = `, a);
         } catch (e) {
             console.log(e);
         }
@@ -37,7 +31,6 @@ const Home = (props) => {
             >
                 token
             </Button>
-            <Link to={`/connexion`}>login</Link>
             {isLogged() ? null : <Redirect to='/connexion' />}
         </div>
     );

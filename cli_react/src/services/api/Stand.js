@@ -1,3 +1,94 @@
 import axios from 'axios';
-const url = 'http://localhost:3001'
 
+import { getToken } from '../Toolbox';
+
+const url = 'http://localhost:3001';
+
+const getStand = async (idStand) => {
+    return await axios
+        .get(`${url}/event/stand/get?idStand=${idStand}`, {
+            headers: { authorization: `Bearer ${getToken()}` },
+        })
+        .then((res) => {
+            return res.data;
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+};
+
+const getAllStandsByEventId = async (idEvent) => {
+    return await axios
+        .get(`${url}/event/stand/get/all?idEvent=${idEvent}`, {
+            headers: { authorization: `Bearer ${getToken()}` },
+        })
+        .then((res) => {
+            return res.data;
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+};
+
+const addStand = async (type, manager, size, idEvent) => {
+    return await axios
+        .post(
+            `${url}/event/stand/add`,
+            {
+                type: type,
+                managerName: manager,
+                areaSize: size,
+                idEvent: idEvent,
+            },
+            {
+                headers: { authorization: `Bearer ${getToken()}` },
+            }
+        )
+        .then((res) => {
+            console.log(res);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+};
+
+const updateStand = async (idStand, type, manager, size, idEvent) => {
+    return await axios
+        .patch(
+            `${url}/product/update`,
+            {
+                idStand: idStand,
+                type: type,
+                manager_name: manager,
+                area_size: size,
+                id_event: idEvent,
+            },
+            {
+                headers: { authorization: `Bearer ${getToken()}` },
+            }
+        )
+        .then((res) => {
+            console.log(res);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+};
+
+const delStand = async (idStand) => {
+    return await axios
+        .delete(`${url}/event/stand/delete`, {
+            headers: { authorization: `Bearer ${getToken()}` },
+            data: {
+                idStand: idStand,
+            },
+        })
+        .then((res) => {
+            console.log(res);
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+};
+
+export { getStand, getAllStandsByEventId, addStand, updateStand, delStand };

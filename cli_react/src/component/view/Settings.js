@@ -1,7 +1,7 @@
 import React from 'react';
 import {Redirect } from 'react-router-dom';
 
-
+import { isLogged, getToken } from '../../services/Toolbox';
 import '../../App.css';
 import Header from '../Header'
 
@@ -11,7 +11,7 @@ export default function Settings(props) {
         <div>
             <Header/>
             <p>settings</p>
-            {/* {isLogged() ?null:<Redirect to='/connexion' />} */}
+            {isLogged() ?null:<Redirect to='/connexion' />}
         </div>
     );
 }
