@@ -48,15 +48,24 @@ export default function Event() {
 
     const handleClick = async (e) => {
         e.preventDefault();
-        const id = parseInt(eventId);
-        if (isRegistered) {
-            await delRegister(id).then(() => {
-                setIsRegistered(false);
-            });
-        } else {
-            await addRegister(id).then(() => {
-                setIsRegistered(true);
-            });
+        if(event){
+            const endingDate = new Date(event.ending_date)
+            const today = new Date()
+            if(endingDate < today){
+                alert("L'évenement est déja terminé, revenez l'année prochaine")
+            }
+            else{
+                const id = parseInt(eventId);
+                if (isRegistered) {
+                    await delRegister(id).then(() => {
+                        setIsRegistered(false);
+                    });
+                } else {
+                    await addRegister(id).then(() => {
+                        setIsRegistered(true);
+                    });
+                }
+            }
         }
     };
 
