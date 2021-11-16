@@ -16,10 +16,14 @@ const Home = (props) => {
     const [userName, setuserName] = useState();
 
     useEffect(() => {
-        if(isLogged()){
+        let isMounted = true;
+        if(isLogged() && isMounted){
             fetchTrendings();
             fetchUsername();
         }
+        return () => {
+            isMounted = false;
+        };
     }, []);
 
     const fetchUsername = async () => {

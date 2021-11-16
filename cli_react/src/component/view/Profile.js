@@ -19,9 +19,15 @@ const Profile = (props) => {
     const [futureRegister, setFutureRegister] = useState();
 
     useEffect(() => {
-        fetchUser();
-        fetchRegister();
-        fetchPic();
+        let isMounted = true;
+        if(isLogged() && isMounted){
+            fetchUser();
+            fetchRegister();
+            fetchPic();
+        }
+        return () => {
+            isMounted = false;
+        };
     },[]);
 
     const fetchUser = async () => {
@@ -48,11 +54,10 @@ const Profile = (props) => {
     const fetchPic = async () => {
         await getAccountPict()
             .then((res) => {
-                const picture = res.profilePicture.split(',')[1];
-                setAvatar(picture);
+                setAvatar(res.profilePicture.split(',')[1]);
             })
             .catch(() => {
-                console.log('avatar introuvable')
+                alert('Une erreur est survenue, merci de réessayer plus tard');
             });
     };
 

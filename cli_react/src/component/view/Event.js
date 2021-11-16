@@ -22,8 +22,14 @@ export default function Event() {
     const [isRegistered, setIsRegistered] = useState();
 
     useEffect(() => {
-        fetchEvent();
-        checkRegistration();
+        let isMounted = true;
+        if(isLogged() && isMounted){
+            fetchEvent();
+            checkRegistration();
+        }
+        return () => {
+            isMounted = false;
+        };
     }, []);
 
     const fetchEvent = async () => {

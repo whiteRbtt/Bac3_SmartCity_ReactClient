@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useStateIfMounted } from 'react';
 import { Link, useLocation, useHistory } from 'react-router-dom';
 
 import '../App.css';
 import logo from '../logo.svg';
-import { isAdmin, logout } from '../services/Toolbox';
+import { isAdmin, logout, isLogged } from '../services/Toolbox';
 
 import Button from '@mui/material/Button';
 
@@ -14,22 +14,30 @@ const Header = () => {
     const [location] = useState(useLocation().pathname);
 
     useEffect(() => {
-        displayAdminButton();
+        let isMounted = true;
+        if(isLogged() && isMounted){
+            displayAdminButton();
+        }
+        return () => {
+            isMounted = false;
+        };
     }, []);
 
     const displayAdminButton = async () => {
         await isAdmin()
             .then((res) => {
-                const adminButton = document.getElementById(
-                    'toAdminButtonContainer'
-                );
-                adminButton.hidden = false;
-                if (location === '/admin') {
-                    setButtonTarget('/');
-                    setButtonLabel('Vers accueil');
-                } else {
-                    setButtonTarget('/admin');
-                    setButtonLabel('Vers admin');
+                if(res){
+                    const adminButton = document.getElementById(
+                        'toAdminButtonContainer'
+                    );
+                    adminButton.hidden = false;
+                    if (location === '/admin') {
+                        setButtonTarget('/');
+                        setButtonLabel('Vers accueil');
+                    } else {
+                        setButtonTarget('/admin');
+                        setButtonLabel('Vers admin');
+                    }
                 }
             })
             .catch(() => {
@@ -40,7 +48,7 @@ const Header = () => {
     const handleLogout = (e) => {
         e.preventDefault();
         logout();
-        history.push('/');
+        history.push('/connexion');
     };
 
     const handleClick = (e) => {

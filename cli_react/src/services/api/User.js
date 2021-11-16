@@ -110,7 +110,7 @@ const getAccountPict = async () => {
             return res.data;
         })
         .catch((err) => {
-            console.log(err);
+            console.log('avatar introuvable')
         });
 };
 

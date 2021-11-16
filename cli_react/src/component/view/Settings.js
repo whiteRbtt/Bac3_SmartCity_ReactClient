@@ -6,7 +6,7 @@ import '../../App.css';
 import Header from '../Header'
 
 
-export default function Settings(props) {
+export default function Settings() {
     return (
         <div>
             <Header/>
