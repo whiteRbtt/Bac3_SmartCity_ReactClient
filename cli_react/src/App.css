@@ -190,3 +190,57 @@
     justify-content: space-evenly;
     flex-wrap: wrap;
 }
+
+
+.eventImg{
+    height: 200px;
+    background-image: url('./halcyondays.png');
+    background-repeat: no-repeat;
+    background-position: center center;
+    opacity: 0.9;
+}
+
+.eventContainer{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+.eventDescription{
+    height: 400px;
+    margin-top: 70px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.eventDescriptionSub{
+    padding:20px;
+    height: 150px;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-evenly;
+    background-color: rgb(208, 255, 239);
+}
+
+.eventDescItem{
+    width: 280px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.eventInformation{
+    height: 400px;
+    width: 400px;
+    margin-top: 70px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-evenly;
+}

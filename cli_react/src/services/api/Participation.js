@@ -42,7 +42,7 @@ const getDateRegisterEvent = async (idEvent, mail) => {
             return res.data.registerDate;
         })
         .catch((err) => {
-            console.log(err);
+            throw err;
         });
 };
 
@@ -55,7 +55,7 @@ const getRegisterByEventId = async (idEvent) => {
             return res.data;
         })
         .catch((err) => {
-            console.log(err);
+            throw err;
         });
 };
 
@@ -100,7 +100,7 @@ const addRegister = async (idEvent) => {
             }
         )
         .then((res) => {
-            console.log(res);
+            console.log('registration accepted');
         })
         .catch((err) => {
             console.log(err);

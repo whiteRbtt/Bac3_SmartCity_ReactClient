@@ -24,4 +24,4 @@ const transformDate = (date) => {
     return `${year}-${month}-${day}`
 };
 
-export { isLogged, getToken, isAdmin, logout, transformDate };
+export { isLogged, getToken, isAdmin, logout, transformDate};

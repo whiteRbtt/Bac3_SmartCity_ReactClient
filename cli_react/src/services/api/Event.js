@@ -26,7 +26,7 @@ const getEvent = async (idEvent) => {
             return res.data.event;
         })
         .catch((err) => {
-            console.log(err);
+            throw err;
         });
 };
 
