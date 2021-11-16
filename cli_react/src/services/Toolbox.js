@@ -18,10 +18,15 @@ const getToken = () => {
 };
 
 const transformDate = (date) => {
-    const day = date.getDate() 
-    const month = date.getMonth() + 1
-    const year = date.getFullYear()
-    return `${year}-${month}-${day}`
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    return `${year}-${month}-${day}`;
 };
 
-export { isLogged, getToken, isAdmin, logout, transformDate};
+const isStrValid = (str) => {
+    const reg = new RegExp(/[a-zA-Z]/g); // check si c'est pas juste des whitespace
+    return reg.test(str);
+};
+
+export { isLogged, getToken, isAdmin, logout, transformDate, isStrValid };

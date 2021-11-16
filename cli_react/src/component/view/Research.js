@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 
-import { transformDate, isLogged } from '../../services/Toolbox';
+import { transformDate, isLogged, isStrValid } from '../../services/Toolbox';
 import { searchEvent } from '../../services/api/Event';
 import '../../App.css';
 import Header from '../Header';
 import EventTile from '../EventTile';
 
 import Button from '@mui/material/Button';
-
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
-
 
 export default function Research() {
     const [date, setDate] = React.useState();
@@ -20,21 +18,19 @@ export default function Research() {
 
     const handleClick = async (e) => {
         e.preventDefault();
-
+        let searchDate;
         let city = document.getElementById('cityField').value;
-        const reg = new RegExp(/[a-zA-Z]/g); // check si c'est pas juste des whitespae
-        if (!reg.test(city)) {
+
+        if (!isStrValid(city)) {
             city = null;
         }
-
-        let searchDate;
+        
         date ? (searchDate = transformDate(date)) : (searchDate = null);
 
         if (searchDate || city) {
-            await searchEvent(searchDate, city)
-                .then((res) => {
-                    setEvents(res);
-                })
+            await searchEvent(searchDate, city).then((res) => {
+                setEvents(res);
+            });
         }
     };
 
@@ -47,6 +43,7 @@ export default function Research() {
                     Rechercher un évenement,
                 </Typography>
             </div>
+
             <div className='searchFormContainer'>
                 <TextField id='cityField' label='Ville' variant='outlined' />
                 <DesktopDatePicker
@@ -62,21 +59,23 @@ export default function Research() {
                     Rechercher
                 </Button>
             </div>
+
             <div className='searchResultContainer'>
                 {events
                     ? events.map((event) => {
                           return (
                               <EventTile
-                                    key={event.name + event.id}
-                                    name={event.name}
-                                    city={event.city}
-                                    type={event.type}
-                                    id={event.id}
+                                  key={event.name + event.id}
+                                  name={event.name}
+                                  city={event.city}
+                                  type={event.type}
+                                  id={event.id}
                               />
                           );
                       })
-                    : "Aucun évenement ne correspond à la recherche"}
+                    : 'Aucun évenement ne correspond à la recherche'}
             </div>
+
             {isLogged() ? null : <Redirect to='/connexion' />}
         </div>
     );

@@ -14,9 +14,12 @@ const Header = () => {
     const [location] = useState(useLocation().pathname);
 
     useEffect(() => {
-        const displayAdminButton = async () => {
-            const res = await isAdmin();
-            if (res) {
+        displayAdminButton();
+    }, []);
+
+    const displayAdminButton = async () => {
+        await isAdmin()
+            .then((res) => {
                 const adminButton = document.getElementById(
                     'toAdminButtonContainer'
                 );
@@ -28,10 +31,11 @@ const Header = () => {
                     setButtonTarget('/admin');
                     setButtonLabel('Vers admin');
                 }
-            }
-        };
-        displayAdminButton();
-    }, []);
+            })
+            .catch(() => {
+                alert('Une erreur est survenue, merci de réessayer plus tard');
+            });
+    };
 
     const handleLogout = (e) => {
         e.preventDefault();
