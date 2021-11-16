@@ -63,6 +63,7 @@ const Home = (props) => {
                 {
                     popEvents.map((event) => {
                         return <EventTile
+                                    key={event.name + event.id}
                                     name={event.name}
                                     city={event.city}
                                     type={event.type}

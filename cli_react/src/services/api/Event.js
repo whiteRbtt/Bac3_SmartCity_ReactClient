@@ -1,3 +1,4 @@
+import { ClosedCaptionDisabledOutlined } from '@mui/icons-material';
 import axios from 'axios';
 
 import { getToken } from '../Toolbox';
@@ -44,15 +45,21 @@ const getPopularEvents = async () => {
 };
 
 const searchEvent = async (date, city) => {
+
+    let request = ''
+    if(!date) request = `${url}/event/search?city=${city}`
+    else if (!city) request = `${url}/event/search?date=${date}`
+    else request = `${url}/event/search?date=${date}&city=${city}`
+    
     return await axios
-        .get(`${url}/event/search?date=${date}&city=${city}`, {
+        .get(request, {
             headers: { authorization: `Bearer ${getToken()}` },
         })
         .then((res) => {
             return res.data.events;
         })
         .catch((err) => {
-            console.log(err);
+            console.log(`err`, err)
         });
 };
 
