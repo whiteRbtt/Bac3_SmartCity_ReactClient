@@ -20,10 +20,10 @@ const Login = () => {
 
         if (mail && password) {
             try {
-                await login(mail, password).then(() => {
-                    setIsLogged(true);
-                });
+                await login(mail, password);
                 await persistUser();
+                setIsLogged(true);
+                
             } catch (e) {
                 setIsErrorHidden(false);
                 if (e.response) setErrorMessage(e.response.data.error);

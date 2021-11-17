@@ -22,21 +22,22 @@ const Register = () => {
         const password = document.getElementById('registerPwd').value;
         const pwdConfirm = document.getElementById('registerPwdRepeat').value;
         const birthDate = transformDate(date);
-        
-        if (mail === '' & name === ''){
+
+        if (!mail || !name) {
             setIsErrorHidden(false);
             setErrorMessage('Champs manquants');
         } else if (password !== pwdConfirm) {
             setIsErrorHidden(false);
             setErrorMessage('Mots de passe différents');
         } else {
-            await register(mail, password, name, birthDate).then((res) => {
-                setIsRegisterSuccess(true)
-            }).catch((err) => {
+            try {
+                await register(mail, password, name, birthDate);
+                await persistUser();
+                setIsRegisterSuccess(true);
+            } catch (err) {
                 setIsErrorHidden(false);
                 setErrorMessage(err.response.data.error);
-            });
-            await persistUser();
+            }
         }
     };
 
