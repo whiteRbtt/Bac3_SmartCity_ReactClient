@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useStateIfMounted } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useHistory } from 'react-router-dom';
 
 import '../App.css';
@@ -7,42 +7,33 @@ import { isAdmin, logout, isLogged } from '../services/Toolbox';
 
 import Button from '@mui/material/Button';
 
-const Header = () => {
+const Header = (props) => {
     const history = useHistory();
     const [buttonTarget, setButtonTarget] = useState();
     const [buttonLabel, setButtonLabel] = useState();
     const [location] = useState(useLocation().pathname);
 
     useEffect(() => {
-        let isMounted = true;
-        if(isLogged() && isMounted){
+        if(isLogged()){
             displayAdminButton();
         }
-        return () => {
-            isMounted = false;
-        };
     }, []);
 
-    const displayAdminButton = async () => {
-        await isAdmin()
-            .then((res) => {
-                if(res){
-                    const adminButton = document.getElementById(
-                        'toAdminButtonContainer'
-                    );
-                    adminButton.hidden = false;
-                    if (location === '/admin') {
-                        setButtonTarget('/');
-                        setButtonLabel('Vers accueil');
-                    } else {
-                        setButtonTarget('/admin');
-                        setButtonLabel('Vers admin');
-                    }
-                }
-            })
-            .catch(() => {
-                alert('Une erreur est survenue, merci de réessayer plus tard');
-            });
+    const displayAdminButton = () => {
+        if(isAdmin()){
+            const adminButton = document.getElementById(
+                'toAdminButtonContainer'
+            );
+            adminButton.hidden = false;
+
+            if (location === '/admin') {
+                setButtonTarget('/');
+                setButtonLabel('Vers accueil');
+            } else {
+                setButtonTarget('/admin');
+                setButtonLabel('Vers admin');
+            }
+        }
     };
 
     const handleLogout = (e) => {

@@ -306,3 +306,20 @@
     align-items: center;
     justify-content: flex-start;
 }
+
+.settingsContainer{
+    margin-top:150px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+.subSettingContainer{
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}

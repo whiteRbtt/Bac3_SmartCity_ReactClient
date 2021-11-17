@@ -127,10 +127,10 @@ const updateOwnPwd = async (oldPwd, newPwd) => {
             }
         )
         .then((res) => {
-            return res;
+            console.log('mot de passe modifié');
         })
         .catch((err) => {
-            console.log(err);
+            console.log(`err`, err)
         });
 };
 

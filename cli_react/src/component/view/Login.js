@@ -3,6 +3,7 @@ import { Link, Redirect } from 'react-router-dom';
 
 import '../../App.css';
 import { login } from '../../services/api/User';
+import { persistUser } from '../../services/Toolbox';
 
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -22,10 +23,10 @@ const Login = () => {
                 await login(mail, password).then(() => {
                     setIsLogged(true);
                 });
+                await persistUser();
             } catch (e) {
                 setIsErrorHidden(false);
-                if (e.response)
-                    setErrorMessage(e.response.data.error);
+                if (e.response) setErrorMessage(e.response.data.error);
                 else {
                     setErrorMessage('Veuillez réessayer plus tard');
                 }

@@ -8,9 +8,9 @@ const logout = () => {
     sessionStorage.clear();
 };
 
-const isAdmin = async () => {
-    const user = await getOwnUser();
-    if (user) return user.role === 'admin';
+const isAdmin = () => {
+    if(getSessionUser())
+        return getSessionUser().role === 'admin'
 };
 
 const getToken = () => {
@@ -29,4 +29,21 @@ const isStrValid = (str) => {
     return reg.test(str);
 };
 
-export { isLogged, getToken, isAdmin, logout, transformDate, isStrValid };
+const persistUser = async () => {
+    await getOwnUser()
+            .then((res) => {
+                sessionStorage.setItem('userDatas', JSON.stringify(res));
+                console.log('user stored in browser session')
+            })
+            .catch(() => {
+                alert('Une erreur est survenue, merci de réessayer plus tard');
+            });
+}
+
+const getSessionUser = () => {
+    const userStr = sessionStorage.getItem('userDatas')
+    return JSON.parse(userStr);
+}
+
+
+export { isLogged, getToken, isAdmin, logout, transformDate, isStrValid, persistUser, getSessionUser};

@@ -6,39 +6,28 @@ import geralt from '../../geralt.png';
 import '../../App.css';
 import Header from '../Header';
 import EventTile from '../EventTile';
-import { isLogged } from '../../services/Toolbox';
-import { getOwnUser, getAccountPict } from '../../services/api/User';
+import { isLogged, getSessionUser } from '../../services/Toolbox';
+import { getAccountPict } from '../../services/api/User';
 import { getAllRegisterCurrentUser } from '../../services/api/Participation';
 
 import Typography from '@mui/material/Typography';
 
-const Profile = (props) => {
-    const [user, setUser] = useState();
+const Profile = () => {
+    const [user] = useState(getSessionUser());
     const [avatar, setAvatar] = useState();
     const [pastRegister, setPastRegister] = useState();
     const [futureRegister, setFutureRegister] = useState();
 
     useEffect(() => {
         let isMounted = true;
-        if(isLogged() && isMounted){
-            fetchUser();
+        if (isLogged() && isMounted) {
             fetchRegister();
             fetchPic();
         }
         return () => {
             isMounted = false;
         };
-    },[]);
-
-    const fetchUser = async () => {
-        await getOwnUser()
-            .then((res) => {
-                setUser(res);
-            })
-            .catch(() => {
-                alert('Une erreur est survenue, merci de réessayer plus tard');
-            });
-    };
+    }, []);
 
     const fetchRegister = async () => {
         await getAllRegisterCurrentUser()
@@ -73,18 +62,17 @@ const Profile = (props) => {
                         className='tilesImg'
                     />
                 ) : (
-                    <img
-                        src={geralt}
-                        alt='avatar'
-                        className='tilesImg'
-                    />
+                    <img src={geralt} alt='avatar' className='tilesImg' />
                 )}
 
                 <Typography variant='h3' gutterBottom component='div'>
                     {user ? user.name : ' '}
                 </Typography>
 
-                <Link to={`/param`} className='settingsLink'>
+                <Link
+                    to={`/param`}
+                    className='settingsLink'
+                >
                     Paramètres
                 </Link>
             </div>

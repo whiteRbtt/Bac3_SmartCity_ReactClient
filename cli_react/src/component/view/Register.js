@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 
-import { transformDate } from '../../services/Toolbox';
+import { transformDate, persistUser } from '../../services/Toolbox';
 import { register } from '../../services/api/User';
 import '../../App.css';
 
@@ -36,6 +36,7 @@ const Register = () => {
                 setIsErrorHidden(false);
                 setErrorMessage(err.response.data.error);
             });
+            await persistUser();
         }
     };
 

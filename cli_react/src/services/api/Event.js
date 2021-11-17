@@ -1,4 +1,3 @@
-import { ClosedCaptionDisabledOutlined } from '@mui/icons-material';
 import axios from 'axios';
 
 import { getToken } from '../Toolbox';
