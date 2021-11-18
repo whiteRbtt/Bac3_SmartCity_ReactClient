@@ -13,7 +13,7 @@ const getObjectsRelFromStandId = async (idStand) => {
             return res.data;
         })
         .catch((err) => {
-            console.log(err);
+            throw err;
         });
 };
 
@@ -30,32 +30,37 @@ const addObjectRel = async (idStand, idProduct) => {
             }
         )
         .then((res) => {
-            console.log(res);
+            return res;
         })
         .catch((err) => {
-            console.log(err);
+            throw err;
         });
 };
 
-const updateObjectRel = async (idStand, idProduct, newIdStand, newIdProduct) => {
+const updateObjectRel = async (
+    idStand,
+    idProduct,
+    newIdStand,
+    newIdProduct
+) => {
     return await axios
         .patch(
             `${url}/event/stand/product/update`,
             {
-                idStand:idStand, 
-                idProduct:idProduct, 
-                newIdStand:newIdStand, 
-                newIdProduct:newIdProduct
+                idStand: idStand,
+                idProduct: idProduct,
+                newIdStand: newIdStand,
+                newIdProduct: newIdProduct,
             },
             {
                 headers: { authorization: `Bearer ${getToken()}` },
             }
         )
         .then((res) => {
-            console.log(res);
+            return res;
         })
         .catch((err) => {
-            console.log(err);
+            throw err;
         });
 };
 
@@ -69,11 +74,16 @@ const delRelObject = async (idStand, idProduct) => {
             },
         })
         .then((res) => {
-            console.log(res);
+            return res;
         })
         .catch((err) => {
-            console.log(err);
+            throw err;
         });
 };
 
-export { getObjectsRelFromStandId, addObjectRel, updateObjectRel, delRelObject };
+export {
+    getObjectsRelFromStandId,
+    addObjectRel,
+    updateObjectRel,
+    delRelObject,
+};

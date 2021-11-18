@@ -60,6 +60,7 @@ const Register = () => {
                 setIsRegisterSuccess(true);
             } catch (err) {
                 setMessage(errorFetching);
+                console.error(err);
             }
         }
     };

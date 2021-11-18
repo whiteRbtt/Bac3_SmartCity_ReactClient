@@ -48,7 +48,7 @@ const register = async (mail, password, name, birthDate) => {
 };
 
 const registerAdmin = async (mail, password, name, birthDate) => {
-    await axios
+    return await axios
         .post(
             `${url}/user/register`,
             {
@@ -63,7 +63,7 @@ const registerAdmin = async (mail, password, name, birthDate) => {
             }
         )
         .then((res) => {
-            console.log(res);
+            return res;
         })
         .catch((err) => {
             throw err;
@@ -79,7 +79,7 @@ const getUser = async (mail) => {
             return res.data;
         })
         .catch((err) => {
-            console.log(err);
+            throw err;
         });
 };
 
@@ -92,7 +92,7 @@ const getOwnUser = async () => {
             return res.data.user;
         })
         .catch((err) => {
-            console.log(err);
+            throw err;
         });
 };
 
@@ -122,7 +122,7 @@ const updateOwnPwd = async (oldPwd, newPwd) => {
             }
         )
         .then((res) => {
-            console.log('mot de passe modifié');
+            return res;
         })
         .catch((err) => {
             throw err;
@@ -148,7 +148,7 @@ const updateUserProfile = async (mail, newMail, pwd, birthdate, role) => {
             return res;
         })
         .catch((err) => {
-            console.log(err);
+            throw err;
         });
 };
 
@@ -161,10 +161,10 @@ const delUser = async (mail) => {
             },
         })
         .then((res) => {
-            console.log(res);
+            return res;
         })
         .catch((err) => {
-            console.log(err);
+            throw err;
         });
 };
 

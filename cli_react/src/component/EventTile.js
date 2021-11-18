@@ -1,9 +1,9 @@
 import { useHistory } from 'react-router-dom';
 
 import geralt from '../geralt.png';
-import Typography from '@mui/material/Typography';
-
 import '../App.css';
+
+import Typography from '@mui/material/Typography';
 
 const EventTile = (props) => {
     const history = useHistory();

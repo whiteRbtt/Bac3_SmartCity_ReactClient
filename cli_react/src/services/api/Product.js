@@ -13,7 +13,7 @@ const getProduct = async (idProduct) => {
             return res.data;
         })
         .catch((err) => {
-            console.log(err);
+            throw err;
         });
 };
 
@@ -31,10 +31,10 @@ const addProduct = async (name, desc, price) => {
             }
         )
         .then((res) => {
-            console.log(res);
+            return res;
         })
         .catch((err) => {
-            console.log(err);
+            throw err;
         });
 };
 
@@ -53,10 +53,10 @@ const updateProduct = async (idProduct, name, desc, price) => {
             }
         )
         .then((res) => {
-            console.log(res);
+            return res;
         })
         .catch((err) => {
-            console.log(err);
+            throw err;
         });
 };
 
@@ -69,10 +69,10 @@ const delProduct = async (idProduct) => {
             },
         })
         .then((res) => {
-            console.log(res);
+            return res;
         })
         .catch((err) => {
-            console.log(err);
+            throw err;
         });
 };
 

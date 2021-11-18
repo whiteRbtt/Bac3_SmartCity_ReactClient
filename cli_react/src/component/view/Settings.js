@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useSate } from 'react';
 import { Redirect } from 'react-router-dom';
 
 import { updateOwnPwd } from '../../services/api/User';
@@ -21,15 +21,16 @@ export default function Settings() {
         e.preventDefault();
 
         if ((newPwd === newPwdConf) & isPasswordValid(newPwd)) {
-            await updateOwnPwd(oldPwd, newPwd).then(()=>{
+            try {
+                await updateOwnPwd(oldPwd, newPwd);
                 setOldPwd('');
                 setNewPwd('');
                 setNewPwdConf('');
-                setMessage(pwdSucces)
-            }).catch(()=>{
-                setMessage(pwdError)
-            });
-            
+                setMessage(pwdSucces);
+            } catch (err) {
+                setMessage(pwdError);
+                console.error(err);
+            }
         }
     };
 
@@ -38,7 +39,6 @@ export default function Settings() {
             <Header />
             <div className='settingsContainer'>
                 <div className='subSettingContainer'>
-
                     <Typography variant='h7' gutterBottom component='div'>
                         Modifier le mot de passe
                     </Typography>

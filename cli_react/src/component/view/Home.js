@@ -26,18 +26,18 @@ const Home = () => {
     }, []);
 
     const fetchTrendings = async () => {
-        await getPopularEvents()
-            .then((res) => {
-                setPopEvents(res);
-            })
-            .catch(() => {
-                setMessage(errorFetching)
-            });
+        try {
+            const res = await getPopularEvents();
+            setPopEvents(res);
+        } catch (err) {
+            setMessage(errorFetching);
+            console.error(err);
+        }
     };
 
     return (
         <div>
-            <Header/>
+            <Header />
             <div className='homeContainer1'>
                 <div className='welcomeContainer'>
                     <Typography variant='h3' gutterBottom component='div'>

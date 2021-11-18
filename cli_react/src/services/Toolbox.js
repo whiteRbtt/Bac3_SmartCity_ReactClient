@@ -52,7 +52,6 @@ const strNotBlank = (str) => {
 };
 
 const birthDateValidation = (birthdate) => {
-    const dateNow = new Date();
     const date = new Date(birthdate);
     const yearDifference = parseInt(
         (Date.now() - date) / (1000 * 60 * 60 * 24 * 365)

@@ -19,7 +19,6 @@ const Profile = () => {
     const [futureRegister, setFutureRegister] = useState();
     const [message, setMessage] = React.useState('');
 
-
     useEffect(() => {
         let isMounted = true;
         if (isLogged() && isMounted) {
@@ -32,24 +31,22 @@ const Profile = () => {
     }, []);
 
     const fetchRegister = async () => {
-        await getAllRegisterCurrentUser()
-            .then((res) => {
-                setPastRegister(res.oldEvents);
-                setFutureRegister(res.upcomingEvents);
-            })
-            .catch(() => {
-                setMessage(errorFetching)
-            });
+        try {
+            const res = await getAllRegisterCurrentUser();
+            setPastRegister(res.oldEvents);
+            setFutureRegister(res.upcomingEvents);
+        } catch (err) {
+            setMessage(errorFetching);
+        }
     };
 
     const fetchPic = async () => {
-        await getAccountPict()
-            .then((res) => {
-                setAvatar(res.profilePicture.split(',')[1]);
-            })
-            .catch(() => {
-                setMessage(errorFetching)
-            });
+        try {
+            const res = await getAccountPict();
+            setAvatar(res.profilePicture.split(',')[1]);
+        } catch (err) {
+            setMessage(errorFetching);
+        }
     };
 
     return (
@@ -71,10 +68,7 @@ const Profile = () => {
                     {user ? user.name : ''}
                 </Typography>
                 {message}
-                <Link
-                    to={`/param`}
-                    className='settingsLink'
-                >
+                <Link to={`/param`} className='settingsLink'>
                     Paramètres
                 </Link>
             </div>

@@ -13,7 +13,7 @@ const getNbRegisterEvent = async (idEvent) => {
             return res.data.participationInfos.participation_count;
         })
         .catch((err) => {
-            console.log(err);
+            throw err;
         });
 };
 
@@ -26,7 +26,7 @@ const getAllRegisterEvent = async (idEvent) => {
             return res.data.participations;
         })
         .catch((err) => {
-            console.log(err);
+            throw err;
         });
 };
 
@@ -68,7 +68,7 @@ const getAllRegisterCurrentUser = async () => {
             return res.data;
         })
         .catch((err) => {
-            console.log(err);
+            throw err;
         });
 };
 
@@ -84,7 +84,7 @@ const getRegisterBtwnTimespan = async (startDate, endDate) => {
             return res.data;
         })
         .catch((err) => {
-            console.log(err);
+            throw err;
         });
 };
 
@@ -100,10 +100,10 @@ const addRegister = async (idEvent) => {
             }
         )
         .then((res) => {
-            console.log('registration accepted');
+            return res;
         })
         .catch((err) => {
-            console.log(err);
+            throw err;
         });
 };
 
@@ -120,10 +120,10 @@ const addRegisterAdmin = async (idEvent, mailUser) => {
             }
         )
         .then((res) => {
-            console.log(res);
+            return res;
         })
         .catch((err) => {
-            console.log(err);
+            throw err;
         });
 };
 
@@ -136,10 +136,10 @@ const delRegister = async (idEvent) => {
             },
         })
         .then((res) => {
-            console.log('registration deleted');
+            return res;
         })
         .catch((err) => {
-            console.log(err);
+            throw err;
         });
 };
 
@@ -153,10 +153,10 @@ const delRegisterAdmin = async (idEvent, mailUser) => {
             },
         })
         .then((res) => {
-            console.log('registration deleted');
+            return res;
         })
         .catch((err) => {
-            console.log(err);
+            throw err;
         });
 };
 

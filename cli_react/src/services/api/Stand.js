@@ -13,7 +13,7 @@ const getStand = async (idStand) => {
             return res.data;
         })
         .catch((err) => {
-            console.log(err);
+            throw err;
         });
 };
 
@@ -26,7 +26,7 @@ const getAllStandsByEventId = async (idEvent) => {
             return res.data;
         })
         .catch((err) => {
-            console.log(err);
+            throw err;
         });
 };
 
@@ -45,10 +45,10 @@ const addStand = async (type, manager, size, idEvent) => {
             }
         )
         .then((res) => {
-            console.log(res);
+            return res;
         })
         .catch((err) => {
-            console.log(err);
+            throw err;
         });
 };
 
@@ -68,10 +68,10 @@ const updateStand = async (idStand, type, manager, size, idEvent) => {
             }
         )
         .then((res) => {
-            console.log(res);
+            return res;
         })
         .catch((err) => {
-            console.log(err);
+            throw err;
         });
 };
 
@@ -84,10 +84,10 @@ const delStand = async (idStand) => {
             },
         })
         .then((res) => {
-            console.log(res);
+            return res;
         })
         .catch((err) => {
-            console.log(err);
+            throw err;
         });
 };
 

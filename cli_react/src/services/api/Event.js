@@ -13,7 +13,7 @@ const getAllEvents = async () => {
             return res.data.events;
         })
         .catch((err) => {
-            console.log(err);
+            throw err;
         });
 };
 
@@ -44,12 +44,11 @@ const getPopularEvents = async () => {
 };
 
 const searchEvent = async (date, city) => {
+    let request = '';
+    if (!date) request = `${url}/event/search?city=${city}`;
+    else if (!city) request = `${url}/event/search?date=${date}`;
+    else request = `${url}/event/search?date=${date}&city=${city}`;
 
-    let request = ''
-    if(!date) request = `${url}/event/search?city=${city}`
-    else if (!city) request = `${url}/event/search?date=${date}`
-    else request = `${url}/event/search?date=${date}&city=${city}`
-    
     return await axios
         .get(request, {
             headers: { authorization: `Bearer ${getToken()}` },
@@ -102,10 +101,10 @@ const addEvent = async (
             }
         )
         .then((res) => {
-            console.log(res);
+            return res;
         })
         .catch((err) => {
-            console.log(err);
+            throw err;
         });
 };
 
@@ -153,10 +152,10 @@ const updateEvent = async (
             }
         )
         .then((res) => {
-            console.log(res);
+            return res;
         })
         .catch((err) => {
-            console.log(err);
+            throw err;
         });
 };
 
@@ -169,10 +168,10 @@ const deleteEvent = async (idEvent) => {
             },
         })
         .then((res) => {
-            console.log('event deleted');
+            return res;
         })
         .catch((err) => {
-            console.log(err);
+            throw err;
         });
 };
 

@@ -13,6 +13,7 @@ const missingFields = 'Champs manquants';
 const ageMin = 'Vous devez avoir au moins 18 ans';
 const samePwd = 'Les mots de passe doivent etre similaires';
 const registerSucces = 'profil créé avec succes';
+const pastEventMessage = "L'évenement à déja eu lieu, revenez l'année prochaine !"
 
 export {
     url,
@@ -28,4 +29,5 @@ export {
     ageMin,
     samePwd,
     registerSucces,
+    pastEventMessage,
 };

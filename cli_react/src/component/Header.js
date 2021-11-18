@@ -7,7 +7,7 @@ import { isAdmin, logout, isLogged } from '../services/Toolbox';
 
 import Button from '@mui/material/Button';
 
-const Header = (props) => {
+const Header = () => {
     const history = useHistory();
     const [buttonTarget, setButtonTarget] = useState();
     const [buttonLabel, setButtonLabel] = useState();
@@ -16,24 +16,19 @@ const Header = (props) => {
 
     useEffect(() => {
         if (isLogged()) {
-            displayAdminButton();
-        }
-    }, []);
+            if (isAdmin()) {
+                setIsHidden(false);
 
-    const displayAdminButton = () => {
-        if (isAdmin()) {
-
-            setIsHidden(false);
-            
-            if (location === '/admin') {
-                setButtonTarget('/');
-                setButtonLabel('Vers accueil');
-            } else {
-                setButtonTarget('/admin');
-                setButtonLabel('Vers admin');
+                if (location === '/admin') {
+                    setButtonTarget('/');
+                    setButtonLabel('Vers accueil');
+                } else {
+                    setButtonTarget('/admin');
+                    setButtonLabel('Vers admin');
+                }
             }
         }
-    };
+    }, []);
 
     const handleLogout = (e) => {
         e.preventDefault();

@@ -13,8 +13,8 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
 
-export default function Research() {
-    const [date, setDate] = React.useState(null);
+const Research = () => {
+    const [date, setDate] = React.useState(new Date());
     const [city, setCity] = React.useState('');
     const [events, setEvents] = React.useState();
     const [message, setMessage] = React.useState(noResults);
@@ -22,19 +22,17 @@ export default function Research() {
     const handleClick = async (e) => {
         e.preventDefault();
 
-        // if (date) {
-        //     const strDate = transformDate(date);
-        //     setDate(strDate); 
-        // }
+        const targetDate = transformDate(date);
 
-        // if (date || strNotBlank(city)) {
-
-        //     await searchEvent(date, city).then((res) => {
-        //         setEvents(res);
-        //     }).catch(()=>{
-        //         setMessage(errorFetching)
-        //     });
-        // }
+        if (targetDate || strNotBlank(city)) {
+            try {
+                const res = await searchEvent(date, city)
+                setEvents(res);
+            } catch (err) {
+                setMessage(errorFetching);
+                console.log(err)
+            }
+        }
     };
 
     return (
@@ -66,9 +64,8 @@ export default function Research() {
                     label='Date'
                     value={date}
                     minDate={new Date('1920-01-01')}
-                    onChange={(event) => setDate(event)}
+                    onChange={(newValue) => setDate(newValue)}
                     renderInput={(params) => <TextField {...params} />}
-                    error={false}
                 />
 
                 <Button variant='outlined' onClick={handleClick}>
@@ -95,4 +92,6 @@ export default function Research() {
             {isLogged() ? null : <Redirect to='/connexion' />}
         </div>
     );
-}
+};
+
+export default Research;

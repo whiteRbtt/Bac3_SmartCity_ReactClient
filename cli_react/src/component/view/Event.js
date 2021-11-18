@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Redirect, useParams } from 'react-router-dom';
 
+import { errorFetching, pastEventMessage } from '../../services/string';
 import { isLogged } from '../../services/Toolbox';
 import { getEvent } from '../../services/api/Event';
 import {
@@ -19,11 +20,12 @@ import { ChildFriendly, Masks, ConfirmationNumber } from '@mui/icons-material';
 export default function Event() {
     const eventId = useParams().id;
     const [event, setEvent] = useState();
+    const [message, setMessage] = React.useState('');
     const [isRegistered, setIsRegistered] = useState();
 
     useEffect(() => {
         let isMounted = true;
-        if(isLogged() && isMounted){
+        if (isLogged() && isMounted) {
             fetchEvent();
             checkRegistration();
         }
@@ -33,43 +35,48 @@ export default function Event() {
     }, []);
 
     const fetchEvent = async () => {
-        await getEvent(eventId)
-            .then((res) => {
-                setEvent(res);
-            })
-            .catch(() => {
-                alert('Evenement Introuvable, veuillez réessayer');
-            });
+        try {
+            const res = await getEvent(eventId);
+            setEvent(res);
+        } catch (err) {
+            setMessage(errorFetching);
+            console.error(err);
+        }
     };
 
     const checkRegistration = async () => {
-        await getRegisterByEventId(eventId)
-            .then(() => {
-                setIsRegistered(true);
-            })
-            .catch(() => {
-                setIsRegistered(false);
-            });
+        try {
+            await getRegisterByEventId(eventId);
+            setIsRegistered(true);
+        } catch (err) {
+            setMessage(errorFetching);
+            setIsRegistered(false);
+        }
     };
 
     const handleClick = async (e) => {
         e.preventDefault();
-        if(event){
-            const endingDate = new Date(event.ending_date)
-            const today = new Date()
-            if(endingDate < today){
-                alert("L'évenement est déja terminé, revenez l'année prochaine")
-            }
-            else{
+        if (event) {
+            const endingDate = new Date(event.ending_date);
+            const today = new Date();
+            if (endingDate < today) {
+                setMessage(pastEventMessage);
+            } else {
                 const id = parseInt(eventId);
                 if (isRegistered) {
-                    await delRegister(id).then(() => {
+                    try {
+                        await delRegister(id);
                         setIsRegistered(false);
-                    });
+                    } catch (err) {
+                        console.error(err);
+                    }
                 } else {
-                    await addRegister(id).then(() => {
+                    try {
+                        await addRegister(id);
                         setIsRegistered(true);
-                    });
+                    } catch (err) {
+                        console.error(err);
+                    }
                 }
             }
         }
@@ -82,7 +89,7 @@ export default function Event() {
             <div className='eventContainer'>
                 <div className='eventDescription'>
                     <Typography variant='h3' gutterBottom component='div'>
-                        {event ? event.name : ' '}
+                        {event ? event.name : message}
                     </Typography>
 
                     <Typography variant='h6' gutterBottom component='div'>
@@ -148,6 +155,7 @@ export default function Event() {
                     <Button variant='outlined' onClick={handleClick}>
                         {isRegistered ? 'Se désinscrire' : 'Inscription'}
                     </Button>
+                    {message}
                     <Typography variant='h6' gutterBottom component='div'>
                         {event
                             ? `${
