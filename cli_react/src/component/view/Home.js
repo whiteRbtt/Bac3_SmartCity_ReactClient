@@ -13,7 +13,7 @@ import Typography from '@mui/material/Typography';
 const Home = () => {
     const [popEvents, setPopEvents] = useState([]);
     const [user] = useState(getSessionUser());
-    const [message, setMessage] = React.useState('');
+    const [message, setMessage] = useState('');
 
     useEffect(() => {
         let isMounted = true;
@@ -28,6 +28,7 @@ const Home = () => {
     const fetchTrendings = async () => {
         try {
             const res = await getPopularEvents();
+            console.log(`res`, res)
             setPopEvents(res);
         } catch (err) {
             setMessage(errorFetching);

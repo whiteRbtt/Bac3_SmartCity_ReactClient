@@ -5,30 +5,24 @@ import { getToken } from '../Toolbox';
 import { url } from '../string';
 
 const getAllEvents = async () => {
-    const res = await axios
-        .get(`${url}/event/all`, {
-            headers: { authorization: `Bearer ${getToken()}` },
-        })
-            return res.data.events;
-       
+    const res = await axios.get(`${url}/event/all`, {
+        headers: { authorization: `Bearer ${getToken()}` },
+    });
+    return res.data.events;
 };
 
 const getEvent = async (idEvent) => {
-    const res = await axios
-        .get(`${url}/event?idEvent=${idEvent}`, {
-            headers: { authorization: `Bearer ${getToken()}` },
-        })
-            return res.data.event;
-       
+    const res = await axios.get(`${url}/event?idEvent=${idEvent}`, {
+        headers: { authorization: `Bearer ${getToken()}` },
+    });
+    return res.data.event;
 };
 
 const getPopularEvents = async () => {
-    const res = await axios
-        .get(`${url}/event/popular`, {
-            headers: { authorization: `Bearer ${getToken()}` },
-        })
-        return res.data.events;
-        
+    const res = await axios.get(`${url}/event/popular`, {
+        headers: { authorization: `Bearer ${getToken()}` },
+    });
+    return res.data.events;
 };
 
 const searchEvent = async (date, city) => {
@@ -37,12 +31,10 @@ const searchEvent = async (date, city) => {
     else if (!city) request = `${url}/event/search?date=${date}`;
     else request = `${url}/event/search?date=${date}&city=${city}`;
 
-    const res = await axios
-        .get(request, {
-            headers: { authorization: `Bearer ${getToken()}` },
-        })
-            return res.data.events;
-       
+    const res = await axios.get(request, {
+        headers: { authorization: `Bearer ${getToken()}` },
+    });
+    return res.data.events;
 };
 
 const addEvent = async (
@@ -61,31 +53,29 @@ const addEvent = async (
     isCstNeeded,
     maxPlace
 ) => {
-    const res = await axios
-        .post(
-            `${url}/event/add`,
-            {
-                name: name,
-                startingDate: startDate,
-                endingDate: endDate,
-                streetName: street,
-                houseNumber: number,
-                postalCode: postCode,
-                city: city,
-                childrenAccepted: isChildFriendly,
-                description: description,
-                type: type,
-                securityLevel: securityLv,
-                requireMask: isMaskNeeded,
-                requireCovidSafeTicket: isCstNeeded,
-                maxPlaceCount: maxPlace,
-            },
-            {
-                headers: { authorization: `Bearer ${getToken()}` },
-            }
-        )
-            return res;
-       
+    const res = await axios.post(
+        `${url}/event/add`,
+        {
+            name: name,
+            startingDate: startDate,
+            endingDate: endDate,
+            streetName: street,
+            houseNumber: number,
+            postalCode: postCode,
+            city: city,
+            childrenAccepted: isChildFriendly,
+            description: description,
+            type: type,
+            securityLevel: securityLv,
+            requireMask: isMaskNeeded,
+            requireCovidSafeTicket: isCstNeeded,
+            maxPlaceCount: maxPlace,
+        },
+        {
+            headers: { authorization: `Bearer ${getToken()}` },
+        }
+    );
+    return res;
 };
 
 const updateEvent = async (
@@ -106,45 +96,42 @@ const updateEvent = async (
     maxPlace,
     mailCreator
 ) => {
-    const res = await axios
-        .patch(
-            `${url}/event/update`,
-            {
-                idEvent: id,
-                name: name,
-                startingDate: startDate,
-                endingDate: endDate,
-                streetName: street,
-                houseNumber: number,
-                postalCode: postCode,
-                city: city,
-                childrenAccepted: isChildFriendly,
-                description: description,
-                type: type,
-                securityLevel: securityLv,
-                requireMask: isMaskNeeded,
-                requireCovidSafeTicket: isCstNeeded,
-                maxPlaceCount: maxPlace,
-                mailAddressCreator: mailCreator,
-            },
-            {
-                headers: { authorization: `Bearer ${getToken()}` },
-            }
-        )
-        
-            return res;
-       
+    const res = await axios.patch(
+        `${url}/event/update`,
+        {
+            idEvent: id,
+            name: name,
+            startingDate: startDate,
+            endingDate: endDate,
+            streetName: street,
+            houseNumber: number,
+            postalCode: postCode,
+            city: city,
+            childrenAccepted: isChildFriendly,
+            description: description,
+            type: type,
+            securityLevel: securityLv,
+            requireMask: isMaskNeeded,
+            requireCovidSafeTicket: isCstNeeded,
+            maxPlaceCount: maxPlace,
+            mailAddressCreator: mailCreator,
+        },
+        {
+            headers: { authorization: `Bearer ${getToken()}` },
+        }
+    );
+
+    return res;
 };
 
 const deleteEvent = async (idEvent) => {
-    const res = await axios
-        .delete(`${url}/event/delete`, {
-            headers: { authorization: `Bearer ${getToken()}` },
-            data: {
-                idEvent: idEvent,
-            },
-        })
-            return res;
+    const res = await axios.delete(`${url}/event/delete`, {
+        headers: { authorization: `Bearer ${getToken()}` },
+        data: {
+            idEvent: idEvent,
+        },
+    });
+    return res;
 };
 
 export {

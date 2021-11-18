@@ -14,10 +14,10 @@ import Typography from '@mui/material/Typography';
 import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
 
 const Research = () => {
-    const [date, setDate] = React.useState(new Date());
-    const [city, setCity] = React.useState('');
-    const [events, setEvents] = React.useState();
-    const [message, setMessage] = React.useState(noResults);
+    const [date, setDate] = useState(new Date());
+    const [city, setCity] = useState('');
+    const [events, setEvents] = useState();
+    const [message, setMessage] = useState(noResults);
 
     const handleClick = async (e) => {
         e.preventDefault();

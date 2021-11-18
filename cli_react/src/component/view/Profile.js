@@ -17,7 +17,7 @@ const Profile = () => {
     const [avatar, setAvatar] = useState();
     const [pastRegister, setPastRegister] = useState();
     const [futureRegister, setFutureRegister] = useState();
-    const [message, setMessage] = React.useState('');
+    const [message, setMessage] = useState('');
 
     useEffect(() => {
         let isMounted = true;
@@ -42,8 +42,7 @@ const Profile = () => {
 
     const fetchPic = async () => {
         try {
-            const res = await getAccountPict();
-            setAvatar(res.profilePicture.split(',')[1]);
+            setAvatar(await getAccountPict());
         } catch (err) {
             setMessage(errorFetching);
         }
@@ -56,7 +55,7 @@ const Profile = () => {
             <div className='ProfileContainer'>
                 {avatar ? (
                     <img
-                        src={`data:image/jpeg;base64,${avatar}`}
+                        src={avatar}
                         alt='avatar'
                         className='tilesImg'
                     />
@@ -68,7 +67,10 @@ const Profile = () => {
                     {user ? user.name : ''}
                 </Typography>
                 {message}
-                <Link to={`/param`} className='settingsLink'>
+                <Link
+                    to={{ pathname: `/param`, state:{avat: avatar} }}
+                    className='settingsLink'
+                >
                     Paramètres
                 </Link>
             </div>

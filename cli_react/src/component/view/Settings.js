@@ -1,21 +1,25 @@
-import React, { useSate } from 'react';
+import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 
 import { updateOwnPwd } from '../../services/api/User';
 import { isLogged, isPasswordValid } from '../../services/Toolbox';
 import { pwdError, pwdSucces, minMaxCharNeeded } from '../../services/string';
 import '../../App.css';
+import geralt from '../../geralt.png';
 import Header from '../Header';
 
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
-export default function Settings() {
-    const [oldPwd, setOldPwd] = React.useState('');
-    const [newPwd, setNewPwd] = React.useState('');
-    const [newPwdConf, setNewPwdConf] = React.useState('');
-    const [message, setMessage] = React.useState('');
+const Settings = (props) => {
+    const [oldPwd, setOldPwd] = useState('');
+    const [newPwd, setNewPwd] = useState('');
+    const [newPwdConf, setNewPwdConf] = useState('');
+    const [message, setMessage] = useState('');
+    const [avatar, setAvatar] = useState(
+        props.location.state ? props.location.state.avat : null
+    );
 
     const handleClickPwd = async (e) => {
         e.preventDefault();
@@ -32,6 +36,11 @@ export default function Settings() {
                 console.error(err);
             }
         }
+    };
+
+    const handleClickAvatar = async (e) => {
+        e.preventDefault();
+        alert('bouh !');
     };
 
     return (
@@ -89,12 +98,22 @@ export default function Settings() {
                 </div>
 
                 <div className='subSettingContainer'>
+                    {avatar ? (
+                        <img src={avatar} alt='avatar' className='tilesImg' />
+                    ) : (
+                        <img src={geralt} alt='avatar' className='tilesImg' />
+                    )}
                     <Typography variant='h7' gutterBottom component='div'>
                         Modifier avatar
                     </Typography>
+                    <Button variant='outlined' onClick={handleClickAvatar}>
+                        modifier
+                    </Button>
                 </div>
             </div>
             {isLogged() ? null : <Redirect to='/connexion' />}
         </div>
     );
-}
+};
+
+export default Settings;

@@ -20,7 +20,7 @@ import { ChildFriendly, Masks, ConfirmationNumber } from '@mui/icons-material';
 export default function Event() {
     const eventId = useParams().id;
     const [event, setEvent] = useState();
-    const [message, setMessage] = React.useState('');
+    const [message, setMessage] = useState('');
     const [isRegistered, setIsRegistered] = useState();
 
     useEffect(() => {

@@ -27,13 +27,13 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 
 const Register = () => {
-    const [name, setName] = React.useState('');
-    const [mail, setMail] = React.useState('');
-    const [password, setPassword] = React.useState('');
-    const [pwdConfirm, setPwdConfirm] = React.useState('');
-    const [date, setDate] = React.useState(new Date());
+    const [name, setName] = useState('');
+    const [mail, setMail] = useState('');
+    const [password, setPassword] = useState('');
+    const [pwdConfirm, setPwdConfirm] = useState('');
+    const [date, setDate] = useState(new Date());
     const [isRegisterSuccess, setIsRegisterSuccess] = useState(false);
-    const [message, setMessage] = React.useState('');
+    const [message, setMessage] = useState('');
 
     const handleClick = async (e) => {
         e.preventDefault();

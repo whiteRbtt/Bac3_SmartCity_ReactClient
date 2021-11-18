@@ -22,7 +22,7 @@ import TextField from '@mui/material/TextField';
 const Login = () => {
     const [mail, setMail] = useState('');
     const [password, setPassword] = useState('');
-    const [message, setMessage] = React.useState('');
+    const [message, setMessage] = useState('');
     const [isLogged, setIsLogged] = useState(false);
 
     const handleClick = async (e) => {

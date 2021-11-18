@@ -71,7 +71,7 @@ const getAccountPict = async () => {
     const res = await axios.get(`${url}/user/account/picture`, {
         headers: { authorization: `Bearer ${getToken()}` },
     });
-    return res.data;
+    return res.data.profilePicture;
 };
 
 const updateOwnPwd = async (oldPwd, newPwd) => {

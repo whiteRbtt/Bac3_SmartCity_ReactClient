@@ -317,7 +317,7 @@
 }
 
 .subSettingContainer{
-    height: 300px;
+    height: 400px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -338,4 +338,8 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-evenly;
+}
+
+.adminSelectContainer{
+    width: 150px;
 }
