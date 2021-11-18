@@ -5,75 +5,51 @@ import { getToken } from '../Toolbox';
 import { url } from '../string';
 
 const getProduct = async (idProduct) => {
-    return await axios
-        .get(`${url}/product/get?idProduct=${idProduct}`, {
-            headers: { authorization: `Bearer ${getToken()}` },
-        })
-        .then((res) => {
-            return res.data;
-        })
-        .catch((err) => {
-            throw err;
-        });
+    const res = await axios.get(`${url}/product/get?idProduct=${idProduct}`, {
+        headers: { authorization: `Bearer ${getToken()}` },
+    });
+    return res.data;
 };
 
 const addProduct = async (name, desc, price) => {
-    return await axios
-        .post(
-            `${url}/product/add`,
-            {
-                name: name,
-                description: desc,
-                price: price,
-            },
-            {
-                headers: { authorization: `Bearer ${getToken()}` },
-            }
-        )
-        .then((res) => {
-            return res;
-        })
-        .catch((err) => {
-            throw err;
-        });
+    const res = await axios.post(
+        `${url}/product/add`,
+        {
+            name: name,
+            description: desc,
+            price: price,
+        },
+        {
+            headers: { authorization: `Bearer ${getToken()}` },
+        }
+    );
+    return res;
 };
 
 const updateProduct = async (idProduct, name, desc, price) => {
-    return await axios
-        .patch(
-            `${url}/product/update`,
-            {
-                idProduct: idProduct,
-                name: name,
-                description: desc,
-                price: price,
-            },
-            {
-                headers: { authorization: `Bearer ${getToken()}` },
-            }
-        )
-        .then((res) => {
-            return res;
-        })
-        .catch((err) => {
-            throw err;
-        });
+    const res = await axios.patch(
+        `${url}/product/update`,
+        {
+            idProduct: idProduct,
+            name: name,
+            description: desc,
+            price: price,
+        },
+        {
+            headers: { authorization: `Bearer ${getToken()}` },
+        }
+    );
+    return res;
 };
 
 const delProduct = async (idProduct) => {
-    return await axios
-        .delete(`${url}/product/delete`, {
-            headers: { authorization: `Bearer ${getToken()}` },
-            data: {
-                idProduct: idProduct,
-            },
-        })
-        .then((res) => {
-            return res;
-        })
-        .catch((err) => {
-            throw err;
-        });
+    const res = await axios.delete(`${url}/product/delete`, {
+        headers: { authorization: `Bearer ${getToken()}` },
+        data: {
+            idProduct: idProduct,
+        },
+    });
+    return res;
 };
 
 export { getProduct, addProduct, updateProduct, delProduct };

@@ -5,42 +5,30 @@ import { getToken } from '../Toolbox';
 import { url } from '../string';
 
 const getAllEvents = async () => {
-    return await axios
+    const res = await axios
         .get(`${url}/event/all`, {
             headers: { authorization: `Bearer ${getToken()}` },
         })
-        .then((res) => {
             return res.data.events;
-        })
-        .catch((err) => {
-            throw err;
-        });
+       
 };
 
 const getEvent = async (idEvent) => {
-    return await axios
+    const res = await axios
         .get(`${url}/event?idEvent=${idEvent}`, {
             headers: { authorization: `Bearer ${getToken()}` },
         })
-        .then((res) => {
             return res.data.event;
-        })
-        .catch((err) => {
-            throw err;
-        });
+       
 };
 
 const getPopularEvents = async () => {
-    return await axios
+    const res = await axios
         .get(`${url}/event/popular`, {
             headers: { authorization: `Bearer ${getToken()}` },
         })
-        .then((res) => {
-            return res.data.events;
-        })
-        .catch((err) => {
-            throw err;
-        });
+        return res.data.events;
+        
 };
 
 const searchEvent = async (date, city) => {
@@ -49,16 +37,12 @@ const searchEvent = async (date, city) => {
     else if (!city) request = `${url}/event/search?date=${date}`;
     else request = `${url}/event/search?date=${date}&city=${city}`;
 
-    return await axios
+    const res = await axios
         .get(request, {
             headers: { authorization: `Bearer ${getToken()}` },
         })
-        .then((res) => {
             return res.data.events;
-        })
-        .catch((err) => {
-            throw err;
-        });
+       
 };
 
 const addEvent = async (
@@ -77,7 +61,7 @@ const addEvent = async (
     isCstNeeded,
     maxPlace
 ) => {
-    await axios
+    const res = await axios
         .post(
             `${url}/event/add`,
             {
@@ -100,12 +84,8 @@ const addEvent = async (
                 headers: { authorization: `Bearer ${getToken()}` },
             }
         )
-        .then((res) => {
             return res;
-        })
-        .catch((err) => {
-            throw err;
-        });
+       
 };
 
 const updateEvent = async (
@@ -126,7 +106,7 @@ const updateEvent = async (
     maxPlace,
     mailCreator
 ) => {
-    await axios
+    const res = await axios
         .patch(
             `${url}/event/update`,
             {
@@ -151,28 +131,20 @@ const updateEvent = async (
                 headers: { authorization: `Bearer ${getToken()}` },
             }
         )
-        .then((res) => {
+        
             return res;
-        })
-        .catch((err) => {
-            throw err;
-        });
+       
 };
 
 const deleteEvent = async (idEvent) => {
-    return await axios
+    const res = await axios
         .delete(`${url}/event/delete`, {
             headers: { authorization: `Bearer ${getToken()}` },
             data: {
                 idEvent: idEvent,
             },
         })
-        .then((res) => {
             return res;
-        })
-        .catch((err) => {
-            throw err;
-        });
 };
 
 export {
