@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Redirect } from 'react-router-dom';
 
 import { updateOwnPwd } from '../../services/api/User';
-import { isLogged, isStrValid } from '../../services/Toolbox';
+import { isLogged, isPasswordValid } from '../../services/Toolbox';
+import { pwdError, pwdSucces, minMaxCharNeeded } from '../../services/string';
 import '../../App.css';
 import Header from '../Header';
 
@@ -11,13 +12,24 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
 export default function Settings() {
+    const [oldPwd, setOldPwd] = React.useState('');
+    const [newPwd, setNewPwd] = React.useState('');
+    const [newPwdConf, setNewPwdConf] = React.useState('');
+    const [message, setMessage] = React.useState('');
+
     const handleClickPwd = async (e) => {
         e.preventDefault();
-        const oldPwd = document.getElementById('oldPwd').value;
-        const newPwd = document.getElementById('newPwd').value;
 
-        if (isStrValid(newPwd)) {
-            await updateOwnPwd(oldPwd, newPwd)
+        if ((newPwd === newPwdConf) & isPasswordValid(newPwd)) {
+            await updateOwnPwd(oldPwd, newPwd).then(()=>{
+                setOldPwd('');
+                setNewPwd('');
+                setNewPwdConf('');
+                setMessage(pwdSucces)
+            }).catch(()=>{
+                setMessage(pwdError)
+            });
+            
         }
     };
 
@@ -26,14 +38,54 @@ export default function Settings() {
             <Header />
             <div className='settingsContainer'>
                 <div className='subSettingContainer'>
+
                     <Typography variant='h7' gutterBottom component='div'>
                         Modifier le mot de passe
                     </Typography>
-                    <TextField id='oldPwd' label='actuel' variant='outlined' />
-                    <TextField id='newPwd' label='nouveau' variant='outlined' />
+                    <TextField
+                        label='Actuel'
+                        value={oldPwd}
+                        onChange={(event) => setOldPwd(event.target.value)}
+                    />
+
+                    <TextField
+                        label='Nouveau'
+                        value={newPwd}
+                        onChange={(event) => setNewPwd(event.target.value)}
+                        error={newPwd === '' ? null : !isPasswordValid(newPwd)}
+                        helperText={
+                            newPwd === ''
+                                ? null
+                                : isPasswordValid(newPwd)
+                                ? null
+                                : minMaxCharNeeded
+                        }
+                    />
+
+                    <TextField
+                        label='Répetez nouveau'
+                        value={newPwdConf}
+                        onChange={(event) => setNewPwdConf(event.target.value)}
+                        error={
+                            newPwdConf === ''
+                                ? null
+                                : !isPasswordValid(newPwdConf)
+                        }
+                        helperText={
+                            newPwdConf === ''
+                                ? null
+                                : isPasswordValid(newPwdConf)
+                                ? null
+                                : minMaxCharNeeded
+                        }
+                    />
+
                     <Button variant='outlined' onClick={handleClickPwd}>
                         modifier
                     </Button>
+                    <Typography variant='h7' gutterBottom component='div'>
+                        {message}
+                    </Typography>
                 </div>
 
                 <div className='subSettingContainer'>

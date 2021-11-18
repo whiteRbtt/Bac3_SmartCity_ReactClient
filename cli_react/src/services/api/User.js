@@ -1,14 +1,13 @@
 import axios from 'axios';
 
 import { getToken } from '../Toolbox';
-
-const url = 'http://localhost:3001';
+import { url } from '../string';
 
 const login = async (mail, password) => {
     const basicAuth = Buffer.from(`${mail}:${password}`, 'utf8').toString(
         'base64'
     );
-    await axios
+    return await axios
         .post(
             `${url}/user/login`,
             {},
@@ -18,9 +17,7 @@ const login = async (mail, password) => {
         )
         .then((res) => {
             sessionStorage.setItem('jwtToken', res.data.token);
-            console.log(
-                'login succesfull - token stored in browser session'
-            );
+            return res;
         })
         .catch((err) => {
             throw err;
@@ -28,7 +25,7 @@ const login = async (mail, password) => {
 };
 
 const register = async (mail, password, name, birthDate) => {
-    await axios
+    return await axios
         .post(
             `${url}/user/register`,
             {
@@ -43,9 +40,7 @@ const register = async (mail, password, name, birthDate) => {
         )
         .then((res) => {
             sessionStorage.setItem('jwtToken', res.data.token);
-            console.log(
-                'register succesfull - token stored in browser session'
-            );
+            return res;
         })
         .catch((err) => {
             throw err;
@@ -110,7 +105,7 @@ const getAccountPict = async () => {
             return res.data;
         })
         .catch((err) => {
-            console.log('avatar introuvable')
+            throw err;
         });
 };
 
@@ -130,7 +125,7 @@ const updateOwnPwd = async (oldPwd, newPwd) => {
             console.log('mot de passe modifié');
         })
         .catch((err) => {
-            console.log(`err`, err)
+            throw err;
         });
 };
 

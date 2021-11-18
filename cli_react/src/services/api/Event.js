@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import { getToken } from '../Toolbox';
 
-const url = 'http://localhost:3001';
+import { url } from '../string';
 
 const getAllEvents = async () => {
     return await axios
@@ -58,7 +58,7 @@ const searchEvent = async (date, city) => {
             return res.data.events;
         })
         .catch((err) => {
-            console.log(`err`, err)
+            throw err;
         });
 };
 

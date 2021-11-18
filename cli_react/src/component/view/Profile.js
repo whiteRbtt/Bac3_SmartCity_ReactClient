@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 
 import geralt from '../../geralt.png';
-
 import '../../App.css';
 import Header from '../Header';
 import EventTile from '../EventTile';
 import { isLogged, getSessionUser } from '../../services/Toolbox';
 import { getAccountPict } from '../../services/api/User';
 import { getAllRegisterCurrentUser } from '../../services/api/Participation';
+import { errorFetching } from '../../services/string';
 
 import Typography from '@mui/material/Typography';
 
@@ -17,6 +17,8 @@ const Profile = () => {
     const [avatar, setAvatar] = useState();
     const [pastRegister, setPastRegister] = useState();
     const [futureRegister, setFutureRegister] = useState();
+    const [message, setMessage] = React.useState('');
+
 
     useEffect(() => {
         let isMounted = true;
@@ -36,7 +38,7 @@ const Profile = () => {
                 setFutureRegister(res.upcomingEvents);
             })
             .catch(() => {
-                alert('Une erreur est survenue, merci de réessayer plus tard');
+                setMessage(errorFetching)
             });
     };
 
@@ -46,7 +48,7 @@ const Profile = () => {
                 setAvatar(res.profilePicture.split(',')[1]);
             })
             .catch(() => {
-                alert('Une erreur est survenue, merci de réessayer plus tard');
+                setMessage(errorFetching)
             });
     };
 
@@ -66,9 +68,9 @@ const Profile = () => {
                 )}
 
                 <Typography variant='h3' gutterBottom component='div'>
-                    {user ? user.name : ' '}
+                    {user ? user.name : ''}
                 </Typography>
-
+                {message}
                 <Link
                     to={`/param`}
                     className='settingsLink'
@@ -94,7 +96,7 @@ const Profile = () => {
                                   />
                               );
                           })
-                        : 'Aucun évenements'}
+                        : ''}
                 </div>
 
                 <div className='futureEventsContainer'>
@@ -113,7 +115,7 @@ const Profile = () => {
                                   />
                               );
                           })
-                        : 'Aucun évenements'}
+                        : ''}
                 </div>
             </div>
 

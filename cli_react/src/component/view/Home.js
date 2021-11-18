@@ -6,12 +6,14 @@ import Header from '../Header';
 import EventTile from '../EventTile';
 import { isLogged, getSessionUser } from '../../services/Toolbox';
 import { getPopularEvents } from '../../services/api/Event';
+import { errorFetching } from '../../services/string';
 
 import Typography from '@mui/material/Typography';
 
-const Home = (props) => {
+const Home = () => {
     const [popEvents, setPopEvents] = useState([]);
     const [user] = useState(getSessionUser());
+    const [message, setMessage] = React.useState('');
 
     useEffect(() => {
         let isMounted = true;
@@ -29,7 +31,7 @@ const Home = (props) => {
                 setPopEvents(res);
             })
             .catch(() => {
-                alert('Une erreur est survenue, merci de réessayer plus tard');
+                setMessage(errorFetching)
             });
     };
 
@@ -63,7 +65,7 @@ const Home = (props) => {
                                   />
                               );
                           })
-                        : ' '}
+                        : message}
                 </div>
             </div>
 

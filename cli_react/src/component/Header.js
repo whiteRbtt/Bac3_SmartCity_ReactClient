@@ -11,21 +11,20 @@ const Header = (props) => {
     const history = useHistory();
     const [buttonTarget, setButtonTarget] = useState();
     const [buttonLabel, setButtonLabel] = useState();
+    const [isHidden, setIsHidden] = useState(true);
     const [location] = useState(useLocation().pathname);
 
     useEffect(() => {
-        if(isLogged()){
+        if (isLogged()) {
             displayAdminButton();
         }
     }, []);
 
     const displayAdminButton = () => {
-        if(isAdmin()){
-            const adminButton = document.getElementById(
-                'toAdminButtonContainer'
-            );
-            adminButton.hidden = false;
+        if (isAdmin()) {
 
+            setIsHidden(false);
+            
             if (location === '/admin') {
                 setButtonTarget('/');
                 setButtonLabel('Vers accueil');
@@ -68,7 +67,7 @@ const Header = (props) => {
                     </nav>
                 </div>
 
-                <div id='toAdminButtonContainer' hidden={true}>
+                <div id='toAdminButtonContainer' hidden={isHidden}>
                     <Button variant='outlined' onClick={handleClick}>
                         {buttonLabel}
                     </Button>

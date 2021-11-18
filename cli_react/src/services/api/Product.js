@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import { getToken } from '../Toolbox';
 
-const url = 'http://localhost:3001';
+import { url } from '../string';
 
 const getProduct = async (idProduct) => {
     return await axios

@@ -1,42 +1,65 @@
 import React, { useState } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 
-import { transformDate, persistUser } from '../../services/Toolbox';
 import { register } from '../../services/api/User';
 import '../../App.css';
+import {
+    mailNotValid,
+    minMaxCharNeeded,
+    strBlankError,
+    missingFields,
+    ageMin,
+    samePwd,
+    registerSucces,
+    errorFetching,
+} from '../../services/string';
+import {
+    transformDate,
+    persistUser,
+    isEmailValid,
+    isPasswordValid,
+    strNotBlank,
+    birthDateValidation,
+} from '../../services/Toolbox';
 
 import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 
 const Register = () => {
+    const [name, setName] = React.useState('');
+    const [mail, setMail] = React.useState('');
+    const [password, setPassword] = React.useState('');
+    const [pwdConfirm, setPwdConfirm] = React.useState('');
     const [date, setDate] = React.useState(new Date());
-    const [isErrorHidden, setIsErrorHidden] = useState(true);
-    const [errorMessage, setErrorMessage] = useState('');
     const [isRegisterSuccess, setIsRegisterSuccess] = useState(false);
+    const [message, setMessage] = React.useState('');
 
     const handleClick = async (e) => {
         e.preventDefault();
-        const mail = document.getElementById('registerMail').value;
-        const name = document.getElementById('registerName').value;
-        const password = document.getElementById('registerPwd').value;
-        const pwdConfirm = document.getElementById('registerPwdRepeat').value;
+
         const birthDate = transformDate(date);
 
-        if (!mail || !name) {
-            setIsErrorHidden(false);
-            setErrorMessage('Champs manquants');
+        if (!mail || !name || !password || !pwdConfirm || !date) {
+            setMessage(missingFields);
+        } else if (!strNotBlank(name)) {
+            setMessage(strBlankError);
+        } else if (!isEmailValid(mail)) {
+            setMessage(mailNotValid);
+        } else if (!isPasswordValid(password) || !isPasswordValid(pwdConfirm)) {
+            setMessage(minMaxCharNeeded);
         } else if (password !== pwdConfirm) {
-            setIsErrorHidden(false);
-            setErrorMessage('Mots de passe différents');
+            setMessage(samePwd);
+        } else if (!birthDateValidation(birthDate)) {
+            setMessage(ageMin);
         } else {
             try {
                 await register(mail, password, name, birthDate);
-                await persistUser();
+                await persistUser()
+                setMessage(registerSucces);
                 setIsRegisterSuccess(true);
             } catch (err) {
-                setIsErrorHidden(false);
-                setErrorMessage(err.response.data.error);
+                setMessage(errorFetching);
             }
         }
     };
@@ -45,29 +68,68 @@ const Register = () => {
         <div>
             <div className='register'>
                 <div className='registerContainer'>
-                    <label hidden={isErrorHidden} id='errorMessage'>
-                        {errorMessage}
-                    </label>
+                    {message}
                     <TextField
-                        id='registerName'
                         label='Nom'
-                        variant='outlined'
+                        value={name}
+                        onChange={(event) => setName(event.target.value)}
+                        error={name === '' ? null : !strNotBlank(name)}
+                        helperText={
+                            name === ''
+                                ? null
+                                : strNotBlank(name)
+                                ? null
+                                : strBlankError
+                        }
                     />
                     <TextField
-                        id='registerMail'
-                        label='Mail'
-                        variant='outlined'
+                        label='Email'
+                        value={mail}
+                        onChange={(event) => setMail(event.target.value)}
+                        error={mail === '' ? null : !isEmailValid(mail)}
+                        helperText={
+                            mail === ''
+                                ? null
+                                : isEmailValid(mail)
+                                ? null
+                                : mailNotValid
+                        }
                     />
+
                     <TextField
-                        id='registerPwd'
                         label='Mot de passe'
-                        variant='outlined'
+                        value={password}
+                        onChange={(event) => setPassword(event.target.value)}
+                        error={
+                            password === '' ? null : !isPasswordValid(password)
+                        }
+                        helperText={
+                            password === ''
+                                ? null
+                                : isPasswordValid(password)
+                                ? null
+                                : minMaxCharNeeded
+                        }
                     />
+
                     <TextField
-                        id='registerPwdRepeat'
-                        label='Répetez mot de passe'
-                        variant='outlined'
+                        label='Confirmez mot de passe'
+                        value={pwdConfirm}
+                        onChange={(event) => setPwdConfirm(event.target.value)}
+                        error={
+                            pwdConfirm === ''
+                                ? null
+                                : !isPasswordValid(pwdConfirm)
+                        }
+                        helperText={
+                            pwdConfirm === ''
+                                ? null
+                                : isPasswordValid(pwdConfirm)
+                                ? null
+                                : minMaxCharNeeded
+                        }
                     />
+
                     <DesktopDatePicker
                         label='Date de naissance'
                         value={date}
