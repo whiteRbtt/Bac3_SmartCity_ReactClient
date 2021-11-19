@@ -116,9 +116,7 @@ const Admin = () => {
                     rows={rows}
                     columns={columns}
                     hideFooterPagination
-                    onSelectionModelChange={(event) => {
-                        setSelectedRowId(event);
-                    }}
+                    onSelectionModelChange={handleSelectRow}
                     selectionModel={selectedRowID}
                 />
             );
@@ -161,11 +159,18 @@ const Admin = () => {
 
     const handleAdd = async (e) => {
         e.preventDefault();
+        console.log(selectedRow);
     };
 
-    const handleSelect = (e) => {
+    const handleSelectTable = (e) => {
         e.preventDefault();
         setSelectedTable(e.target.value);
+        setSelectedRowId('')
+        setMessage('');
+    };
+
+    const handleSelectRow = (e) => {
+        setSelectedRowId(e);
         setMessage('');
     };
 
@@ -184,7 +189,7 @@ const Admin = () => {
                             id='tableSelect'
                             value={selectedTable}
                             label='Table'
-                            onChange={handleSelect}
+                            onChange={handleSelectTable}
                         >
                             <MenuItem value={'Evenement'}>évenements</MenuItem>
                             <MenuItem value={'Objet'}>objets</MenuItem>
