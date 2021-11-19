@@ -18,11 +18,13 @@ import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
-import { DataGrid, GridRowsProp, GridColDef } from '@mui/x-data-grid';
+import { DataGrid} from '@mui/x-data-grid';
 
 const Admin = () => {
     const [selectedTable, setSelectedTable] = useState('');
-    const [currentTable, setCurrentTable] = useState();
+    const [selectedRowID, setSelectedRowId] = useState('');
+    const [selectedRow, setSelectedRow] = useState('');
+    const [currentTable, setCurrentTable] = useState([]);
     const [message, setMessage] = useState('');
 
     useEffect(() => {
@@ -34,6 +36,12 @@ const Admin = () => {
             isMounted = false;
         };
     }, [selectedTable]);
+
+    useEffect(() => {
+        if(currentTable)
+            setSelectedRow(currentTable[selectedRowID - 1])
+    }, [selectedRowID]);
+
 
     const fetchTable = async () => {
         try {
@@ -83,6 +91,7 @@ const Admin = () => {
                     field: 'col' + colId,
                     headerName: key,
                     width: wth,
+                    editable: true,
                 });
                 colId++;
             }
@@ -101,9 +110,15 @@ const Admin = () => {
                 rows.push(newRow);
                 rowId++;
             });
-            console.log(`columns`, columns);
-
-            return <DataGrid rows={rows} columns={columns} />;
+            return (
+                <DataGrid rows={rows} 
+                columns={columns} 
+                hideFooterPagination 
+                onSelectionModelChange={(event) => {
+                    setSelectedRowId(event);
+                  }}
+                selectionModel= {selectedRowID}/>
+            );
         } else {
             console.log('table vide');
         }
@@ -111,6 +126,7 @@ const Admin = () => {
 
     const handleDelete = async (e) => {
         e.preventDefault();
+        console.log(selectedRow);
     };
 
     const handleUpdate = async (e) => {
@@ -154,7 +170,9 @@ const Admin = () => {
                     </FormControl>
                 </div>
 
-                <div className='dataGrid'>{createGrid()}</div>
+                <div className='dataGrid'>
+                    {createGrid()}
+                </div>
 
                 <div className='adminButtonsContainer'>
                     <Button variant='outlined' onClick={handleDelete}>
