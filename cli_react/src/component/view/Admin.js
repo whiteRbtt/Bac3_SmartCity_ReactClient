@@ -62,10 +62,27 @@ const Admin = () => {
             let columns = [];
             let colId = 1;
             for (const key in currentTable[0]) {
+                let wth = 150;
+                if (
+                    ((key === 'name') & (selectedTable !== 'Utilisateur')) |
+                    (key === 'name_product') |
+                    (key === 'street_name')
+                ) {
+                    wth = 300;
+                } else if (key === 'description') {
+                    wth = 500;
+                } else if (
+                    (key === 'mail_address_creator') |
+                    (key === 'mail_address_user') |
+                    (key === 'mail_address')
+                ) {
+                    wth = 250;
+                }
+
                 columns.push({
                     field: 'col' + colId,
                     headerName: key,
-                    width: 150,
+                    width: wth,
                 });
                 colId++;
             }
@@ -84,6 +101,7 @@ const Admin = () => {
                 rows.push(newRow);
                 rowId++;
             });
+            console.log(`columns`, columns);
 
             return <DataGrid rows={rows} columns={columns} />;
         } else {
