@@ -28,7 +28,6 @@ const Home = () => {
     const fetchTrendings = async () => {
         try {
             const res = await getPopularEvents();
-            console.log(`res`, res)
             setPopEvents(res);
         } catch (err) {
             setMessage(errorFetching);

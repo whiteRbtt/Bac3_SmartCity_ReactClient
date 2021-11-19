@@ -1,4 +1,4 @@
-const url = 'http://localhost:3001'
+const url = 'http://localhost:3001';
 
 const errorFetching =
     "Une erreur s'est produite, veuillez réessayer plus tard.";
@@ -13,7 +13,12 @@ const missingFields = 'Champs manquants';
 const ageMin = 'Vous devez avoir au moins 18 ans';
 const samePwd = 'Les mots de passe doivent etre similaires';
 const registerSucces = 'profil créé avec succes';
-const pastEventMessage = "L'évenement à déja eu lieu, revenez l'année prochaine !"
+const pastEventMessage =
+    "L'évenement à déja eu lieu, revenez l'année prochaine !";
+const missingId = 'Veuillez entrer un id de Stand/Event';
+const wrongId = "L'ID doit etre un chiffre ou un nombre";
+const avatarSucces = "L'avatar à été modifié avec succes"
+const imgTooLarge = "L'avatar ne peut pas dépasser 150 x 150px"
 
 export {
     url,
@@ -30,4 +35,8 @@ export {
     samePwd,
     registerSucces,
     pastEventMessage,
+    missingId,
+    wrongId,
+    avatarSucces,
+    imgTooLarge
 };

@@ -15,6 +15,7 @@ import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
 
 const Research = () => {
     const [date, setDate] = useState(new Date());
+    const [targetDate, setTargetDate] = useState();
     const [city, setCity] = useState('');
     const [events, setEvents] = useState();
     const [message, setMessage] = useState(noResults);
@@ -22,15 +23,17 @@ const Research = () => {
     const handleClick = async (e) => {
         e.preventDefault();
 
-        const targetDate = transformDate(date);
+        // TODO pas opti
+
+        date ? setTargetDate(transformDate(date)) : setTargetDate(null);
 
         if (targetDate || strNotBlank(city)) {
             try {
-                const res = await searchEvent(date, city)
+                const res = await searchEvent(targetDate, city);
                 setEvents(res);
             } catch (err) {
                 setMessage(errorFetching);
-                console.log(err)
+                console.errror(err);
             }
         }
     };

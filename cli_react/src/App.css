@@ -341,5 +341,9 @@
 }
 
 .adminSelectContainer{
-    width: 150px;
+    width: 300px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
 }

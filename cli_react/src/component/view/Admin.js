@@ -3,9 +3,11 @@ import { Redirect } from 'react-router-dom';
 
 import '../../App.css';
 import Header from '../Header';
-import { isLogged } from '../../services/Toolbox';
-import { errorFetching } from '../../services/string';
+import { isLogged, isIdValid } from '../../services/Toolbox';
+import { errorFetching, missingId, wrongId } from '../../services/string';
 import { getAllEvents } from '../../services/api/Event';
+import { getAllProducts } from '../../services/api/Product';
+import { getAllUsers } from '../../services/api/User';
 
 import Typography from '@mui/material/Typography';
 import Select from '@mui/material/Select';
@@ -13,16 +15,25 @@ import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
+import TextField from '@mui/material/TextField';
+import { DataGrid } from '@mui/x-data-grid';
 
-export default function Admin(props) {
-    const [currentTable, setCurrentTable] = useState([]);
+const Admin = () => {
     const [selectedTable, setSelectedTable] = useState('');
+    const [currentTable, setCurrentTable] = useState();
+    const [id, setId] = useState('');
     const [message, setMessage] = useState('');
 
     useEffect(() => {
         let isMounted = true;
         if (isLogged() && isMounted) {
-            fetchTable();
+            selectedTable === 'Objet' ||
+            selectedTable === 'Participation' ||
+            selectedTable === 'Stand'
+                ? (id && isIdValid(id))
+                    ? fetchTable()
+                    : setMessage(missingId)
+                : fetchTable();
         }
         return () => {
             isMounted = false;
@@ -32,13 +43,7 @@ export default function Admin(props) {
     const fetchTable = async () => {
         try {
             if (selectedTable === 'Evenement') {
-                const res = await getAllEvents();
-                console.log(`res`, res);
-                const arr = [];
-                arr.push(res);
-                // setCurrentTable(arr);
-                // console.log(currentTable);
-
+                setCurrentTable(await getAllEvents());
             } else if (selectedTable === 'Objet') {
                 setCurrentTable();
             } else if (selectedTable === 'Participation') {
@@ -46,11 +51,10 @@ export default function Admin(props) {
             } else if (selectedTable === 'Stand') {
                 setCurrentTable();
             } else if (selectedTable === 'Utilisateur') {
-                setCurrentTable();
+                setCurrentTable(await getAllUsers());
             } else if (selectedTable === 'Produit') {
-                setCurrentTable();
+                setCurrentTable(await getAllProducts());
             }
-            setSelectedTable('');
         } catch (err) {
             setMessage(errorFetching);
             console.error(err);
@@ -71,8 +75,8 @@ export default function Admin(props) {
 
     return (
         <div>
+            {console.log(`currentTable`, currentTable)}
             <Header />
-            {currentTable}
             <div className='adminContainer'>
                 <Typography variant='h3' gutterBottom component='div'>
                     lets CRUD
@@ -100,6 +104,17 @@ export default function Admin(props) {
                             <MenuItem value={'Produit'}>Produit</MenuItem>
                         </Select>
                     </FormControl>
+
+                    {/* <TextField
+                        label='ID'
+                        value={id}
+                        onChange={(event) => setId(event.target.value)}
+                        error={id === '' ? null : !isIdValid(id)}
+                        helperText={
+                            id === '' ? null : isIdValid(id) ? null : wrongId
+                        }
+                    /> */}
+
                     {message}
                 </div>
                 <p>table</p>
@@ -118,4 +133,6 @@ export default function Admin(props) {
             {isLogged() ? null : <Redirect to='/connexion' />}
         </div>
     );
-}
+};
+
+export default Admin;

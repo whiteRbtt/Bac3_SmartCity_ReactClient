@@ -1,9 +1,16 @@
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 
-import { updateOwnPwd } from '../../services/api/User';
+import { updateOwnPwd, uploadAvatar } from '../../services/api/User';
 import { isLogged, isPasswordValid } from '../../services/Toolbox';
-import { pwdError, pwdSucces, minMaxCharNeeded } from '../../services/string';
+import {
+    pwdError,
+    pwdSucces,
+    minMaxCharNeeded,
+    errorFetching,
+    avatarSucces,
+    imgTooLarge
+} from '../../services/string';
 import '../../App.css';
 import geralt from '../../geralt.png';
 import Header from '../Header';
@@ -20,6 +27,7 @@ const Settings = (props) => {
     const [avatar, setAvatar] = useState(
         props.location.state ? props.location.state.avat : null
     );
+    const [newAvatar, setNewAvatar] = useState();
 
     const handleClickPwd = async (e) => {
         e.preventDefault();
@@ -40,7 +48,17 @@ const Settings = (props) => {
 
     const handleClickAvatar = async (e) => {
         e.preventDefault();
-        alert('bouh !');
+        const formData = new FormData();
+        for (const image of newAvatar)
+            formData.append('avatar', image);
+        try {
+            await uploadAvatar(formData);
+            setMessage(avatarSucces)
+        } catch (err) {
+            err.response.status !== 418
+                    ? setMessage(imgTooLarge)
+                    : setMessage(errorFetching);
+        }
     };
 
     return (
@@ -92,9 +110,6 @@ const Settings = (props) => {
                     <Button variant='outlined' onClick={handleClickPwd}>
                         modifier
                     </Button>
-                    <Typography variant='h7' gutterBottom component='div'>
-                        {message}
-                    </Typography>
                 </div>
 
                 <div className='subSettingContainer'>
@@ -106,11 +121,20 @@ const Settings = (props) => {
                     <Typography variant='h7' gutterBottom component='div'>
                         Modifier avatar
                     </Typography>
+                    <input
+                        type={'file'}
+                        accept={('image/png', 'image/jpeg')}
+                        onChange={(e) => setNewAvatar(e.target.files)}
+                        required
+                    />
                     <Button variant='outlined' onClick={handleClickAvatar}>
                         modifier
                     </Button>
                 </div>
             </div>
+            <Typography variant='h7' gutterBottom component='div'>
+                {message}
+            </Typography>
             {isLogged() ? null : <Redirect to='/connexion' />}
         </div>
     );

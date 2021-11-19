@@ -67,6 +67,13 @@ const getOwnUser = async () => {
     return res.data.user;
 };
 
+const getAllUsers = async () => {
+    const res = await axios.get(`${url}/user/all`, {
+        headers: { authorization: `Bearer ${getToken()}` },
+    });
+    return res.data.users;
+};
+
 const getAccountPict = async () => {
     const res = await axios.get(`${url}/user/account/picture`, {
         headers: { authorization: `Bearer ${getToken()}` },
@@ -115,6 +122,20 @@ const delUser = async (mail) => {
     return res;
 };
 
+const uploadAvatar = async (formData) => {
+    const res = await axios.patch(
+        `${url}/user/account/profilePicture`,
+        formData,
+        {
+            headers: {
+                authorization: `Bearer ${getToken()}`,
+                'Content-Type': `multipart/form-data`,
+            },
+        }
+    );
+    return res;
+};
+
 export {
     login,
     register,
@@ -125,4 +146,6 @@ export {
     updateOwnPwd,
     updateUserProfile,
     delUser,
+    getAllUsers,
+    uploadAvatar,
 };

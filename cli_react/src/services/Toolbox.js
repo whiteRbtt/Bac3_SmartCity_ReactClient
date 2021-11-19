@@ -46,6 +46,11 @@ const isEmailValid = (str) => {
     return reg.test(str);
 };
 
+const isIdValid = (id) => {
+    const reg = new RegExp("^\d+$");
+    return reg.test(id);
+}
+
 const strNotBlank = (str) => {
     const reg = new RegExp(/[a-zA-Z]/g);
     return reg.test(str);
@@ -72,4 +77,5 @@ export {
     isPasswordValid,
     isEmailValid,
     birthDateValidation,
+    isIdValid,
 };

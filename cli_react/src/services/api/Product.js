@@ -11,6 +11,13 @@ const getProduct = async (idProduct) => {
     return res.data;
 };
 
+const getAllProducts = async () => {
+    const res = await axios.get(`${url}/product/all`, {
+        headers: { authorization: `Bearer ${getToken()}` },
+    });
+    return res.data.products;
+};
+
 const addProduct = async (name, desc, price) => {
     const res = await axios.post(
         `${url}/product/add`,
@@ -52,4 +59,4 @@ const delProduct = async (idProduct) => {
     return res;
 };
 
-export { getProduct, addProduct, updateProduct, delProduct };
+export { getProduct, addProduct, updateProduct, delProduct, getAllProducts };
