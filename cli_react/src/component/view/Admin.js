@@ -8,8 +8,8 @@ import { errorFetching, missingId, wrongId } from '../../services/string';
 import { getAllEvents } from '../../services/api/Event';
 import { getAllProducts } from '../../services/api/Product';
 import { getAllUsers } from '../../services/api/User';
-import { getObjectsRelFromStandId } from '../../services/api/Object';
-import { getRegisterByEventId } from '../../services/api/Participation';
+import { getAllObject } from '../../services/api/Object';
+import { getAllRegister } from '../../services/api/Participation';
 import { getAllStands } from '../../services/api/Stand';
 
 import Typography from '@mui/material/Typography';
@@ -24,47 +24,35 @@ import { DataGrid } from '@mui/x-data-grid';
 const Admin = () => {
     const [selectedTable, setSelectedTable] = useState('');
     const [currentTable, setCurrentTable] = useState();
-    const [id, setId] = useState(1);
     const [message, setMessage] = useState('');
 
     const fetchTable = async () => {
         try {
-
             if (selectedTable === 'Evenement') {
                 setCurrentTable(await getAllEvents());
-
             } else if (selectedTable === 'Utilisateur') {
                 setCurrentTable(await getAllUsers());
-
             } else if (selectedTable === 'Produit') {
                 setCurrentTable(await getAllProducts());
-
             } else if (selectedTable === 'Stand') {
                 setCurrentTable(await getAllStands());
-
-
             } else if (selectedTable === 'Objet') {
-                isIdValid(id)
-                    ? setCurrentTable(getObjectsRelFromStandId(id))
-                    : setMessage(missingId);
-
+                setCurrentTable(await getAllObject());
             } else if (selectedTable === 'Participation') {
-                isIdValid(id)
-                    ? setCurrentTable(setCurrentTable(getRegisterByEventId(id)))
-                    : setMessage(missingId);
+                setCurrentTable(await getAllRegister());
             }
         } catch (err) {
             setMessage(errorFetching);
             console.error(err);
-
         }
     };
 
     const handleSearch = async (e) => {
         e.preventDefault();
-        await fetchTable()
-        console.log(`currentTable`, currentTable)
-    }
+        await fetchTable();
+        console.log(`currentTable`, currentTable);
+        // afficher datagrid
+    };
 
     const handleDelete = async (e) => {
         e.preventDefault();
@@ -99,7 +87,9 @@ const Admin = () => {
                                     setSelectedTable(event.target.value)
                                 }
                             >
-                                <MenuItem value={'Evenement'}>évenements</MenuItem>
+                                <MenuItem value={'Evenement'}>
+                                    évenements
+                                </MenuItem>
                                 <MenuItem value={'Objet'}>objets</MenuItem>
                                 <MenuItem value={'Participation'}>
                                     participation
@@ -112,21 +102,12 @@ const Admin = () => {
                             </Select>
                         </FormControl>
                     </div>
-                    <div className='adminId'>
-                        <TextField
-                            label='ID'
-                            value={id}
-                            onChange={(event) => setId(event.target.value)}
-                        />
-                    </div>
 
                     <Button variant='outlined' onClick={handleSearch}>
                         Afficher
                     </Button>
+                </div>
 
-                </div>    
-
-        
                 <p>table</p>
                 <div className='adminButtonsContainer'>
                     <Button variant='outlined' onClick={handleDelete}>

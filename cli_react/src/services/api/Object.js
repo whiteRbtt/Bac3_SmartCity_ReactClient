@@ -14,6 +14,16 @@ const getObjectsRelFromStandId = async (idStand) => {
     return res.data;
 };
 
+const getAllObject = async () => {
+    const res = await axios.get(
+        `${url}/event/stand/product/all`,
+        {
+            headers: { authorization: `Bearer ${getToken()}` },
+        }
+    );
+    return res.data.objects;
+};
+
 const addObjectRel = async (idStand, idProduct) => {
     const res = await axios.post(
         `${url}/event/stand/product/add`,
@@ -65,4 +75,5 @@ export {
     addObjectRel,
     updateObjectRel,
     delRelObject,
+    getAllObject
 };

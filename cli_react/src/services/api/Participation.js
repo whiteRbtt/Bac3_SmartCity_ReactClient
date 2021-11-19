@@ -25,6 +25,16 @@ const getAllRegisterEvent = async (idEvent) => {
     return res.data.participations;
 };
 
+const getAllRegister = async () => {
+    const res = await axios.get(
+        `${url}/user/reservation/all`,
+        {
+            headers: { authorization: `Bearer ${getToken()}` },
+        }
+    );
+    return res.data.participations;
+};
+
 const getDateRegisterEvent = async (idEvent, mail) => {
     const res = await axios.get(
         `${url}/event/reservation?mailAddress=${mail}&idEvent=${idEvent}`,
@@ -119,4 +129,5 @@ export {
     addRegisterAdmin,
     delRegister,
     delRegisterAdmin,
+    getAllRegister
 };
