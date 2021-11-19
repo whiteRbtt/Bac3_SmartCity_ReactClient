@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom';
 
 import '../../App.css';
 import Header from '../Header';
-import { isLogged, isIdValid } from '../../services/Toolbox';
+import { isLogged, isIdValid, prepareDatas } from '../../services/Toolbox';
 import { errorFetching, missingId, wrongId } from '../../services/string';
 import { getAllEvents } from '../../services/api/Event';
 import { getAllProducts } from '../../services/api/Product';
@@ -18,13 +18,22 @@ import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
-import TextField from '@mui/material/TextField';
-import { DataGrid } from '@mui/x-data-grid';
+import { DataGrid, GridRowsProp, GridColDef } from '@mui/x-data-grid';
 
 const Admin = () => {
     const [selectedTable, setSelectedTable] = useState('');
     const [currentTable, setCurrentTable] = useState();
     const [message, setMessage] = useState('');
+
+    useEffect(() => {
+        let isMounted = true;
+        if (isLogged() && isMounted) {
+            fetchTable();
+        }
+        return () => {
+            isMounted = false;
+        };
+    }, [selectedTable]);
 
     const fetchTable = async () => {
         try {
@@ -47,11 +56,39 @@ const Admin = () => {
         }
     };
 
-    const handleSearch = async (e) => {
-        e.preventDefault();
-        await fetchTable();
-        console.log(`currentTable`, currentTable);
-        // afficher datagrid
+    const createGrid = () => {
+        if (currentTable) {
+            // init columns
+            let columns = [];
+            let colId = 1;
+            for (const key in currentTable[0]) {
+                columns.push({
+                    field: 'col' + colId,
+                    headerName: key,
+                    width: 150,
+                });
+                colId++;
+            }
+
+            // init rows
+            let rows = [];
+            let rowId = 1;
+            currentTable.forEach((row) => {
+                let newRow = { id: rowId };
+                let i = 1;
+                for (const key in row) {
+                    const colName = 'col' + i;
+                    newRow[colName] = row[key];
+                    i++;
+                }
+                rows.push(newRow);
+                rowId++;
+            });
+
+            return <DataGrid rows={rows} columns={columns} />;
+        } else {
+            console.log('table vide');
+        }
     };
 
     const handleDelete = async (e) => {
@@ -69,46 +106,38 @@ const Admin = () => {
     return (
         <div>
             <Header />
-            {console.log(`currentTable`, currentTable)}
             <div className='adminContainer'>
                 <Typography variant='h3' gutterBottom component='div'>
                     lets CRUD
                 </Typography>
                 {message}
                 <div className='adminSelectTable'>
-                    <div className='adminSelect'>
-                        <FormControl fullWidth>
-                            <InputLabel>Table</InputLabel>
-                            <Select
-                                id='tableSelect'
-                                value={selectedTable}
-                                label='Table'
-                                onChange={(event) =>
-                                    setSelectedTable(event.target.value)
-                                }
-                            >
-                                <MenuItem value={'Evenement'}>
-                                    évenements
-                                </MenuItem>
-                                <MenuItem value={'Objet'}>objets</MenuItem>
-                                <MenuItem value={'Participation'}>
-                                    participation
-                                </MenuItem>
-                                <MenuItem value={'Stand'}>stand</MenuItem>
-                                <MenuItem value={'Utilisateur'}>
-                                    utilisateur
-                                </MenuItem>
-                                <MenuItem value={'Produit'}>Produit</MenuItem>
-                            </Select>
-                        </FormControl>
-                    </div>
-
-                    <Button variant='outlined' onClick={handleSearch}>
-                        Afficher
-                    </Button>
+                    <FormControl fullWidth>
+                        <InputLabel>Table</InputLabel>
+                        <Select
+                            id='tableSelect'
+                            value={selectedTable}
+                            label='Table'
+                            onChange={(event) =>
+                                setSelectedTable(event.target.value)
+                            }
+                        >
+                            <MenuItem value={'Evenement'}>évenements</MenuItem>
+                            <MenuItem value={'Objet'}>objets</MenuItem>
+                            <MenuItem value={'Participation'}>
+                                participation
+                            </MenuItem>
+                            <MenuItem value={'Stand'}>stand</MenuItem>
+                            <MenuItem value={'Utilisateur'}>
+                                utilisateur
+                            </MenuItem>
+                            <MenuItem value={'Produit'}>Produit</MenuItem>
+                        </Select>
+                    </FormControl>
                 </div>
 
-                <p>table</p>
+                <div className='dataGrid'>{createGrid()}</div>
+
                 <div className='adminButtonsContainer'>
                     <Button variant='outlined' onClick={handleDelete}>
                         supprimer

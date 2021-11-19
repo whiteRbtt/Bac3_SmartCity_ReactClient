@@ -100,7 +100,7 @@ const addRegisterAdmin = async (idEvent, mailUser) => {
 };
 
 const delRegister = async (idEvent) => {
-    await axios.delete(`${url}/user/reservation/delete`, {
+        await axios.delete(`${url}/user/reservation/delete`, {
         headers: { authorization: `Bearer ${getToken()}` },
         data: {
             idEvent: idEvent,

@@ -325,6 +325,7 @@
 }
 
 .adminContainer{
+    margin-top: 50px;
     height: 600px;
     display: flex;
     flex-direction: column;
@@ -335,13 +336,16 @@
 .adminButtonsContainer{
     width: 700px;
     display: flex;
+    margin-top: 50px;
     flex-direction: row;
     align-items: center;
     justify-content: space-evenly;
 }
 
 .adminSelectTable{
-    width: 400px;
+    width: 150px;
+    margin-bottom: 50px;
+    margin-top: 30px;
     display: flex;
     flex-direction: row;
     align-items:center;
@@ -349,11 +353,11 @@
     flex-wrap: wrap;
 }
 
-.adminSelect{
-    width: 200px;
+.dataGrid{
+    height: 800px;
+    width: 800px;
+    
+    
 }
 
-.adminId{
-    width: 75px;
-}
 

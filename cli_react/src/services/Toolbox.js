@@ -65,6 +65,9 @@ const birthDateValidation = (birthdate) => {
     return validBirthDate;
 };
 
+
+
+
 export {
     isLogged,
     getToken,
