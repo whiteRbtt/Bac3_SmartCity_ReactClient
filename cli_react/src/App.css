@@ -340,10 +340,20 @@
     justify-content: space-evenly;
 }
 
-.adminSelectContainer{
-    width: 300px;
+.adminSelectTable{
+    width: 400px;
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items:center;
     justify-content: space-between;
+    flex-wrap: wrap;
 }
+
+.adminSelect{
+    width: 200px;
+}
+
+.adminId{
+    width: 75px;
+}
+

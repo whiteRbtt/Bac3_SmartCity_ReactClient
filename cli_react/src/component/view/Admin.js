@@ -8,6 +8,9 @@ import { errorFetching, missingId, wrongId } from '../../services/string';
 import { getAllEvents } from '../../services/api/Event';
 import { getAllProducts } from '../../services/api/Product';
 import { getAllUsers } from '../../services/api/User';
+import { getObjectsRelFromStandId } from '../../services/api/Object';
+import { getRegisterByEventId } from '../../services/api/Participation';
+import { getAllStands } from '../../services/api/Stand';
 
 import Typography from '@mui/material/Typography';
 import Select from '@mui/material/Select';
@@ -21,45 +24,47 @@ import { DataGrid } from '@mui/x-data-grid';
 const Admin = () => {
     const [selectedTable, setSelectedTable] = useState('');
     const [currentTable, setCurrentTable] = useState();
-    const [id, setId] = useState('');
+    const [id, setId] = useState(1);
     const [message, setMessage] = useState('');
-
-    useEffect(() => {
-        let isMounted = true;
-        if (isLogged() && isMounted) {
-            selectedTable === 'Objet' ||
-            selectedTable === 'Participation' ||
-            selectedTable === 'Stand'
-                ? (id && isIdValid(id))
-                    ? fetchTable()
-                    : setMessage(missingId)
-                : fetchTable();
-        }
-        return () => {
-            isMounted = false;
-        };
-    }, [selectedTable]);
 
     const fetchTable = async () => {
         try {
+
             if (selectedTable === 'Evenement') {
                 setCurrentTable(await getAllEvents());
-            } else if (selectedTable === 'Objet') {
-                setCurrentTable();
-            } else if (selectedTable === 'Participation') {
-                setCurrentTable();
-            } else if (selectedTable === 'Stand') {
-                setCurrentTable();
+
             } else if (selectedTable === 'Utilisateur') {
                 setCurrentTable(await getAllUsers());
+
             } else if (selectedTable === 'Produit') {
                 setCurrentTable(await getAllProducts());
+
+            } else if (selectedTable === 'Stand') {
+                setCurrentTable(await getAllStands());
+
+
+            } else if (selectedTable === 'Objet') {
+                isIdValid(id)
+                    ? setCurrentTable(getObjectsRelFromStandId(id))
+                    : setMessage(missingId);
+
+            } else if (selectedTable === 'Participation') {
+                isIdValid(id)
+                    ? setCurrentTable(setCurrentTable(getRegisterByEventId(id)))
+                    : setMessage(missingId);
             }
         } catch (err) {
             setMessage(errorFetching);
             console.error(err);
+
         }
     };
+
+    const handleSearch = async (e) => {
+        e.preventDefault();
+        await fetchTable()
+        console.log(`currentTable`, currentTable)
+    }
 
     const handleDelete = async (e) => {
         e.preventDefault();
@@ -75,48 +80,53 @@ const Admin = () => {
 
     return (
         <div>
-            {console.log(`currentTable`, currentTable)}
             <Header />
+            {console.log(`currentTable`, currentTable)}
             <div className='adminContainer'>
                 <Typography variant='h3' gutterBottom component='div'>
                     lets CRUD
                 </Typography>
-                <div className='adminSelectContainer'>
-                    <FormControl fullWidth>
-                        <InputLabel>Table</InputLabel>
-                        <Select
-                            id='tableSelect'
-                            value={selectedTable}
-                            label='Table'
-                            onChange={(event) =>
-                                setSelectedTable(event.target.value)
-                            }
-                        >
-                            <MenuItem value={'Evenement'}>évenements</MenuItem>
-                            <MenuItem value={'Objet'}>objets</MenuItem>
-                            <MenuItem value={'Participation'}>
-                                participation
-                            </MenuItem>
-                            <MenuItem value={'Stand'}>stand</MenuItem>
-                            <MenuItem value={'Utilisateur'}>
-                                utilisateur
-                            </MenuItem>
-                            <MenuItem value={'Produit'}>Produit</MenuItem>
-                        </Select>
-                    </FormControl>
+                {message}
+                <div className='adminSelectTable'>
+                    <div className='adminSelect'>
+                        <FormControl fullWidth>
+                            <InputLabel>Table</InputLabel>
+                            <Select
+                                id='tableSelect'
+                                value={selectedTable}
+                                label='Table'
+                                onChange={(event) =>
+                                    setSelectedTable(event.target.value)
+                                }
+                            >
+                                <MenuItem value={'Evenement'}>évenements</MenuItem>
+                                <MenuItem value={'Objet'}>objets</MenuItem>
+                                <MenuItem value={'Participation'}>
+                                    participation
+                                </MenuItem>
+                                <MenuItem value={'Stand'}>stand</MenuItem>
+                                <MenuItem value={'Utilisateur'}>
+                                    utilisateur
+                                </MenuItem>
+                                <MenuItem value={'Produit'}>Produit</MenuItem>
+                            </Select>
+                        </FormControl>
+                    </div>
+                    <div className='adminId'>
+                        <TextField
+                            label='ID'
+                            value={id}
+                            onChange={(event) => setId(event.target.value)}
+                        />
+                    </div>
 
-                    {/* <TextField
-                        label='ID'
-                        value={id}
-                        onChange={(event) => setId(event.target.value)}
-                        error={id === '' ? null : !isIdValid(id)}
-                        helperText={
-                            id === '' ? null : isIdValid(id) ? null : wrongId
-                        }
-                    /> */}
+                    <Button variant='outlined' onClick={handleSearch}>
+                        Afficher
+                    </Button>
 
-                    {message}
-                </div>
+                </div>    
+
+        
                 <p>table</p>
                 <div className='adminButtonsContainer'>
                     <Button variant='outlined' onClick={handleDelete}>

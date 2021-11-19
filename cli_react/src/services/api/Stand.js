@@ -21,6 +21,13 @@ const getAllStandsByEventId = async (idEvent) => {
     return res.data;
 };
 
+const getAllStands = async () => {
+    const res = await axios.get(`${url}/event/stand/all`, {
+        headers: { authorization: `Bearer ${getToken()}` },
+    });
+    return res.data.stands;
+};
+
 const addStand = async (type, manager, size, idEvent) => {
     const res = await axios.post(
         `${url}/event/stand/add`,
@@ -64,4 +71,11 @@ const delStand = async (idStand) => {
     return res;
 };
 
-export { getStand, getAllStandsByEventId, addStand, updateStand, delStand };
+export {
+    getStand,
+    getAllStandsByEventId,
+    addStand,
+    updateStand,
+    delStand,
+    getAllStands,
+};
