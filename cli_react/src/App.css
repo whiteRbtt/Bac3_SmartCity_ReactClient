@@ -333,6 +333,15 @@
     justify-content: space-evenly;
 }
 
+.adminFormContainer{
+    margin-top: 50px;
+    margin-bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
 .adminButtonsContainer{
     width: 700px;
     display: flex;
@@ -355,9 +364,13 @@
 
 .dataGrid{
     height: 800px;
-    width: 800px;
-    
-    
+    width: 600px;
+}
+
+.crudFormContainer{
+    height: 600px;
+    width: 600px;
+    border: 2px dashed red;
 }
 
 

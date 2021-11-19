@@ -3,14 +3,18 @@ import { Redirect } from 'react-router-dom';
 
 import '../../App.css';
 import Header from '../Header';
-import { isLogged, isIdValid, prepareDatas } from '../../services/Toolbox';
-import { errorFetching, missingId, wrongId } from '../../services/string';
-import { getAllEvents } from '../../services/api/Event';
-import { getAllProducts } from '../../services/api/Product';
-import { getAllUsers } from '../../services/api/User';
-import { getAllObject } from '../../services/api/Object';
-import { getAllRegister } from '../../services/api/Participation';
-import { getAllStands } from '../../services/api/Stand';
+import { isLogged } from '../../services/Toolbox';
+import { errorFetching, delSucces, noRowSelected } from '../../services/string';
+import { getAllEvents, delEvent } from '../../services/api/Event';
+import { getAllProducts, delProduct } from '../../services/api/Product';
+import { getAllUsers, delUser } from '../../services/api/User';
+import { getAllObject, delRelObject } from '../../services/api/Object';
+import {
+    getAllRegister,
+    delRegisterAdmin,
+} from '../../services/api/Participation';
+import { getAllStands, delStand } from '../../services/api/Stand';
+import CrUdForm from '../CrUdForm';
 
 import Typography from '@mui/material/Typography';
 import Select from '@mui/material/Select';
@@ -18,7 +22,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
-import { DataGrid} from '@mui/x-data-grid';
+import { DataGrid } from '@mui/x-data-grid';
 
 const Admin = () => {
     const [selectedTable, setSelectedTable] = useState('');
@@ -38,10 +42,8 @@ const Admin = () => {
     }, [selectedTable]);
 
     useEffect(() => {
-        if(currentTable)
-            setSelectedRow(currentTable[selectedRowID - 1])
+        if (currentTable) setSelectedRow(currentTable[selectedRowID - 1]);
     }, [selectedRowID]);
-
 
     const fetchTable = async () => {
         try {
@@ -91,7 +93,6 @@ const Admin = () => {
                     field: 'col' + colId,
                     headerName: key,
                     width: wth,
-                    editable: true,
                 });
                 colId++;
             }
@@ -111,13 +112,15 @@ const Admin = () => {
                 rowId++;
             });
             return (
-                <DataGrid rows={rows} 
-                columns={columns} 
-                hideFooterPagination 
-                onSelectionModelChange={(event) => {
-                    setSelectedRowId(event);
-                  }}
-                selectionModel= {selectedRowID}/>
+                <DataGrid
+                    rows={rows}
+                    columns={columns}
+                    hideFooterPagination
+                    onSelectionModelChange={(event) => {
+                        setSelectedRowId(event);
+                    }}
+                    selectionModel={selectedRowID}
+                />
             );
         } else {
             console.log('table vide');
@@ -126,15 +129,44 @@ const Admin = () => {
 
     const handleDelete = async (e) => {
         e.preventDefault();
-        console.log(selectedRow);
+        if (selectedRow) {
+            try {
+                if (selectedTable === 'Evenement') {
+                    await delEvent(selectedRow.id);
+                } else if (selectedTable === 'Utilisateur') {
+                    await delUser(selectedRow.mail_address);
+                } else if (selectedTable === 'Produit') {
+                    await delProduct(selectedRow.id);
+                } else if (selectedTable === 'Stand') {
+                    await delStand(selectedRow.id_stand);
+                } else if (selectedTable === 'Objet') {
+                    await delRelObject(selectedRow.id_stand, selectedRow.id_product);
+                } else if (selectedTable === 'Participation') {
+                    await delRegisterAdmin(selectedRow.id_event, selectedRow.mail_address_user);
+                }
+                setMessage(delSucces);
+            } catch (err) {
+                setMessage(errorFetching);
+                console.error(err);
+            }
+        } else {
+            setMessage(noRowSelected);
+        }
     };
 
     const handleUpdate = async (e) => {
         e.preventDefault();
+        console.log(selectedRow);
     };
 
     const handleAdd = async (e) => {
         e.preventDefault();
+    };
+
+    const handleSelect = (e) => {
+        e.preventDefault();
+        setSelectedTable(e.target.value);
+        setMessage('');
     };
 
     return (
@@ -152,9 +184,7 @@ const Admin = () => {
                             id='tableSelect'
                             value={selectedTable}
                             label='Table'
-                            onChange={(event) =>
-                                setSelectedTable(event.target.value)
-                            }
+                            onChange={handleSelect}
                         >
                             <MenuItem value={'Evenement'}>évenements</MenuItem>
                             <MenuItem value={'Objet'}>objets</MenuItem>
@@ -170,9 +200,7 @@ const Admin = () => {
                     </FormControl>
                 </div>
 
-                <div className='dataGrid'>
-                    {createGrid()}
-                </div>
+                <div className='dataGrid'>{createGrid()}</div>
 
                 <div className='adminButtonsContainer'>
                     <Button variant='outlined' onClick={handleDelete}>
@@ -185,6 +213,9 @@ const Admin = () => {
                         ajouter
                     </Button>
                 </div>
+            </div>
+            <div className='adminFormContainer'>
+                <CrUdForm action={'add'} />
             </div>
             {isLogged() ? null : <Redirect to='/connexion' />}
         </div>

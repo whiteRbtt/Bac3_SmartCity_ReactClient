@@ -124,7 +124,7 @@ const updateEvent = async (
     return res;
 };
 
-const deleteEvent = async (idEvent) => {
+const delEvent = async (idEvent) => {
     const res = await axios.delete(`${url}/event/delete`, {
         headers: { authorization: `Bearer ${getToken()}` },
         data: {
@@ -141,5 +141,5 @@ export {
     searchEvent,
     addEvent,
     updateEvent,
-    deleteEvent,
+    delEvent,
 };

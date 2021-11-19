@@ -19,6 +19,8 @@ const missingId = 'Veuillez entrer un id de Stand/Event';
 const wrongId = "L'ID doit etre un chiffre ou un nombre";
 const avatarSucces = "L'avatar à été modifié avec succes"
 const imgTooLarge = "L'avatar ne peut pas dépasser 150 x 150px"
+const delSucces = "L'élément à été supprimé avec succès"
+const noRowSelected = "Veuillez sélectionner une ligne"
 
 export {
     url,
@@ -38,5 +40,7 @@ export {
     missingId,
     wrongId,
     avatarSucces,
-    imgTooLarge
+    imgTooLarge,
+    delSucces,
+    noRowSelected
 };
