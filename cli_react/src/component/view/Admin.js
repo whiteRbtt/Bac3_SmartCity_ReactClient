@@ -125,6 +125,30 @@ const Admin = () => {
         }
     };
 
+    const handleSelectRow = (e) => {
+        setSelectedRowId(e);
+        setMessage('');
+    };
+
+    // CRUD
+    
+    const handleCreate = async (e) => {
+        e.preventDefault();
+        console.log(selectedRow);
+    };
+
+    const handleRead = (e) => {
+        e.preventDefault();
+        setSelectedTable(e.target.value);
+        setSelectedRowId('')
+        setMessage('');
+    };
+
+    const handleUpdate = async (e) => {
+        e.preventDefault();
+        console.log(selectedRow);
+    };
+
     const handleDelete = async (e) => {
         e.preventDefault();
         if (selectedRow) {
@@ -152,28 +176,6 @@ const Admin = () => {
         }
     };
 
-    const handleUpdate = async (e) => {
-        e.preventDefault();
-        console.log(selectedRow);
-    };
-
-    const handleAdd = async (e) => {
-        e.preventDefault();
-        console.log(selectedRow);
-    };
-
-    const handleSelectTable = (e) => {
-        e.preventDefault();
-        setSelectedTable(e.target.value);
-        setSelectedRowId('')
-        setMessage('');
-    };
-
-    const handleSelectRow = (e) => {
-        setSelectedRowId(e);
-        setMessage('');
-    };
-
     return (
         <div>
             <Header />
@@ -189,7 +191,7 @@ const Admin = () => {
                             id='tableSelect'
                             value={selectedTable}
                             label='Table'
-                            onChange={handleSelectTable}
+                            onChange={handleRead}
                         >
                             <MenuItem value={'Evenement'}>évenements</MenuItem>
                             <MenuItem value={'Objet'}>objets</MenuItem>
@@ -214,7 +216,7 @@ const Admin = () => {
                     <Button variant='outlined' onClick={handleUpdate}>
                         modifier
                     </Button>
-                    <Button variant='outlined' onClick={handleAdd}>
+                    <Button variant='outlined' onClick={handleCreate}>
                         ajouter
                     </Button>
                 </div>
