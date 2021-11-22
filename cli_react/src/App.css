@@ -368,9 +368,19 @@
 }
 
 .crudFormContainer{
-    height: 600px;
-    width: 600px;
-    border: 2px dashed red;
+    height: auto;
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+    justify-content: center;
+    border: 1px dashed red;
 }
+
+.crudFormContainer > .crudFormContainer > * {
+    margin-top : 15px;
+    margin-bottom : 15px;
+}
+
 
 

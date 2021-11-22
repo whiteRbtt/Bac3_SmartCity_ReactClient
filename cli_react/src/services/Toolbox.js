@@ -47,7 +47,7 @@ const isEmailValid = (str) => {
 };
 
 const isIdValid = (id) => {
-    const reg = new RegExp('\d+')
+    const reg = new RegExp(/^\d+$/g)
     return reg.test(id);
 }
 

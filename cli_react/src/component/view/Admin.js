@@ -131,7 +131,7 @@ const Admin = () => {
     };
 
     // CRUD
-    
+
     const handleCreate = async (e) => {
         e.preventDefault();
         console.log(selectedRow);
@@ -140,7 +140,7 @@ const Admin = () => {
     const handleRead = (e) => {
         e.preventDefault();
         setSelectedTable(e.target.value);
-        setSelectedRowId('')
+        setSelectedRowId('');
         setMessage('');
     };
 
@@ -162,9 +162,15 @@ const Admin = () => {
                 } else if (selectedTable === 'Stand') {
                     await delStand(selectedRow.id_stand);
                 } else if (selectedTable === 'Objet') {
-                    await delRelObject(selectedRow.id_stand, selectedRow.id_product);
+                    await delRelObject(
+                        selectedRow.id_stand,
+                        selectedRow.id_product
+                    );
                 } else if (selectedTable === 'Participation') {
-                    await delRegisterAdmin(selectedRow.id_event, selectedRow.mail_address_user);
+                    await delRegisterAdmin(
+                        selectedRow.id_event,
+                        selectedRow.mail_address_user
+                    );
                 }
                 setMessage(delSucces);
             } catch (err) {
@@ -222,7 +228,7 @@ const Admin = () => {
                 </div>
             </div>
             <div className='adminFormContainer'>
-                <CrUdForm action={'add'} />
+                <CrUdForm action={'add'} table={'Objet'} />
             </div>
             {isLogged() ? null : <Redirect to='/connexion' />}
         </div>
