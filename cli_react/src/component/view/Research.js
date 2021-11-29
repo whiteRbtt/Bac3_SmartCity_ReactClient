@@ -6,8 +6,7 @@ import { searchEvent } from '../../services/api/Event';
 import { noResults, strBlankError, errorFetching } from '../../services/string';
 import '../../App.css';
 import Header from '../Header';
-import EventTile from '../EventTile';
-
+import EventContainer from '../EventContainer';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
@@ -78,17 +77,7 @@ const Research = () => {
 
             <div className='searchResultContainer'>
                 {events
-                    ? events.map((event) => {
-                          return (
-                              <EventTile
-                                  key={event.name + event.id}
-                                  name={event.name}
-                                  city={event.city}
-                                  type={event.type}
-                                  id={event.id}
-                              />
-                          );
-                      })
+                    ? <EventContainer events={events} />
                     : message}
             </div>
 

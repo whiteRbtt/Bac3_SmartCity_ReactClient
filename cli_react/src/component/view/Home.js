@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom';
 
 import '../../App.css';
 import Header from '../Header';
-import EventTile from '../EventTile';
+import EventContainer from '../EventContainer';
 import { isLogged, getSessionUser } from '../../services/Toolbox';
 import { getPopularEvents } from '../../services/api/Event';
 import { errorFetching } from '../../services/string';
@@ -52,21 +52,8 @@ const Home = () => {
                 <Typography variant='h3' gutterBottom component='div'>
                     Evenements tendance,
                 </Typography>
-                <div className='trendingTilesContainer'>
-                    {popEvents
-                        ? popEvents.map((event) => {
-                              return (
-                                  <EventTile
-                                      key={event.name + event.id}
-                                      name={event.name}
-                                      city={event.city}
-                                      type={event.type}
-                                      id={event.id}
-                                  />
-                              );
-                          })
-                        : message}
-                </div>
+
+                {popEvents ? <EventContainer events={popEvents} /> : message}
             </div>
 
             {isLogged() ? null : <Redirect to='/connexion' />}

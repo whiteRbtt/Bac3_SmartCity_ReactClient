@@ -228,7 +228,7 @@ const Admin = () => {
                 </div>
             </div>
             <div className='adminFormContainer'>
-                <CrUdForm action={'add'} table={'Objet'} />
+                <CrUdForm action={'add'} table={'objet'} />
             </div>
             {isLogged() ? null : <Redirect to='/connexion' />}
         </div>

@@ -4,7 +4,7 @@ import { Link, Redirect } from 'react-router-dom';
 import geralt from '../../geralt.png';
 import '../../App.css';
 import Header from '../Header';
-import EventTile from '../EventTile';
+import EventContainer from '../EventContainer';
 import { isLogged, getSessionUser } from '../../services/Toolbox';
 import { getAccountPict } from '../../services/api/User';
 import { getAllRegisterCurrentUser } from '../../services/api/Participation';
@@ -81,17 +81,7 @@ const Profile = () => {
                         évenements passés
                     </Typography>
                     {pastRegister
-                        ? pastRegister.map((event) => {
-                              return (
-                                  <EventTile
-                                      key={event.name + event.id}
-                                      name={event.name}
-                                      city={event.city}
-                                      type={event.type}
-                                      id={event.id}
-                                  />
-                              );
-                          })
+                        ? <EventContainer events={pastRegister} />
                         : ''}
                 </div>
 
@@ -100,18 +90,7 @@ const Profile = () => {
                         évenements futurs
                     </Typography>
                     {futureRegister
-                        ? futureRegister.map((event) => {
-                              return (
-                                  <EventTile
-                                      key={event.name + event.id}
-                                      name={event.name}
-                                      city={event.city}
-                                      type={event.type}
-                                      id={event.id}
-                                  />
-                              );
-                          })
-                        : ''}
+                        ? <EventContainer events={futureRegister} />: ''}
                 </div>
             </div>
 

@@ -3,24 +3,8 @@ import { Link, Redirect } from 'react-router-dom';
 
 import { register } from '../../services/api/User';
 import '../../App.css';
-import {
-    mailNotValid,
-    minMaxCharNeeded,
-    strBlankError,
-    missingFields,
-    ageMin,
-    samePwd,
-    registerSucces,
-    errorFetching,
-} from '../../services/string';
-import {
-    transformDate,
-    persistUser,
-    isEmailValid,
-    isPasswordValid,
-    strNotBlank,
-    birthDateValidation,
-} from '../../services/Toolbox';
+import { mailNotValid, minMaxCharNeeded, strBlankError, missingFields, ageMin, samePwd, registerSucces, errorFetching } from '../../services/string';
+import { transformDate, persistUser, isEmailValid, isPasswordValid, strNotBlank, birthDateValidation } from '../../services/Toolbox';
 
 import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
 import Button from '@mui/material/Button';
@@ -55,7 +39,7 @@ const Register = () => {
         } else {
             try {
                 await register(mail, password, name, birthDate);
-                await persistUser()
+                await persistUser();
                 setMessage(registerSucces);
                 setIsRegisterSuccess(true);
             } catch (err) {
@@ -75,60 +59,30 @@ const Register = () => {
                         value={name}
                         onChange={(event) => setName(event.target.value)}
                         error={name === '' ? null : !strNotBlank(name)}
-                        helperText={
-                            name === ''
-                                ? null
-                                : strNotBlank(name)
-                                ? null
-                                : strBlankError
-                        }
+                        helperText={name === '' ? null : strNotBlank(name) ? null : strBlankError}
                     />
                     <TextField
                         label='Email'
                         value={mail}
                         onChange={(event) => setMail(event.target.value)}
                         error={mail === '' ? null : !isEmailValid(mail)}
-                        helperText={
-                            mail === ''
-                                ? null
-                                : isEmailValid(mail)
-                                ? null
-                                : mailNotValid
-                        }
+                        helperText={mail === '' ? null : isEmailValid(mail) ? null : mailNotValid}
                     />
 
                     <TextField
                         label='Mot de passe'
                         value={password}
                         onChange={(event) => setPassword(event.target.value)}
-                        error={
-                            password === '' ? null : !isPasswordValid(password)
-                        }
-                        helperText={
-                            password === ''
-                                ? null
-                                : isPasswordValid(password)
-                                ? null
-                                : minMaxCharNeeded
-                        }
+                        error={password === '' ? null : !isPasswordValid(password)}
+                        helperText={password === '' ? null : isPasswordValid(password) ? null : minMaxCharNeeded}
                     />
 
                     <TextField
                         label='Confirmez mot de passe'
                         value={pwdConfirm}
                         onChange={(event) => setPwdConfirm(event.target.value)}
-                        error={
-                            pwdConfirm === ''
-                                ? null
-                                : !isPasswordValid(pwdConfirm)
-                        }
-                        helperText={
-                            pwdConfirm === ''
-                                ? null
-                                : isPasswordValid(pwdConfirm)
-                                ? null
-                                : minMaxCharNeeded
-                        }
+                        error={pwdConfirm === '' ? null : !isPasswordValid(pwdConfirm)}
+                        helperText={pwdConfirm === '' ? null : isPasswordValid(pwdConfirm) ? null : minMaxCharNeeded}
                     />
 
                     <DesktopDatePicker

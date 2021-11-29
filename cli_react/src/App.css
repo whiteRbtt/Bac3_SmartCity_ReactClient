@@ -127,6 +127,7 @@
     border: 2px solid rgb(231, 223, 223);
     box-shadow: 1px 1px 10px rgb(164, 165, 165);
     margin-top: 50px;
+    margin-bottom: 50px;
     height: 200px;
     width: 400px;
     display: flex;
@@ -175,6 +176,7 @@
 
 .homeContainer2 {
     margin-top: 75px;
+    margin-bottom: 50px;
     height: auto;
     width: auto;
     display: flex;
@@ -184,9 +186,10 @@
     color:rgb(85, 84, 84);
 }
 
-.trendingTilesContainer {
+.eventTilesContainer {
     display: flex;
-    align-items: flex-start;
+    flex-direction: column;
+    align-items: center;
     justify-content: space-evenly;
     flex-wrap: wrap;
 }

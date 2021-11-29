@@ -75,17 +75,8 @@ const CrUdForm = (props) => {
                     break;
                 case 'Objet':
                     if (isIdValid(standId) & isIdValid(productId)) {
-                        if (
-                            (props.action === 'update') &
-                            isIdValid(newProductId) &
-                            isIdValid(newStandId)
-                        ) {
-                            updateObjectRel(
-                                standId,
-                                productId,
-                                newStandId,
-                                newProductId
-                            );
+                        if ((props.action === 'update') & isIdValid(newProductId) & isIdValid(newStandId)) {
+                            updateObjectRel(standId, productId, newStandId, newProductId);
                         } else {
                             addObjectRel(standId, productId);
                         }
@@ -121,26 +112,14 @@ const CrUdForm = (props) => {
                         value={standId}
                         onChange={(event) => setStandId(event.target.value)}
                         error={standId === '' ? null : !isIdValid(standId)}
-                        helperText={
-                            standId === ''
-                                ? null
-                                : isIdValid(standId)
-                                ? null
-                                : wrongId
-                        }
+                        helperText={standId === '' ? null : isIdValid(standId) ? null : wrongId}
                     />
                     <TextField
                         label='Product ID'
                         value={productId}
                         onChange={(event) => setProductId(event.target.value)}
                         error={productId === '' ? null : !isIdValid(productId)}
-                        helperText={
-                            productId === ''
-                                ? null
-                                : isIdValid(productId)
-                                ? null
-                                : wrongId
-                        }
+                        helperText={productId === '' ? null : isIdValid(productId) ? null : wrongId}
                     />
                 </div>
             ) : null}
