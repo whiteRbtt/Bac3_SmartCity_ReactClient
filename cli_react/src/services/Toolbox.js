@@ -51,6 +51,16 @@ const isIdValid = (id) => {
     return reg.test(id);
 }
 
+const isPriceValid = (price) => {
+    const reg = new RegExp(/\d{1,3}(?:[.,]\d{3})*(?:[.,]\d{2})/g)
+    return reg.test(price);
+}
+
+const isNameValid = (name) => {
+    const reg = new RegExp(/^[a-z ,.'-]+$/g)
+    return reg.test(name);
+}
+
 const strNotBlank = (str) => {
     const reg = new RegExp(/[a-zA-Z]/g);
     return reg.test(str);
@@ -81,4 +91,6 @@ export {
     isEmailValid,
     birthDateValidation,
     isIdValid,
+    isPriceValid,
+    isNameValid
 };

@@ -13,6 +13,9 @@ import {
     missingId,
     wrongId,
     wrongFields,
+    updateSucces,
+    addSucces,
+    priceNotValid,
 } from '../services/string';
 import {
     transformDate,
@@ -23,24 +26,27 @@ import {
     birthDateValidation,
     isLogged,
     isIdValid,
+    isPriceValid,
+    isNameValid,
 } from '../services/Toolbox';
 import { addObjectRel, updateObjectRel } from '../services/api/Object';
 
 import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import { Typography } from '@mui/material';
+import { addProduct, updateProduct } from '../services/api/Product';
 
 const CrUdForm = (props) => {
-    // possible states
+    const [action, setAction] = useState(props.action);
+    const [table, setTable] = useState(props.table);
     const [message, setMessage] = useState('');
 
     const [standId, setStandId] = useState('');
     const [productId, setProductId] = useState('');
     const [newStandId, setNewStandId] = useState('');
     const [newProductId, setNewProductId] = useState('');
-
     const [mailAddress, setMailAddress] = useState('');
-
     const [name, setName] = useState('');
     const [startingDate, setStartingDate] = useState(new Date());
     const [endingDate, setEndingDate] = useState(new Date());
@@ -56,16 +62,52 @@ const CrUdForm = (props) => {
     const [CST, setCST] = useState(false);
     const [maxPlace, setMaxPlace] = useState('');
     const [mailAddressCreator, setMailAddressCreator] = useState('');
-
     const [price, setPrice] = useState('');
-
     const [manager, setManager] = useState('');
     const [areaSize, setAreaSize] = useState('');
     const [eventId, setEventId] = useState('');
-
     const [password, setPassword] = useState('');
     const [birthDate, setBirthDate] = useState(new Date());
     const [role, setRole] = useState('user');
+
+    useEffect(() => {
+        if (isLogged()) {
+            setMessage('');
+            setAction(props.action);
+            setTable(props.table);
+        }
+    }, [props.action, props.table]);
+
+    const addOrUpdateObject = async () => {
+        if (isIdValid(standId) & isIdValid(productId)) {
+            if (action === 'update') {
+                if (isIdValid(newProductId) & isIdValid(newStandId)) {
+                    await updateObjectRel(
+                        parseInt(standId),
+                        parseInt(productId),
+                        parseInt(newStandId),
+                        parseInt(newProductId)
+                    );
+                } else setMessage(missingId);
+            } else {
+                await addObjectRel(parseInt(standId), parseInt(productId));
+            }
+        } else setMessage(missingId);
+    };
+
+    const addOrUpdateProduct = async () => {
+        if (isNameValid(name)) {
+            if (isPriceValid(price)) {
+                if (action === 'add') {
+                    await addProduct(name, description, price);
+                } else {
+                    if (isIdValid(productId)) {
+                        await updateProduct(isIdValid(productId), isNameValid(name), description, isPriceValid(price));
+                    } else setMessage(wrongId);
+                }
+            } else setMessage(priceNotValid);
+        } else setMessage(strBlankError);
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -74,15 +116,7 @@ const CrUdForm = (props) => {
                 case 'Evenement':
                     break;
                 case 'Objet':
-                    if (isIdValid(standId) & isIdValid(productId)) {
-                        if ((props.action === 'update') & isIdValid(newProductId) & isIdValid(newStandId)) {
-                            updateObjectRel(standId, productId, newStandId, newProductId);
-                        } else {
-                            addObjectRel(standId, productId);
-                        }
-                    } else {
-                        setMessage(missingId);
-                    }
+                    await addOrUpdateObject();
                     break;
                 case 'Participation':
                     break;
@@ -91,12 +125,17 @@ const CrUdForm = (props) => {
                 case 'Utilisateur':
                     break;
                 case 'Produit':
+                    await addOrUpdateProduct();
                     break;
                 default:
                     setMessage(errorFetching);
             }
+            action === 'add' ? props.message(addSucces) : props.message(updateSucces);
+            props.renderTable(!props.toggleValue);
         } catch (err) {
-            setMessage(err);
+            // TODO gérer les erreurs perso
+            console.error(err);
+            setMessage(errorFetching);
         }
     };
 
@@ -105,23 +144,59 @@ const CrUdForm = (props) => {
             {message}
 
             {/*------------------------------Object------------------------------*/}
-            {(props.action === 'add') & (props.table === 'objet') ? (
-                <div className='crudFormContainer'>
-                    <TextField
-                        label='Stand ID'
-                        value={standId}
-                        onChange={(event) => setStandId(event.target.value)}
-                        error={standId === '' ? null : !isIdValid(standId)}
-                        helperText={standId === '' ? null : isIdValid(standId) ? null : wrongId}
-                    />
-                    <TextField
-                        label='Product ID'
-                        value={productId}
-                        onChange={(event) => setProductId(event.target.value)}
-                        error={productId === '' ? null : !isIdValid(productId)}
-                        helperText={productId === '' ? null : isIdValid(productId) ? null : wrongId}
-                    />
-                </div>
+            {table === 'Objet' ? (
+                action === 'add' ? (
+                    <div className='crudFormContainer'>
+                        <TextField
+                            label='Stand ID'
+                            value={standId}
+                            onChange={(event) => setStandId(event.target.value)}
+                            error={standId === '' ? null : !isIdValid(standId)}
+                            helperText={standId === '' ? null : isIdValid(standId) ? null : wrongId}
+                        />
+                        <TextField
+                            label='Product ID'
+                            value={productId}
+                            onChange={(event) => setProductId(event.target.value)}
+                            error={productId === '' ? null : !isIdValid(productId)}
+                            helperText={productId === '' ? null : isIdValid(productId) ? null : wrongId}
+                        />
+                    </div>
+                ) : action === 'update' ? (
+                    <div className='crudFormContainer'>
+                        <TextField
+                            label='Stand ID'
+                            value={standId}
+                            onChange={(event) => setStandId(event.target.value)}
+                            error={standId === '' ? null : !isIdValid(standId)}
+                            helperText={standId === '' ? null : isIdValid(standId) ? null : wrongId}
+                        />
+
+                        <TextField
+                            label='new stand ID'
+                            value={newStandId}
+                            onChange={(event) => setNewStandId(event.target.value)}
+                            error={newStandId === '' ? null : !isIdValid(newStandId)}
+                            helperText={newStandId === '' ? null : isIdValid(newStandId) ? null : wrongId}
+                        />
+
+                        <TextField
+                            label='Product ID'
+                            value={productId}
+                            onChange={(event) => setProductId(event.target.value)}
+                            error={productId === '' ? null : !isIdValid(productId)}
+                            helperText={productId === '' ? null : isIdValid(productId) ? null : wrongId}
+                        />
+
+                        <TextField
+                            label='new product ID'
+                            value={newProductId}
+                            onChange={(event) => setNewProductId(event.target.value)}
+                            error={newProductId === '' ? null : !isIdValid(newProductId)}
+                            helperText={newProductId === '' ? null : isIdValid(newProductId) ? null : wrongId}
+                        />
+                    </div>
+                ) : null
             ) : null}
 
             {/*------------------------------Register------------------------------*/}
@@ -134,9 +209,11 @@ const CrUdForm = (props) => {
 
             {/*------------------------------User------------------------------*/}
 
-            <Button variant='contained' onClick={handleSubmit}>
-                Soumettre
-            </Button>
+            {((action === 'add') | (action === 'update')) & (props.table !== '') ? (
+                <Button variant='contained' onClick={handleSubmit}>
+                    Soumettre
+                </Button>
+            ) : null}
         </div>
     );
 };
@@ -148,19 +225,19 @@ export default CrUdForm;
 
 event
 {
-    "name":"Tournoi de Beauclair", 
+    "name":"Tournoi de Beauclair",
     "startingDate": "1970-05-06",
-    "endingDate": "1970-09-06", 
-    "streetName":"Tertre des vaincus", 
+    "endingDate": "1970-09-06",
+    "streetName":"Tertre des vaincus",
     "houseNumber":11, (FACULT)
-    "postalCode":5555, 
-    "city":"Beauclair", 
-    "childrenAccepted" : true, 
-    "description":"Tournoi de chevalerie en honneur dela duchesse Anna-Henrietta de Toussaint", 
-    "type":"Tournois", 
-    "securityLevel":4, 
-    "requireMask" : false, 
-    "requireCovidSafeTicket" : false, 
+    "postalCode":5555,
+    "city":"Beauclair",
+    "childrenAccepted" : true,
+    "description":"Tournoi de chevalerie en honneur dela duchesse Anna-Henrietta de Toussaint",
+    "type":"Tournois",
+    "securityLevel":4,
+    "requireMask" : false,
+    "requireCovidSafeTicket" : false,
     "maxPlaceCount":500
 }
 
@@ -180,7 +257,7 @@ product
 {
     "name": "oeuf de fabergé",
     "description": "rêve de tsarinne",
-    "price": 15000000                            
+    "price": 15000000
 }
 
 stand
@@ -197,7 +274,7 @@ user
     "password":"ciri4life",
     "name":"yenefer de vengerberg",
     "birthdate":"1990-04-10",
-    "role":"admin"              
+    "role":"admin"
 }
 
 
@@ -206,28 +283,28 @@ user
 event
 {
     "idEvent" : 10,
-    "name":"Tournoi de Beauclair", 
+    "name":"Tournoi de Beauclair",
     "startingDate": "1970-05-06",
-    "endingDate": "1970-09-06", 
-    "streetName":"Tertre des vaincus", 
+    "endingDate": "1970-09-06",
+    "streetName":"Tertre des vaincus",
     "houseNumber":11, (FACULT)
-    "postalCode":5555, 
-    "city":"Beauclair", 
-    "childrenAccepted" : true, 
-    "description":"Tournoi de chevalerie en honneur dela duchesse Anna-Henrietta de Toussaint", 
-    "type":"Tournois", 
-    "securityLevel":4, 
-    "requireMask" : false, 
-    "requireCovidSafeTicket" : false, 
+    "postalCode":5555,
+    "city":"Beauclair",
+    "childrenAccepted" : true,
+    "description":"Tournoi de chevalerie en honneur dela duchesse Anna-Henrietta de Toussaint",
+    "type":"Tournois",
+    "securityLevel":4,
+    "requireMask" : false,
+    "requireCovidSafeTicket" : false,
     "maxPlaceCount":500,
     "mailAddressCreator" : "goldbridge@gmail.be"
 }
 
 object
 {
-    "idStand":1, 
-    "idProduct":1, 
-    "newIdStand":1, 
+    "idStand":1,
+    "idProduct":1,
+    "newIdStand":1,
     "newIdProduct":15
 }
 
@@ -241,7 +318,7 @@ product
     "idProduct": 15,
     "name": "loginus spear",
     "description": "A spear to slay gods",
-    "price": 0.000                                    
+    "price": 0.000
 }
 
 stand
@@ -250,7 +327,7 @@ stand
     "type": "buvette au passiflore",
     "manager_name": "zoltan chivai",
     "area_size": 150,
-    "id_event": 11                                            
+    "id_event": 11
 }
 
 user
