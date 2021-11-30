@@ -5,24 +5,29 @@ const pwdSucces = 'Mot de passe modifié avec succès';
 const pwdError = 'Le mot de passe actuel est erroné';
 const minMaxCharNeeded = 'entre 6 et 32 caractères';
 const noResults = 'Aucun évenement ne correspond à la recherche';
-const strBlankError = 'Doit contenir des lettres';
+const strBlankError = 'Le champs ne peut etre laissé vide';
 const mailNotValid = "Le format de l'adresse est invalide";
 const loginError = 'Utilisateur introuvable';
-const missingFields = 'Champs manquants';
+const missingFields = 'Certains champs sont manquants';
 const ageMin = 'Vous devez avoir au moins 18 ans';
 const samePwd = 'Les mots de passe doivent etre similaires';
 const registerSucces = 'profil créé avec succes';
 const pastEventMessage = "L'évenement à déja eu lieu, revenez l'année prochaine !";
 const missingId = 'Veuillez entrer un id valide';
-const wrongId = "L'ID doit etre un chiffre ou un nombre";
+const wrongId = "Doit etre un chiffre ou un nombre";
 const avatarSucces = "L'avatar à été modifié avec succes"
 const imgTooLarge = "L'avatar ne peut pas dépasser 150 x 150px"
 const delSucces = "L'élément a été supprimé avec succès"
 const updateSucces = "L'élément a été modifié avec succès"
 const addSucces = "L'élément a été ajouté avec succès"
 const noRowSelected = "Veuillez sélectionner une ligne"
-const wrongFields = "les informations fournies sont manquantes, erronées ou redondantes"
-const priceNotValid = 'Please enter à valid price'
+const priceNotValid = 'Veuillez entre un prix valide (0.01 min)'
+const nameNotValid = 'Le nom comporte des caractères interdits'
+const registerUpdateError = 'Veuillez plutot supprimer et créer une nouvelle participation'
+const passwordNotValid = "Le mot de passe n'est pas conforme" ;
+const birthdateNotValid = "L'utilisateur doit avoir entre 18 et 100 ans" ;
+const mustBePositive = "La valeur doit etre suppérieure à 0"
+const securityNotValid = "La valeur doit etre comprise entre 1 et 5"
 
 
 export {
@@ -46,8 +51,13 @@ export {
     imgTooLarge,
     delSucces,
     noRowSelected,
-    wrongFields,
     addSucces,
     updateSucces,
-    priceNotValid
+    priceNotValid,
+    nameNotValid,
+    registerUpdateError,
+    passwordNotValid,
+    birthdateNotValid,
+    mustBePositive,
+    securityNotValid
 };

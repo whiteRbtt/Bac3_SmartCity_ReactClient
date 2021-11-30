@@ -12,7 +12,7 @@ const EventContainer = (props) => {
     const [toDisplay, setToDisplay] = useState([]);
 
     useEffect(() => {
-        if (isLogged() & props.events.length > 0) {
+        if (isLogged() & (props.events.length > 0)) {
             setNbPages(Math.ceil(props.events.length / nbItemsPerPage));
             prepareDisplay();
         }
@@ -29,7 +29,15 @@ const EventContainer = (props) => {
         <div className='eventTilesContainer'>
             {toDisplay
                 ? toDisplay.map((event) => {
-                      return <EventTile key={event.name + event.id} name={event.name} city={event.city} type={event.type} id={event.id} />;
+                      return (
+                          <EventTile
+                              key={event.name + event.id}
+                              name={event.name}
+                              city={event.city}
+                              type={event.type}
+                              id={event.id}
+                          />
+                      );
                   })
                 : null}
 

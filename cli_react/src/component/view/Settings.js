@@ -3,14 +3,7 @@ import { Redirect } from 'react-router-dom';
 
 import { updateOwnPwd, uploadAvatar } from '../../services/api/User';
 import { isLogged, isPasswordValid } from '../../services/Toolbox';
-import {
-    pwdError,
-    pwdSucces,
-    minMaxCharNeeded,
-    errorFetching,
-    avatarSucces,
-    imgTooLarge
-} from '../../services/string';
+import { pwdError, pwdSucces, minMaxCharNeeded, errorFetching, avatarSucces, imgTooLarge } from '../../services/string';
 import '../../App.css';
 import geralt from '../../geralt.png';
 import Header from '../Header';
@@ -24,9 +17,7 @@ const Settings = (props) => {
     const [newPwd, setNewPwd] = useState('');
     const [newPwdConf, setNewPwdConf] = useState('');
     const [message, setMessage] = useState('');
-    const [avatar, setAvatar] = useState(
-        props.location.state ? props.location.state.avat : null
-    );
+    const [avatar, setAvatar] = useState(props.location.state ? props.location.state.avat : null);
     const [newAvatar, setNewAvatar] = useState();
 
     const handleClickPwd = async (e) => {
@@ -49,15 +40,12 @@ const Settings = (props) => {
     const handleClickAvatar = async (e) => {
         e.preventDefault();
         const formData = new FormData();
-        for (const image of newAvatar)
-            formData.append('avatar', image);
+        for (const image of newAvatar) formData.append('avatar', image);
         try {
             await uploadAvatar(formData);
-            setMessage(avatarSucces)
+            setMessage(avatarSucces);
         } catch (err) {
-            err.response.status !== 418
-                    ? setMessage(imgTooLarge)
-                    : setMessage(errorFetching);
+            err.response.status !== 418 ? setMessage(imgTooLarge) : setMessage(errorFetching);
         }
     };
 
@@ -69,42 +57,22 @@ const Settings = (props) => {
                     <Typography variant='h7' gutterBottom component='div'>
                         Modifier le mot de passe
                     </Typography>
-                    <TextField
-                        label='Actuel'
-                        value={oldPwd}
-                        onChange={(event) => setOldPwd(event.target.value)}
-                    />
+                    <TextField label='Actuel' value={oldPwd} onChange={(event) => setOldPwd(event.target.value)} />
 
                     <TextField
                         label='Nouveau'
                         value={newPwd}
                         onChange={(event) => setNewPwd(event.target.value)}
                         error={newPwd === '' ? null : !isPasswordValid(newPwd)}
-                        helperText={
-                            newPwd === ''
-                                ? null
-                                : isPasswordValid(newPwd)
-                                ? null
-                                : minMaxCharNeeded
-                        }
+                        helperText={newPwd === '' ? null : isPasswordValid(newPwd) ? null : minMaxCharNeeded}
                     />
 
                     <TextField
                         label='Répetez nouveau'
                         value={newPwdConf}
                         onChange={(event) => setNewPwdConf(event.target.value)}
-                        error={
-                            newPwdConf === ''
-                                ? null
-                                : !isPasswordValid(newPwdConf)
-                        }
-                        helperText={
-                            newPwdConf === ''
-                                ? null
-                                : isPasswordValid(newPwdConf)
-                                ? null
-                                : minMaxCharNeeded
-                        }
+                        error={newPwdConf === '' ? null : !isPasswordValid(newPwdConf)}
+                        helperText={newPwdConf === '' ? null : isPasswordValid(newPwdConf) ? null : minMaxCharNeeded}
                     />
 
                     <Button variant='outlined' onClick={handleClickPwd}>

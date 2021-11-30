@@ -22,8 +22,6 @@ const Research = () => {
     const handleClick = async (e) => {
         e.preventDefault();
 
-        // TODO pas opti
-
         date ? setTargetDate(transformDate(date)) : setTargetDate(null);
 
         if (targetDate || strNotBlank(city)) {

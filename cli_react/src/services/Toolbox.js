@@ -42,7 +42,7 @@ const isPasswordValid = (str) => {
 };
 
 const isEmailValid = (str) => {
-    const reg = new RegExp('\\w+@\\w+\\.\\w+');
+    const reg = new RegExp(/^\S+@\S+$/g);
     return reg.test(str);
 };
 
@@ -51,9 +51,18 @@ const isIdValid = (id) => {
     return reg.test(id);
 }
 
+const isSecurityLevelValid = (lv) => {
+    return (lv > 0 & lv < 6);
+};
+
+const isMaxPlaceValid = (nb) => {
+    return (nb > 0 & isIdValid(nb))
+}
+
+
 const isPriceValid = (price) => {
     const reg = new RegExp(/\d{1,3}(?:[.,]\d{3})*(?:[.,]\d{2})/g)
-    return reg.test(price);
+    return (reg.test(price) & parseFloat(price) > 0);
 }
 
 const isNameValid = (name) => {
@@ -62,7 +71,7 @@ const isNameValid = (name) => {
 }
 
 const strNotBlank = (str) => {
-    const reg = new RegExp(/[a-zA-Z]/g);
+    const reg = new RegExp(/./g);
     return reg.test(str);
 };
 
@@ -92,5 +101,7 @@ export {
     birthDateValidation,
     isIdValid,
     isPriceValid,
-    isNameValid
+    isNameValid,
+    isSecurityLevelValid,
+    isMaxPlaceValid,
 };

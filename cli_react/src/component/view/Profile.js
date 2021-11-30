@@ -42,7 +42,8 @@ const Profile = () => {
 
     const fetchPic = async () => {
         try {
-            setAvatar(await getAccountPict());
+            const res = await getAccountPict();
+            setAvatar(res);
         } catch (err) {
             setMessage(errorFetching);
         }
@@ -54,11 +55,7 @@ const Profile = () => {
 
             <div className='ProfileContainer'>
                 {avatar ? (
-                    <img
-                        src={avatar}
-                        alt='avatar'
-                        className='tilesImg'
-                    />
+                    <img src={avatar} alt='avatar' className='tilesImg' />
                 ) : (
                     <img src={geralt} alt='avatar' className='tilesImg' />
                 )}
@@ -67,10 +64,7 @@ const Profile = () => {
                     {user ? user.name : ''}
                 </Typography>
                 {message}
-                <Link
-                    to={{ pathname: `/param`, state:{avat: avatar} }}
-                    className='settingsLink'
-                >
+                <Link to={{ pathname: `/param`, state: { avat: avatar } }} className='settingsLink'>
                     Paramètres
                 </Link>
             </div>
@@ -80,17 +74,14 @@ const Profile = () => {
                     <Typography variant='h5' gutterBottom component='div'>
                         évenements passés
                     </Typography>
-                    {pastRegister
-                        ? <EventContainer events={pastRegister} />
-                        : ''}
+                    {pastRegister ? <EventContainer events={pastRegister} /> : ''}
                 </div>
 
                 <div className='futureEventsContainer'>
                     <Typography variant='h5' gutterBottom component='div'>
                         évenements futurs
                     </Typography>
-                    {futureRegister
-                        ? <EventContainer events={futureRegister} />: ''}
+                    {futureRegister ? <EventContainer events={futureRegister} /> : ''}
                 </div>
             </div>
 

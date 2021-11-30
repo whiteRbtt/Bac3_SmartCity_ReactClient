@@ -50,9 +50,9 @@ const updateStand = async (idStand, type, manager, size, idEvent) => {
         {
             idStand: idStand,
             type: type,
-            manager_name: manager,
-            area_size: size,
-            id_event: idEvent,
+            managerName: manager,
+            areaSize: size,
+            idEvent: idEvent,
         },
         {
             headers: { authorization: `Bearer ${getToken()}` },

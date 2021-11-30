@@ -32,11 +32,14 @@ const Admin = () => {
 
     useEffect(() => {
         let isMounted = true;
+
         if (isLogged() && isMounted) {
             fetchTable();
-            setAction(null);
-            setSelectedRowId('');
         }
+
+        setAction(null);
+        setSelectedRowId('');
+
         return () => {
             isMounted = false;
         };
@@ -157,7 +160,7 @@ const Admin = () => {
                 } else if (selectedTable === 'Produit') {
                     await delProduct(selectedRow.id);
                 } else if (selectedTable === 'Stand') {
-                    await delStand(selectedRow.id_stand);
+                    await delStand(selectedRow.id);
                 } else if (selectedTable === 'Objet') {
                     await delRelObject(selectedRow.id_stand, selectedRow.id_product);
                 } else if (selectedTable === 'Participation') {
@@ -178,9 +181,7 @@ const Admin = () => {
         <div>
             <Header />
             <div className='adminContainer'>
-                <Typography variant='h2'>
-                    lets CRUD
-                </Typography>
+                <Typography variant='h2'>lets CRUD</Typography>
                 <div className='adminSelectTable'>
                     <FormControl fullWidth>
                         <InputLabel>Table</InputLabel>

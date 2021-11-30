@@ -36,15 +36,16 @@ const register = async (mail, password, name, birthDate) => {
     return res;
 };
 
-const registerAdmin = async (mail, password, name, birthDate) => {
+const registerAdmin = async (mail, password, name, birthDate, role) => {
+    console.log('birthdate :>> ', birthDate);
     const res = await axios.post(
         `${url}/user/register`,
         {
             mailAddress: mail,
             password: password,
             name: name,
-            birthDate: birthDate,
-            role: 'admin',
+            birthdate: birthDate,
+            role: role,
         },
         {
             headers: { authorization: `Bearer ${getToken()}` },

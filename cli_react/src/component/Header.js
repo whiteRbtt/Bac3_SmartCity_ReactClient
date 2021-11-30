@@ -15,17 +15,14 @@ const Header = () => {
     const [location] = useState(useLocation().pathname);
 
     useEffect(() => {
-        if (isLogged()) {
-            if (isAdmin()) {
-                setIsHidden(false);
-
-                if (location === '/admin') {
-                    setButtonTarget('/');
-                    setButtonLabel('Vers accueil');
-                } else {
-                    setButtonTarget('/admin');
-                    setButtonLabel('Vers admin');
-                }
+        if (isLogged() & isAdmin()) {
+            setIsHidden(false);
+            if (location === '/admin') {
+                setButtonTarget('/');
+                setButtonLabel('Vers accueil');
+            } else {
+                setButtonTarget('/admin');
+                setButtonLabel('Vers admin');
             }
         }
     }, []);
