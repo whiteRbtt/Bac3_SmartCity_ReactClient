@@ -9,14 +9,12 @@ const transformDate = (d) => {
 };
 
 const persistUser = async () => {
-    await getOwnUser()
-        .then((res) => {
-            sessionStorage.setItem('userDatas', JSON.stringify(res));
-            return res;
-        })
-        .catch((err) => {
-            throw err;
-        });
+    try {
+        const res = await getOwnUser();
+        sessionStorage.setItem('userDatas', JSON.stringify(res));
+    } catch (err) {
+        throw err;
+    }
 };
 
 const getToken = () => {
@@ -70,12 +68,12 @@ const isNameValid = (name) => {
     return reg.test(name);
 }
 
-const strNotBlank = (str) => {
+const isNotBlank = (str) => {
     const reg = new RegExp(/./g);
     return reg.test(str);
 };
 
-const birthDateValidation = (birthdate) => {
+const isBirthDateValid = (birthdate) => {
     const date = new Date(birthdate);
     const yearDifference = parseInt(
         (Date.now() - date) / (1000 * 60 * 60 * 24 * 365)
@@ -93,12 +91,12 @@ export {
     isAdmin,
     logout,
     transformDate,
-    strNotBlank,
+    isNotBlank,
     persistUser,
     getSessionUser,
     isPasswordValid,
     isEmailValid,
-    birthDateValidation,
+    isBirthDateValid,
     isIdValid,
     isPriceValid,
     isNameValid,

@@ -2,13 +2,13 @@ const url = 'http://localhost:3001';
 
 const errorFetching = "Une erreur s'est produite, veuillez réessayer plus tard.";
 const passwordSucces = 'Mot de passe modifié avec succès';
-const minMaxCharNeeded = 'entre 6 et 32 caractères';
+const passwordMinMaxChar = 'entre 6 et 32 caractères';
 const noResults = 'Aucun évenement ne correspond à la recherche';
 const strBlankError = 'Le champs ne peut etre laissé vide';
 const mailNotValid = "Le format de l'adresse est invalide";
-const loginError = 'Utilisateur introuvable';
-const missingFields = 'Certains champs sont manquants';
-const ageMin = 'Vous devez avoir au moins 18 ans';
+const credentialNotValid = 'Utilisateur introuvable ou information erronées';
+const missingFields = 'Certains champs sont manquants ou erronés';
+const mustBe18 = 'Vous devez avoir au moins 18 ans';
 const samePwd = 'Les mots de passe doivent etre similaires';
 const registerSucces = 'profil créé avec succes';
 const pastEventMessage = "L'évenement à déja eu lieu, revenez l'année prochaine !";
@@ -30,19 +30,20 @@ const securityNotValid = "La valeur doit etre comprise entre 1 et 5"
 const noAvatarSubmited = "Veuillez sélectionner une image"
 const passwordsNotMatching = "Les mots de passe sont différents"
 const currentPasswordNotValid = 'Le mot de passe actuel est erroné';
+const squalala = 'squalala nous sommes partis';
 
 
 export {
     url,
-    loginError,
+    credentialNotValid,
     mailNotValid,
     errorFetching,
     passwordSucces,
-    minMaxCharNeeded,
+    passwordMinMaxChar,
     noResults,
     strBlankError,
     missingFields,
-    ageMin,
+    mustBe18,
     samePwd,
     registerSucces,
     pastEventMessage,
@@ -64,4 +65,5 @@ export {
     noAvatarSubmited,
     passwordsNotMatching,
     currentPasswordNotValid,
+    squalala,
 };

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Redirect } from 'react-router-dom';
 
-import { transformDate, isLogged, strNotBlank } from '../../services/Toolbox';
+import { transformDate, isLogged, isNotBlank } from '../../services/Toolbox';
 import { searchEvent } from '../../services/api/Event';
 import { noResults, strBlankError, errorFetching } from '../../services/string';
 import '../../App.css';
@@ -24,7 +24,7 @@ const Research = () => {
 
         date ? setTargetDate(transformDate(date)) : setTargetDate(null);
 
-        if (targetDate || strNotBlank(city)) {
+        if (targetDate || isNotBlank(city)) {
             try {
                 const res = await searchEvent(targetDate, city);
                 setEvents(res);
@@ -50,11 +50,11 @@ const Research = () => {
                     label='Ville'
                     value={city}
                     onChange={(event) => setCity(event.target.value)}
-                    error={city === '' ? null : !strNotBlank(city)}
+                    error={city === '' ? null : !isNotBlank(city)}
                     helperText={
                         city === ''
                             ? null
-                            : !strNotBlank(city)
+                            : !isNotBlank(city)
                             ? strBlankError
                             : null
                     }

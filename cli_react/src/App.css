@@ -1,61 +1,43 @@
-.App {
-    text-align: center;
+.errorMessage {
+    color: rgb(177, 22, 22);
 }
 
-.App-logo {
-    height: 40vmin;
-    pointer-events: none;
+body{
+    background-color: #02032e;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-        animation: App-logo-spin infinite 20s linear;
-    }
-}
+/***********************************HEADER***********************************/
 
-.App-header {
-    background-color: #282c34;
-    min-height: 100vh;
+header {
+    box-shadow: 5px 5px 10px #f72585;
+    padding-left: 20px;
+    padding-right: 20px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
-}
-
-.App-link {
-    color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
+    justify-content: space-between;
 }
 
 #logo {
-    height: 65px;
+    height: 50px;
+    padding-top: 10px;
+    padding-bottom: 15px;
 }
 
-.headerContainer {
-    padding-left: 24px;
-    padding-right: 24px;
+#headerContainer1 {
+    width: 400px;
     display: flex;
     flex-direction: row;
     align-items: center;
-    background-color: rgb(233, 241, 239);
-    box-shadow: 1px 1px 10px rgb(164, 165, 165);
+    justify-content: space-evenly;
 }
 
-.linkContainer {
+#headerContainer2 {
+    width: 300px;
     display: flex;
     flex-direction: row;
     align-items: center;
-    margin-right: 50px;
+    justify-content: space-evenly;
 }
 
 .headerLink {
@@ -68,10 +50,24 @@
     text-decoration: none;
     color: rgb(51, 153, 255);
     font-weight: 700;
-    padding-left: 30px;
 }
 
-.login {
+#linksContainer {
+    width: 250px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+#adminButton{
+    opacity: 0.8;
+}
+
+
+/***********************************LOGIN AND REGISTER***********************************/
+
+.centerBoxContainer {
     display: flex;
     flex-direction: column;
     margin-top: 50px;
@@ -79,8 +75,9 @@
 }
 
 .loginContainer {
-    border: 2px solid rgb(231, 223, 223);
-    box-shadow: 1px 1px 10px rgb(164, 165, 165);
+    background-color: #f8edeb;
+    box-shadow: 3px 3px 15px #f72585;
+    border-radius: 10px;
     height: 400px;
     width: 300px;
     display: flex;
@@ -90,16 +87,10 @@
     justify-content: space-evenly;
 }
 
-.register {
-    display: flex;
-    flex-direction: column;
-    margin-top: 50px;
-    align-items: center;
-}
-
 .registerContainer {
-    border: 2px solid rgb(231, 223, 223);
-    box-shadow: 1px 1px 10px rgb(164, 165, 165);
+    background-color: #f8edeb;
+    box-shadow: 3px 3px 15px #f72585;
+    border-radius: 10px;
     height: 600px;
     width: 400px;
     display: flex;
@@ -114,17 +105,7 @@
     color: rgb(105, 105, 105);
 }
 
-#errorMessage {
-    color: rgb(177, 22, 22);
-}
-
-.errorMessage {
-    color: rgb(177, 22, 22);
-}
-
-#toAdminButtonContainer {
-    margin-right: 20px;
-}
+/***********************************EVENT TILES***********************************/
 
 .tilesContainer {
     border: 2px solid rgb(231, 223, 223);
@@ -155,6 +136,8 @@
     opacity: 0.9;
     border-radius: 5px;
 }
+
+/***********************************EVENT TILES***********************************/
 
 .homeContainer1 {
     padding-top: 30px;

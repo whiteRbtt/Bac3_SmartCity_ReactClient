@@ -21,8 +21,8 @@ import {
     transformDate,
     isEmailValid,
     isPasswordValid,
-    strNotBlank,
-    birthDateValidation,
+    isNotBlank,
+    isBirthDateValid,
     isLogged,
     isIdValid,
     isPriceValid,
@@ -107,7 +107,7 @@ const CrUdForm = (props) => {
     };
 
     const addOrUpdateProduct = async () => {
-        if (isNameValid(name) & isPriceValid(price) & strNotBlank(description)) {
+        if (isNameValid(name) & isPriceValid(price) & isNotBlank(description)) {
             if (action === 'add') {
                 await addProduct(name, description, parseFloat(price));
                 confirmChanges();
@@ -140,7 +140,7 @@ const CrUdForm = (props) => {
             isEmailValid(mailAddress) &
             isPasswordValid(password) &
             isNameValid(name) &
-            birthDateValidation(transformDate(birthDate))
+            isBirthDateValid(transformDate(birthDate))
         ) {
             if (action === 'add') {
                 await registerAdmin(mailAddress, password, name, transformDate(birthDate), admin ? 'admin' : 'user');
@@ -160,13 +160,13 @@ const CrUdForm = (props) => {
                 }
             }
         } else {
-            if (!birthDateValidation(transformDate(birthDate))) setMessage(birthdateNotValid);
+            if (!isBirthDateValid(transformDate(birthDate))) setMessage(birthdateNotValid);
             else setMessage(missingFields);
         }
     };
 
     const addOrUpdateStand = async () => {
-        if (strNotBlank(type) & isNameValid(manager) & (areaSize > 0) & isIdValid(eventId)) {
+        if (isNotBlank(type) & isNameValid(manager) & (areaSize > 0) & isIdValid(eventId)) {
             if (action === 'add') {
                 await addStand(type, manager, parseInt(areaSize), parseInt(eventId));
                 confirmChanges();
@@ -184,11 +184,11 @@ const CrUdForm = (props) => {
     const addOrUpdateEvent = async () => {
         if (
             isNameValid(name) &
-            strNotBlank(streetName) &
-            strNotBlank(city) &
+            isNotBlank(streetName) &
+            isNotBlank(city) &
             isIdValid(postCode) &
-            strNotBlank(description) &
-            strNotBlank(type) &
+            isNotBlank(description) &
+            isNotBlank(type) &
             isSecurityLevelValid(securityLevel) &
             (maxPlace > 0)
         ) {
@@ -374,8 +374,8 @@ const CrUdForm = (props) => {
                             label='Description'
                             value={description}
                             onChange={(event) => setDescription(event.target.value)}
-                            error={description === '' ? null : !strNotBlank(description)}
-                            helperText={description === '' ? null : strNotBlank(description) ? null : strBlankError}
+                            error={description === '' ? null : !isNotBlank(description)}
+                            helperText={description === '' ? null : isNotBlank(description) ? null : strBlankError}
                         />
                         <TextField
                             label='Price'
@@ -506,8 +506,8 @@ const CrUdForm = (props) => {
                             label='type'
                             value={type}
                             onChange={(event) => setType(event.target.value)}
-                            error={type === '' ? null : !strNotBlank(type)}
-                            helperText={type === '' ? null : strNotBlank(type) ? null : strBlankError}
+                            error={type === '' ? null : !isNotBlank(type)}
+                            helperText={type === '' ? null : isNotBlank(type) ? null : strBlankError}
                         />
                         <TextField
                             label='Manager'
@@ -600,8 +600,8 @@ const CrUdForm = (props) => {
                             label='street name'
                             value={streetName}
                             onChange={(event) => setStreetName(event.target.value)}
-                            error={streetName === '' ? null : !strNotBlank(streetName)}
-                            helperText={streetName === '' ? null : strNotBlank(streetName) ? null : strBlankError}
+                            error={streetName === '' ? null : !isNotBlank(streetName)}
+                            helperText={streetName === '' ? null : isNotBlank(streetName) ? null : strBlankError}
                         />
                         <TextField
                             label='house number (facult)'
@@ -621,22 +621,22 @@ const CrUdForm = (props) => {
                             label='city name'
                             value={city}
                             onChange={(event) => setCity(event.target.value)}
-                            error={city === '' ? null : !strNotBlank(city)}
-                            helperText={city === '' ? null : strNotBlank(city) ? null : nameNotValid}
+                            error={city === '' ? null : !isNotBlank(city)}
+                            helperText={city === '' ? null : isNotBlank(city) ? null : nameNotValid}
                         />
                         <TextField
                             label='Description'
                             value={description}
                             onChange={(event) => setDescription(event.target.value)}
-                            error={description === '' ? null : !strNotBlank(description)}
-                            helperText={description === '' ? null : strNotBlank(description) ? null : strBlankError}
+                            error={description === '' ? null : !isNotBlank(description)}
+                            helperText={description === '' ? null : isNotBlank(description) ? null : strBlankError}
                         />
                         <TextField
                             label='type'
                             value={type}
                             onChange={(event) => setType(event.target.value)}
-                            error={type === '' ? null : !strNotBlank(type)}
-                            helperText={type === '' ? null : strNotBlank(type) ? null : strBlankError}
+                            error={type === '' ? null : !isNotBlank(type)}
+                            helperText={type === '' ? null : isNotBlank(type) ? null : strBlankError}
                         />
                         <TextField
                             label='security level'
@@ -715,8 +715,8 @@ const CrUdForm = (props) => {
                             label='street name'
                             value={streetName}
                             onChange={(event) => setStreetName(event.target.value)}
-                            error={streetName === '' ? null : !strNotBlank(streetName)}
-                            helperText={streetName === '' ? null : strNotBlank(streetName) ? null : strBlankError}
+                            error={streetName === '' ? null : !isNotBlank(streetName)}
+                            helperText={streetName === '' ? null : isNotBlank(streetName) ? null : strBlankError}
                         />
                         <TextField
                             label='house number (facult)'
@@ -736,22 +736,22 @@ const CrUdForm = (props) => {
                             label='city name'
                             value={city}
                             onChange={(event) => setCity(event.target.value)}
-                            error={city === '' ? null : !strNotBlank(city)}
-                            helperText={city === '' ? null : strNotBlank(city) ? null : nameNotValid}
+                            error={city === '' ? null : !isNotBlank(city)}
+                            helperText={city === '' ? null : isNotBlank(city) ? null : nameNotValid}
                         />
                         <TextField
                             label='Description'
                             value={description}
                             onChange={(event) => setDescription(event.target.value)}
-                            error={description === '' ? null : !strNotBlank(description)}
-                            helperText={description === '' ? null : strNotBlank(description) ? null : strBlankError}
+                            error={description === '' ? null : !isNotBlank(description)}
+                            helperText={description === '' ? null : isNotBlank(description) ? null : strBlankError}
                         />
                         <TextField
                             label='type'
                             value={type}
                             onChange={(event) => setType(event.target.value)}
-                            error={type === '' ? null : !strNotBlank(type)}
-                            helperText={type === '' ? null : strNotBlank(type) ? null : strBlankError}
+                            error={type === '' ? null : !isNotBlank(type)}
+                            helperText={type === '' ? null : isNotBlank(type) ? null : strBlankError}
                         />
                         <TextField
                             label='security level'

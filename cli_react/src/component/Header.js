@@ -2,17 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useHistory } from 'react-router-dom';
 
 import '../App.css';
-import logo from '../logo.svg';
+import logo from '../shop.png';
 import { isAdmin, logout, isLogged } from '../services/Toolbox';
 
 import Button from '@mui/material/Button';
 
 const Header = () => {
     const history = useHistory();
+    const [location] = useState(useLocation().pathname);
     const [buttonTarget, setButtonTarget] = useState();
     const [buttonLabel, setButtonLabel] = useState();
     const [isHidden, setIsHidden] = useState(true);
-    const [location] = useState(useLocation().pathname);
+    
 
     useEffect(() => {
         if (isLogged() & isAdmin()) {
@@ -40,36 +41,30 @@ const Header = () => {
 
     return (
         <header>
-            <div className='headerContainer'>
-                <div>
-                    <img src={logo} alt='logo' id='logo' />
-                </div>
+            <div id='headerContainer1'>
+                <img src={logo} alt='logo' id='logo' />
+                <nav id='linksContainer'>
+                    <Link to={`/`} className='headerLink'>
+                        Accueil
+                    </Link>
+                    <Link to={`/rechercher`} className='headerLink'>
+                        Recherche
+                    </Link>
+                    <Link to={`/profil`} className='headerLink'>
+                        Profil
+                    </Link>
+                </nav>
+            </div>
 
-                <div>
-                    <nav className='linkContainer'>
-                        <Link to={`/`} className='headerLink'>
-                            Accueil
-                        </Link>
-                        <Link to={`/rechercher`} className='headerLink'>
-                            Recherche
-                        </Link>
-                        <Link to={`/profil`} className='headerLink'>
-                            Profil
-                        </Link>
-                    </nav>
-                </div>
-
-                <div id='toAdminButtonContainer' hidden={isHidden}>
+            <div id='headerContainer2'>
+                <div id='adminButton' hidden={isHidden}>
                     <Button variant='outlined' onClick={handleClick}>
                         {buttonLabel}
                     </Button>
                 </div>
-
-                <div>
-                    <Button variant='text' onClick={handleLogout}>
-                        Déconnexion
-                    </Button>
-                </div>
+                <Button variant='text' onClick={handleLogout}>
+                    Déconnexion
+                </Button>
             </div>
         </header>
     );

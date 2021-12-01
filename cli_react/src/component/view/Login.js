@@ -7,96 +7,69 @@ import {
     persistUser,
     isEmailValid,
     isPasswordValid,
+    isLogged,
 } from '../../services/Toolbox';
 import {
     mailNotValid,
-    minMaxCharNeeded,
-    loginError,
+    passwordMinMaxChar,
+    credentialNotValid,
     errorFetching,
     missingFields,
+    squalala,
 } from '../../services/string';
 
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
+import { Button, Typography, TextField } from '@mui/material';
 
 const Login = () => {
     const [mail, setMail] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
-    const [isLogged, setIsLogged] = useState(false);
 
     const handleClick = async (e) => {
         e.preventDefault();
 
-        if (!mail || !password) {
-            setMessage(missingFields);
-        }
-        else if (!isEmailValid(mail)) {
-            setMessage(mailNotValid);
-        }
-        else if (!isPasswordValid(password)) {
-            setMessage(minMaxCharNeeded);
-        }
-        else {
+        if (isEmailValid(mail) & isPasswordValid(password)) {
             try {
                 await login(mail, password);
                 await persistUser();
-                setIsLogged(true);
+                setMessage(squalala)
             } catch (err) {
-                err.response.status !== 500
-                    ? setMessage(loginError)
-                    : setMessage(errorFetching);
+                err.response.status !== 500 ? setMessage(credentialNotValid) : setMessage(errorFetching);
             }
-        }
-
+        } else setMessage(missingFields);
     };
 
     return (
-        <div>
-            <div className='login'>
-                <div className='loginContainer'>
-                    {message}
+        <div className='centerBoxContainer'>
+            <Typography variant='8' className='errorMessage'>
+                {message}
+            </Typography>
+            <div className='loginContainer'>
+                <TextField
+                    label='Email'
+                    value={mail}
+                    onChange={(event) => setMail(event.target.value)}
+                    error={mail === '' ? null : !isEmailValid(mail)}
+                    helperText={mail === '' ? null : isEmailValid(mail) ? null : mailNotValid}
+                />
 
-                    <TextField
-                        label='Email'
-                        value={mail}
-                        onChange={(event) => setMail(event.target.value)}
-                        error={mail === '' ? null : !isEmailValid(mail)}
-                        helperText={
-                            mail === ''
-                                ? null
-                                : isEmailValid(mail)
-                                ? null
-                                : mailNotValid
-                        }
-                    />
+                <TextField
+                    label='Mot de passe'
+                    value={password}
+                    onChange={(event) => setPassword(event.target.value)}
+                    error={password === '' ? null : !isPasswordValid(password)}
+                    helperText={password === '' ? null : isPasswordValid(password) ? null : passwordMinMaxChar}
+                />
 
-                    <TextField
-                        label='Mot de passe'
-                        value={password}
-                        onChange={(event) => setPassword(event.target.value)}
-                        error={
-                            password === '' ? null : !isPasswordValid(password)
-                        }
-                        helperText={
-                            password === ''
-                                ? null
-                                : isPasswordValid(password)
-                                ? null
-                                : minMaxCharNeeded
-                        }
-                    />
+                <Button variant='contained' onClick={handleClick}>
+                    Connexion
+                </Button>
 
-                    <Button variant='contained' onClick={handleClick}>
-                        Connexion
-                    </Button>
-
-                    <Link to={`/inscription`} className='registerLink'>
-                        Inscription
-                    </Link>
-                </div>
-                {isLogged ? <Redirect to='/' /> : null}
+                <Link to={`/inscription`} className='registerLink'>
+                    Inscription
+                </Link>
             </div>
+            {isLogged() ? <Redirect to='/' /> : null}
         </div>
     );
 };

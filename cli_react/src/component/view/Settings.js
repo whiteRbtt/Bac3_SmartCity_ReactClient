@@ -5,7 +5,7 @@ import { updateOwnPwd, uploadAvatar } from '../../services/api/User';
 import { isLogged, isPasswordValid } from '../../services/Toolbox';
 import {
     passwordSucces,
-    minMaxCharNeeded,
+    passwordMinMaxChar,
     errorFetching,
     avatarSucces,
     imgTooLarge,
@@ -80,7 +80,7 @@ const Settings = (props) => {
                         value={newPassword}
                         onChange={(event) => setNewPassword(event.target.value)}
                         error={newPassword === '' ? null : !isPasswordValid(newPassword)}
-                        helperText={newPassword === '' ? null : isPasswordValid(newPassword) ? null : minMaxCharNeeded}
+                        helperText={newPassword === '' ? null : isPasswordValid(newPassword) ? null : passwordMinMaxChar}
                     />
 
                     <TextField
@@ -93,7 +93,7 @@ const Settings = (props) => {
                                 ? null
                                 : isPasswordValid(newPasswordConfirm)
                                 ? null
-                                : minMaxCharNeeded
+                                : passwordMinMaxChar
                         }
                     />
 
