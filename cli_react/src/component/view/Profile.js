@@ -54,17 +54,13 @@ const Profile = () => {
             <Header />
 
             <div className='ProfileContainer'>
-                {avatar ? (
-                    <img src={avatar} alt='avatar' className='tilesImg' />
-                ) : (
-                    <img src={geralt} alt='avatar' className='tilesImg' />
-                )}
+                {<img src={avatar ? avatar : geralt} alt='avatar' className='tilesImg' />}
 
-                <Typography variant='h3' gutterBottom component='div'>
-                    {user ? user.name : ''}
+                <Typography variant='h3'>{user ? user.name : 'John Doe'}</Typography>
+                <Typography variant='5' className='errorMessage'>
+                    {message}
                 </Typography>
-                {message}
-                <Link to={{ pathname: `/param`, state: { avat: avatar } }} className='settingsLink'>
+                <Link to={{ pathname: `/param`, avatar: avatar }} className='settingsLink'>
                     Paramètres
                 </Link>
             </div>

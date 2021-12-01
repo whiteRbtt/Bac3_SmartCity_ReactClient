@@ -3,50 +3,67 @@ import { Redirect } from 'react-router-dom';
 
 import { updateOwnPwd, uploadAvatar } from '../../services/api/User';
 import { isLogged, isPasswordValid } from '../../services/Toolbox';
-import { pwdError, pwdSucces, minMaxCharNeeded, errorFetching, avatarSucces, imgTooLarge } from '../../services/string';
+import {
+    passwordSucces,
+    minMaxCharNeeded,
+    errorFetching,
+    avatarSucces,
+    imgTooLarge,
+    noAvatarSubmited,
+    passwordsNotMatching,
+    missingFields,
+    passwordNotValid,
+    currentPasswordNotValid,
+} from '../../services/string';
 import '../../App.css';
 import geralt from '../../geralt.png';
 import Header from '../Header';
 
-import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
+import { Typography, TextField, Button } from '@mui/material';
 
 const Settings = (props) => {
-    const [oldPwd, setOldPwd] = useState('');
-    const [newPwd, setNewPwd] = useState('');
-    const [newPwdConf, setNewPwdConf] = useState('');
-    const [message, setMessage] = useState('');
-    const [avatar, setAvatar] = useState(props.location.state ? props.location.state.avat : null);
+    const [password, setPassword] = useState('');
+    const [newPassword, setNewPassword] = useState('');
+    const [newPasswordConfirm, setNewPasswordConfirm] = useState('');
+    const [avatar] = useState(props.location.avatar ? props.location.avatar : null);
     const [newAvatar, setNewAvatar] = useState();
+    const [message, setMessage] = useState('');
+
 
     const handleClickPwd = async (e) => {
         e.preventDefault();
-
-        if ((newPwd === newPwdConf) & isPasswordValid(newPwd)) {
-            try {
-                await updateOwnPwd(oldPwd, newPwd);
-                setOldPwd('');
-                setNewPwd('');
-                setNewPwdConf('');
-                setMessage(pwdSucces);
-            } catch (err) {
-                setMessage(pwdError);
-                console.error(err);
-            }
-        }
+        if ((password !== '') & (newPassword !== '') & (newPasswordConfirm !== '')) {
+            if (newPassword === newPasswordConfirm) {
+                if (isPasswordValid(newPassword)) {
+                    try {
+                        await updateOwnPwd(password, newPassword);
+                        setPassword('');
+                        setNewPassword('');
+                        setNewPasswordConfirm('');
+                        setMessage(passwordSucces);
+                    } catch (err) {
+                        err.response.status === 401 ? setMessage(currentPasswordNotValid) : setMessage(errorFetching);
+                        console.error(err);
+                    }
+                } else setMessage(passwordNotValid);
+            } else setMessage(passwordsNotMatching);
+        } else setMessage(missingFields);
     };
 
     const handleClickAvatar = async (e) => {
         e.preventDefault();
-        const formData = new FormData();
-        for (const image of newAvatar) formData.append('avatar', image);
-        try {
-            await uploadAvatar(formData);
-            setMessage(avatarSucces);
-        } catch (err) {
-            err.response.status !== 418 ? setMessage(imgTooLarge) : setMessage(errorFetching);
-        }
+        if (newAvatar !== null) {
+            try {
+                const formData = new FormData();
+                for (const image of newAvatar) formData.append('avatar', image);
+                const res = await uploadAvatar(formData);
+                setNewAvatar(res.data.profilePicture); // TODO possible memory leak
+                setMessage(avatarSucces);
+            } catch (err) {
+                console.error(err);
+                err.response.status === 413 ? setMessage(imgTooLarge) : setMessage(errorFetching);
+            }
+        } else setMessage(noAvatarSubmited);
     };
 
     return (
@@ -54,25 +71,30 @@ const Settings = (props) => {
             <Header />
             <div className='settingsContainer'>
                 <div className='subSettingContainer'>
-                    <Typography variant='h7' gutterBottom component='div'>
-                        Modifier le mot de passe
-                    </Typography>
-                    <TextField label='Actuel' value={oldPwd} onChange={(event) => setOldPwd(event.target.value)} />
+                    <Typography variant='h5'>Modifier le mot de passe</Typography>
+
+                    <TextField label='Actuel' value={password} onChange={(event) => setPassword(event.target.value)} />
 
                     <TextField
                         label='Nouveau'
-                        value={newPwd}
-                        onChange={(event) => setNewPwd(event.target.value)}
-                        error={newPwd === '' ? null : !isPasswordValid(newPwd)}
-                        helperText={newPwd === '' ? null : isPasswordValid(newPwd) ? null : minMaxCharNeeded}
+                        value={newPassword}
+                        onChange={(event) => setNewPassword(event.target.value)}
+                        error={newPassword === '' ? null : !isPasswordValid(newPassword)}
+                        helperText={newPassword === '' ? null : isPasswordValid(newPassword) ? null : minMaxCharNeeded}
                     />
 
                     <TextField
                         label='Répetez nouveau'
-                        value={newPwdConf}
-                        onChange={(event) => setNewPwdConf(event.target.value)}
-                        error={newPwdConf === '' ? null : !isPasswordValid(newPwdConf)}
-                        helperText={newPwdConf === '' ? null : isPasswordValid(newPwdConf) ? null : minMaxCharNeeded}
+                        value={newPasswordConfirm}
+                        onChange={(event) => setNewPasswordConfirm(event.target.value)}
+                        error={newPasswordConfirm === '' ? null : !isPasswordValid(newPasswordConfirm)}
+                        helperText={
+                            newPasswordConfirm === ''
+                                ? null
+                                : isPasswordValid(newPasswordConfirm)
+                                ? null
+                                : minMaxCharNeeded
+                        }
                     />
 
                     <Button variant='outlined' onClick={handleClickPwd}>
@@ -81,14 +103,16 @@ const Settings = (props) => {
                 </div>
 
                 <div className='subSettingContainer'>
-                    {avatar ? (
-                        <img src={avatar} alt='avatar' className='tilesImg' />
-                    ) : (
-                        <img src={geralt} alt='avatar' className='tilesImg' />
-                    )}
-                    <Typography variant='h7' gutterBottom component='div'>
-                        Modifier avatar
-                    </Typography>
+                    <Typography variant='h5'>Modifier l'avatar</Typography>
+
+                    {
+                        <img
+                            src={typeof newAvatar === 'string' ? newAvatar : avatar ? avatar : geralt}
+                            alt='avatar'
+                            className='tilesImg'
+                        />
+                    }
+
                     <input
                         type={'file'}
                         accept={('image/png', 'image/jpeg')}
@@ -100,7 +124,7 @@ const Settings = (props) => {
                     </Button>
                 </div>
             </div>
-            <Typography variant='h7' gutterBottom component='div'>
+            <Typography variant='5' className='errorMessage'>
                 {message}
             </Typography>
             {isLogged() ? null : <Redirect to='/connexion' />}

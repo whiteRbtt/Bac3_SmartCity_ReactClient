@@ -118,6 +118,10 @@
     color: rgb(177, 22, 22);
 }
 
+.errorMessage {
+    color: rgb(177, 22, 22);
+}
+
 #toAdminButtonContainer {
     margin-right: 20px;
 }

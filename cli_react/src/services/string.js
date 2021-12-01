@@ -1,8 +1,7 @@
 const url = 'http://localhost:3001';
 
 const errorFetching = "Une erreur s'est produite, veuillez réessayer plus tard.";
-const pwdSucces = 'Mot de passe modifié avec succès';
-const pwdError = 'Le mot de passe actuel est erroné';
+const passwordSucces = 'Mot de passe modifié avec succès';
 const minMaxCharNeeded = 'entre 6 et 32 caractères';
 const noResults = 'Aucun évenement ne correspond à la recherche';
 const strBlankError = 'Le champs ne peut etre laissé vide';
@@ -28,6 +27,9 @@ const passwordNotValid = "Le mot de passe n'est pas conforme" ;
 const birthdateNotValid = "L'utilisateur doit avoir entre 18 et 100 ans" ;
 const mustBePositive = "La valeur doit etre suppérieure à 0"
 const securityNotValid = "La valeur doit etre comprise entre 1 et 5"
+const noAvatarSubmited = "Veuillez sélectionner une image"
+const passwordsNotMatching = "Les mots de passe sont différents"
+const currentPasswordNotValid = 'Le mot de passe actuel est erroné';
 
 
 export {
@@ -35,8 +37,7 @@ export {
     loginError,
     mailNotValid,
     errorFetching,
-    pwdSucces,
-    pwdError,
+    passwordSucces,
     minMaxCharNeeded,
     noResults,
     strBlankError,
@@ -59,5 +60,8 @@ export {
     passwordNotValid,
     birthdateNotValid,
     mustBePositive,
-    securityNotValid
+    securityNotValid,
+    noAvatarSubmited,
+    passwordsNotMatching,
+    currentPasswordNotValid,
 };
