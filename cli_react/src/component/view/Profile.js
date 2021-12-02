@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 
-import geralt from '../../geralt.png';
+import geralt from '../../services/img/geralt.png';
 import '../../App.css';
 import Header from '../Header';
 import EventContainer from '../EventContainer';
@@ -53,11 +53,11 @@ const Profile = () => {
         <div>
             <Header />
 
-            <div className='ProfileContainer'>
-                {<img src={avatar ? avatar : geralt} alt='avatar' className='tilesImg' />}
+            <div className='profileContainerTop'>
+                {<img src={avatar ? avatar : geralt} alt='avatar' className='avatar' />}
 
-                <Typography variant='h3'>{user ? user.name : 'John Doe'}</Typography>
-                <Typography variant='5' className='errorMessage'>
+                <Typography variant='h2'>{user ? user.name : 'John Doe'}</Typography>
+                <Typography variant='h5' className='errorMessage'>
                     {message}
                 </Typography>
                 <Link to={{ pathname: `/param`, avatar: avatar }} className='settingsLink'>
@@ -65,17 +65,17 @@ const Profile = () => {
                 </Link>
             </div>
 
-            <div className='profileEventsContainer'>
-                <div className='pastEventsContainer'>
-                    <Typography variant='h5' gutterBottom component='div'>
-                        évenements passés
+            <div className='profileContainerBottom'>
+                <div className='futurePastEventsContainer'>
+                    <Typography variant='h3' className='whiteNeon'>
+                        Mes évenements passés
                     </Typography>
                     {pastRegister ? <EventContainer events={pastRegister} /> : ''}
                 </div>
 
-                <div className='futureEventsContainer'>
-                    <Typography variant='h5' gutterBottom component='div'>
-                        évenements futurs
+                <div className='futurePastEventsContainer'>
+                    <Typography variant='h3' className='whiteNeon'>
+                        Mes évenements futurs
                     </Typography>
                     {futureRegister ? <EventContainer events={futureRegister} /> : ''}
                 </div>

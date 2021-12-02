@@ -16,7 +16,7 @@ import {
     currentPasswordNotValid,
 } from '../../services/string';
 import '../../App.css';
-import geralt from '../../geralt.png';
+import geralt from '../../services/img/geralt.png';
 import Header from '../Header';
 
 import { Typography, TextField, Button } from '@mui/material';
@@ -61,7 +61,7 @@ const Settings = (props) => {
                 setMessage(avatarSucces);
             } catch (err) {
                 console.error(err);
-                err.response.status === 413 ? setMessage(imgTooLarge) : setMessage(errorFetching);
+                if (err.response) err.response.status === 413 ? setMessage(imgTooLarge) : setMessage(errorFetching);
             }
         } else setMessage(noAvatarSubmited);
     };
@@ -69,64 +69,72 @@ const Settings = (props) => {
     return (
         <div>
             <Header />
-            <div className='settingsContainer'>
-                <div className='subSettingContainer'>
-                    <Typography variant='h5'>Modifier le mot de passe</Typography>
+            <div className='settingsColumns'>
+                <div className='settingsContainer'>
+                    <div className='passwordSettingContainer'>
+                        <Typography variant='h5'>Modifier le mot de passe</Typography>
 
-                    <TextField label='Actuel' value={password} onChange={(event) => setPassword(event.target.value)} />
-
-                    <TextField
-                        label='Nouveau'
-                        value={newPassword}
-                        onChange={(event) => setNewPassword(event.target.value)}
-                        error={newPassword === '' ? null : !isPasswordValid(newPassword)}
-                        helperText={newPassword === '' ? null : isPasswordValid(newPassword) ? null : passwordMinMaxChar}
-                    />
-
-                    <TextField
-                        label='Répetez nouveau'
-                        value={newPasswordConfirm}
-                        onChange={(event) => setNewPasswordConfirm(event.target.value)}
-                        error={newPasswordConfirm === '' ? null : !isPasswordValid(newPasswordConfirm)}
-                        helperText={
-                            newPasswordConfirm === ''
-                                ? null
-                                : isPasswordValid(newPasswordConfirm)
-                                ? null
-                                : passwordMinMaxChar
-                        }
-                    />
-
-                    <Button variant='outlined' onClick={handleClickPwd}>
-                        modifier
-                    </Button>
-                </div>
-
-                <div className='subSettingContainer'>
-                    <Typography variant='h5'>Modifier l'avatar</Typography>
-
-                    {
-                        <img
-                            src={typeof newAvatar === 'string' ? newAvatar : avatar ? avatar : geralt}
-                            alt='avatar'
-                            className='tilesImg'
+                        <TextField
+                            label='Actuel'
+                            value={password}
+                            onChange={(event) => setPassword(event.target.value)}
                         />
-                    }
 
-                    <input
-                        type={'file'}
-                        accept={('image/png', 'image/jpeg')}
-                        onChange={(e) => setNewAvatar(e.target.files)}
-                        required
-                    />
-                    <Button variant='outlined' onClick={handleClickAvatar}>
-                        modifier
-                    </Button>
+                        <TextField
+                            label='Nouveau'
+                            value={newPassword}
+                            onChange={(event) => setNewPassword(event.target.value)}
+                            error={newPassword === '' ? null : !isPasswordValid(newPassword)}
+                            helperText={
+                                newPassword === '' ? null : isPasswordValid(newPassword) ? null : passwordMinMaxChar
+                            }
+                        />
+
+                        <TextField
+                            label='Répetez nouveau'
+                            value={newPasswordConfirm}
+                            onChange={(event) => setNewPasswordConfirm(event.target.value)}
+                            error={newPasswordConfirm === '' ? null : !isPasswordValid(newPasswordConfirm)}
+                            helperText={
+                                newPasswordConfirm === ''
+                                    ? null
+                                    : isPasswordValid(newPasswordConfirm)
+                                    ? null
+                                    : passwordMinMaxChar
+                            }
+                        />
+
+                        <Button variant='outlined' onClick={handleClickPwd}>
+                            modifier
+                        </Button>
+                    </div>
+
+                    <div className='avatarSettingContainer'>
+                        <Typography variant='h5'>Modifier l'avatar</Typography>
+
+                        {
+                            <img
+                                src={typeof newAvatar === 'string' ? newAvatar : avatar ? avatar : geralt}
+                                alt='avatar'
+                                className='avatar'
+                            />
+                        }
+
+                        <input
+                            type={'file'}
+                            accept={('image/png', 'image/jpeg')}
+                            onChange={(e) => setNewAvatar(e.target.files)}
+                            required
+                        />
+                        <Button variant='outlined' onClick={handleClickAvatar}>
+                            modifier
+                        </Button>
+                    </div>
                 </div>
+                <Typography variant='h5' className='errorMessageSettings'>
+                    {message}
+                </Typography>
             </div>
-            <Typography variant='5' className='errorMessage'>
-                {message}
-            </Typography>
             {isLogged() ? null : <Redirect to='/connexion' />}
         </div>
     );

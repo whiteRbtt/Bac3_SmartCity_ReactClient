@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 
 import '../../App.css';
+import imgActivity from '../../services/img/activity.jpg';
 import Header from '../Header';
 import EventContainer from '../EventContainer';
 import { isLogged, getSessionUser } from '../../services/Toolbox';
@@ -30,26 +31,28 @@ const Home = () => {
             setPopEvents(await getPopularEvents());
         } catch (err) {
             setMessage(errorFetching);
-            console.error(err);
         }
     };
 
     return (
         <div>
             <Header />
-            <div className='homeContainer1'>
+
+            <div className='homeContainerTop'>
                 <div className='welcomeContainer'>
-                    <Typography variant='h3' gutterBottom component='div'>
+                    <Typography variant='h2' id='welcome'>
                         Bienvenue, {user ? user.name : ' '}
                     </Typography>
-                    <Typography variant='h6' gutterBottom component='div'>
-                        Qu'allez vous faire aujourd'hui ?
-                    </Typography>
+
+                    <Typography variant='h3'>Qu'allez vous faire aujourd'hui ?</Typography>
                 </div>
+
+                <img src={imgActivity} alt='lekayakcbien' id='homeImg' />
             </div>
-            <div className='homeContainer2'>
-                <Typography variant='h3' gutterBottom component='div'>
-                    Evenements tendance,
+
+            <div className='homeContainerBottom'>
+                <Typography variant='h4' className='whiteNeon'>
+                    Les évenements les plus appréciés
                 </Typography>
 
                 {popEvents ? <EventContainer events={popEvents} /> : message}

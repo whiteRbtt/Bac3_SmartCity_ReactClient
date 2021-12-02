@@ -270,8 +270,6 @@ const CrUdForm = (props) => {
 
     return (
         <div className='crudForm'>
-            <div className='crudMessage'>{message}</div>
-
             {/*------------------------------Object------------------------------*/}
 
             {table === 'Objet' ? (
@@ -809,7 +807,7 @@ const CrUdForm = (props) => {
             ) : null}
 
             {/*------------------------------Good looking button------------------------------*/}
-
+            <div className='errorMessage'>{message}</div>
             {((action === 'add') | (action === 'update')) & (props.table !== '') ? (
                 <Button variant='contained' onClick={handleSubmit}>
                     Soumettre

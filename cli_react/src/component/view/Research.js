@@ -3,7 +3,7 @@ import { Redirect } from 'react-router-dom';
 
 import { transformDate, isLogged, isNotBlank } from '../../services/Toolbox';
 import { searchEvent } from '../../services/api/Event';
-import { noResults, strBlankError, errorFetching } from '../../services/string';
+import { strBlankError } from '../../services/string';
 import '../../App.css';
 import Header from '../Header';
 import EventContainer from '../EventContainer';
@@ -13,24 +13,21 @@ import Typography from '@mui/material/Typography';
 import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
 
 const Research = () => {
-    const [date, setDate] = useState(new Date());
-    const [targetDate, setTargetDate] = useState();
+    const [date, setDate] = useState();
     const [city, setCity] = useState('');
-    const [events, setEvents] = useState();
-    const [message, setMessage] = useState(noResults);
+    const [results, setResults] = useState();
 
     const handleClick = async (e) => {
         e.preventDefault();
 
-        date ? setTargetDate(transformDate(date)) : setTargetDate(null);
+        let targetDate = null;
+        if (date) targetDate = transformDate(date);
 
-        if (targetDate || isNotBlank(city)) {
+        if (date | isNotBlank(city)) {
             try {
-                const res = await searchEvent(targetDate, city);
-                setEvents(res);
+                setResults(await searchEvent(targetDate, city));
             } catch (err) {
-                setMessage(errorFetching);
-                console.errror(err);
+                console.error(err);
             }
         }
     };
@@ -38,47 +35,39 @@ const Research = () => {
     return (
         <div>
             <Header />
-
             <div className='searchTitle'>
-                <Typography variant='h4' gutterBottom component='div'>
-                    Rechercher un évenement,
+                <Typography variant='h3' gutterBottom component='div'>
+                    Rechercher un évenement
                 </Typography>
             </div>
 
-            <div className='searchFormContainer'>
-                <TextField
-                    label='Ville'
-                    value={city}
-                    onChange={(event) => setCity(event.target.value)}
-                    error={city === '' ? null : !isNotBlank(city)}
-                    helperText={
-                        city === ''
-                            ? null
-                            : !isNotBlank(city)
-                            ? strBlankError
-                            : null
-                    }
-                />
+            <div className='searchContainer'>
+                <div className='searchFormContainer'>
+                    <TextField
+                        label='Ville'
+                        value={city}
+                        onChange={(event) => setCity(event.target.value)}
+                        error={city === '' ? null : !isNotBlank(city)}
+                        helperText={city === '' ? null : !isNotBlank(city) ? strBlankError : null}
+                    />
 
-                <DesktopDatePicker
-                    label='Date'
-                    value={date}
-                    minDate={new Date('1920-01-01')}
-                    onChange={(newValue) => setDate(newValue)}
-                    renderInput={(params) => <TextField {...params} />}
-                />
+                    <DesktopDatePicker
+                        label='Date'
+                        value={date}
+                        minDate={new Date('1920-01-01')}
+                        onChange={(newValue) => setDate(newValue)}
+                        renderInput={(params) => <TextField {...params} />}
+                    />
 
-                <Button variant='outlined' onClick={handleClick}>
-                    Rechercher
-                </Button>
+                    <Button variant='outlined' onClick={handleClick}>
+                        Rechercher
+                    </Button>
+                </div>
+
+                <div className='searchResultContainer'>
+                    {results ? <EventContainer events={results} /> : null}
+                </div>
             </div>
-
-            <div className='searchResultContainer'>
-                {events
-                    ? <EventContainer events={events} />
-                    : message}
-            </div>
-
             {isLogged() ? null : <Redirect to='/connexion' />}
         </div>
     );

@@ -6,6 +6,28 @@ body{
     background-color: #02032e;
 }
 
+.whiteNeon{
+    color: #e2ece9;
+    text-shadow: 0px 0px 5px #f72585;
+}
+
+.whiteColor{
+    color: #e2ece9;
+}
+
+.pinkColor{
+    color: #f72585
+}
+
+#welcome{
+    text-shadow: 0px 0px 20px #f72585;
+}
+
+.tilesFont{
+    color: #02032e;
+    text-shadow: 0px 0px 1px #02032e;
+}
+
 /***********************************HEADER***********************************/
 
 header {
@@ -76,7 +98,7 @@ header {
 
 .loginContainer {
     background-color: #f8edeb;
-    box-shadow: 3px 3px 15px #f72585;
+    box-shadow: 0px 0px 15px #f72585;
     border-radius: 10px;
     height: 400px;
     width: 300px;
@@ -89,7 +111,7 @@ header {
 
 .registerContainer {
     background-color: #f8edeb;
-    box-shadow: 3px 3px 15px #f72585;
+    box-shadow: 0px 0px 15px #f72585;
     border-radius: 10px;
     height: 600px;
     width: 400px;
@@ -102,91 +124,115 @@ header {
 
 .registerLink {
     text-decoration: none;
-    color: rgb(105, 105, 105);
+    color: #f72585;
 }
 
 /***********************************EVENT TILES***********************************/
 
 .tilesContainer {
-    border: 2px solid rgb(231, 223, 223);
-    box-shadow: 1px 1px 10px rgb(164, 165, 165);
-    margin-top: 50px;
-    margin-bottom: 50px;
-    height: 200px;
+    background-color: #f8edeb;
+    box-shadow: 0px 0px 15px #f72585;
+    border-radius: 20px;
+
+    margin-top: 100px;
+    height: 400px;
     width: 400px;
+
+    margin-left: 40px;
+    margin-right: 40px;
+
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     justify-content: space-around;
-    background-color: rgb(220, 231, 231);
 }
 
 .tilesContainer:hover {
-    box-shadow: 1px 1px 10px rgb(93, 194, 194);
+    box-shadow: 0px 0px 30px #f72585;
+    border-radius: 18px;
 }
 
 .contentTilesContainer {
-    height: 170px;
-    width: 180px;
-}
-
-.tilesImg {
-    height: 170px;
-    width: 180px;
-    opacity: 0.9;
-    border-radius: 5px;
-}
-
-/***********************************EVENT TILES***********************************/
-
-.homeContainer1 {
-    padding-top: 30px;
-    padding-bottom: 30px;
-    height: 400px;
-    display: flex;
-    flex-direction: row;
-    background-image: url('./halcyondays.png');
-    background-repeat: no-repeat;
-    background-position: center center;
-    opacity: 0.9;
-}
-
-.welcomeContainer {
-    margin-left: 180px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    color: ivory;
-}
-
-.homeContainer2 {
-    margin-top: 75px;
-    margin-bottom: 50px;
-    height: auto;
-    width: auto;
+    margin-bottom: 5%;
+    height: 40%;
+    width: 80%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-around;
-    color: rgb(85, 84, 84);
+    justify-content: space-evenly;
 }
 
-.eventTilesContainer {
+.tilesImg {
+    margin-top: 5%;
+    margin-bottom: 5%;
+    height: 180px;
+    width: 360px;
+    opacity: 0.8;
+    border-radius: 5px;
+}
+
+
+
+
+.paginationContainer {
+    width: 100%;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.paginationTilesContainer{
+    margin-bottom: 75px;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content:center;
+    flex-wrap: wrap;
+}
+
+/***********************************HOME***********************************/
+
+.homeContainerTop {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    display: flex;
+    flex-direction: row;
     align-items: center;
     justify-content: space-evenly;
     flex-wrap: wrap;
 }
 
-.eventImg {
-    height: 200px;
-    background-image: url('./halcyondays.png');
-    background-repeat: no-repeat;
-    background-position: center center;
-    opacity: 0.9;
+.welcomeContainer {
+    height: 150px;
+    margin-left: 10%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    color: #e2ece9;
 }
+
+#homeImg{
+    margin-top: 50px;
+    height: 400px;
+    opacity: 0.7;
+    border-radius: 20px;
+}
+
+.homeContainerBottom {
+    margin-top: 50px;
+    margin-bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+
+/***********************************EVENT***********************************/
 
 .eventContainer {
     display: flex;
@@ -194,15 +240,16 @@ header {
     align-items: flex-start;
     justify-content: space-evenly;
     flex-wrap: wrap;
+    color: #e2ece9;
 }
 
-.eventDescription {
-    height: 400px;
-    margin-top: 70px;
+.eventLeftContainer {
+    height: 600px;
+    margin-top: 50px;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    justify-content: space-between;
+    align-items: center;
+    justify-content: space-evenly;
 }
 
 .eventDescriptionSub {
@@ -213,7 +260,8 @@ header {
     flex-direction: column;
     align-items: flex-start;
     justify-content: space-evenly;
-    background-color: rgb(208, 255, 239);
+    box-shadow: 0px 0px 30px #f72585;
+    border-radius: 5px;
 }
 
 .eventDescItem {
@@ -223,80 +271,117 @@ header {
     justify-content: space-between;
 }
 
-.eventInformation {
+
+.eventRightContainer {
     height: 400px;
-    width: 400px;
-    margin-top: 70px;
+    margin-top: 50px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: space-evenly;
 }
 
+/***********************************SEARCH***********************************/
+
 .searchTitle {
-    padding-top: 30px;
+    margin-top: 50px;
     text-align: center;
+    color: #e2ece9;
+    text-shadow: 0px 0px 5px #f72585;
+}
+
+.searchContainer{
+    margin-top: 100px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    flex-wrap: wrap;
 }
 
 .searchFormContainer {
-    height: 200px;
-    padding-top: 30px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-evenly;
-    flex-wrap: wrap;
-}
-
-.searchResultContainer {
-    margin-top: 50px;
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-evenly;
-    flex-wrap: wrap;
-}
-
-.ProfileContainer {
-    height: 400px;
-    margin-top: 100px;
+    background-color: #f8edeb;
+    box-shadow: 0px 0px 15px #f72585;
+    border-radius: 10px;
+    height: 350px;
+    width: 300px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
+}
+
+.searchResultContainer {
+    margin-top: -150px;
+    width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+/***********************************PROFILE***********************************/
+
+.profileContainerTop {
+    height: 400px;
+    margin-top: 100px;
+    margin-bottom: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    color: #e2ece9;
+}
+
+.avatar {
+    height : 250px;
+    width : 250px;
+    border-radius: 20px;
+    box-shadow: 0px 0px 5px #928d8f;
 }
 
 .settingsLink {
     text-decoration: none;
-    color: rgb(105, 105, 105);
+    color: #e2ece9;
+    text-shadow: 0px 0px 5px #f72585;
 }
 
-.profileEventsContainer {
-    border-top: 1px solid rgb(136, 121, 102);
-    width: auto;
+.profileContainerBottom {
+    box-shadow: 0px 0px 5px #f72585;
+    width: 100%;
+    height: 100%;
     display: flex;
-    flex-direction: row;
-    align-items: flex-start;
+    flex-direction: column;
+    align-items: center;
     justify-content: space-evenly;
     flex-wrap: wrap;
-    padding: 30px;
+    
 }
 
-.pastEventsContainer {
+.futurePastEventsContainer {
+    padding-top: 50px;
+    padding-bottom: 50px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
 }
 
-.futureEventsContainer {
+
+/***********************************SETTING***********************************/
+
+.settingsColumns{
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: space-evenly;
 }
 
 .settingsContainer {
-    margin-top: 150px;
+    width: 100%;
+    margin-top: 100px;
+    margin-bottom: 50px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -304,7 +389,11 @@ header {
     flex-wrap: wrap;
 }
 
-.subSettingContainer {
+.passwordSettingContainer {
+    background-color: #f8edeb;
+    box-shadow: 0px 0px 15px #f72585;
+    border-radius: 10px;
+    width: 300px;
     height: 400px;
     display: flex;
     flex-direction: column;
@@ -312,31 +401,48 @@ header {
     justify-content: space-evenly;
 }
 
-.adminContainer {
-    margin-right: 5%;
-    margin-left: 5%;
-    margin-bottom: 5%;
+.avatarSettingContainer {
+    height: 400px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
+    color: #e2ece9;
+    text-shadow: 0px 0px 5px #f72585;
+}
+
+.errorMessageSettings{
+    color: rgb(177, 22, 22);
+    margin-top: 200px;
+}
+
+/***********************************ADMIN***********************************/
+
+.adminContainer {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-evenly;
 }
 
 .adminContainer.adminContainer > * {
-    margin-top: 40px;
+    margin-top: 30px;
 }
 
 .adminSelectTable {
     width: 200px;
+    background-color: #e2ece9;
+    padding : 15px 15px 15px 15px;
+    border-radius: 10px;
 }
 
 .dataGrid {
-    height: 300px;
+    height: 400px;
     width: 80%;
-}
-
-.crudMessage {
-    color: crimson;
+    background-color: #ffffff;
+    padding : 15px 15px 15px 15px;
+    border-radius: 20px;
 }
 
 .adminButtonsContainer {
@@ -347,13 +453,23 @@ header {
     justify-content: space-between;
 }
 
+.adminSelectContainer{
+    width: 50%;
+    height: 800px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}
+
 .adminFormContainer {
     width: fit-content;
-    padding-top: 10px;
-    padding-bottom: 40px;
+    padding-bottom: 30px;
+    margin-bottom: 30px;
 
-    border: 2px solid rgb(231, 223, 223);
-    box-shadow: 1px 1px 10px rgb(164, 165, 165);
+    background-color: #f8edeb;
+    box-shadow: 0px 0px 15px #f72585;
+    border-radius: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;

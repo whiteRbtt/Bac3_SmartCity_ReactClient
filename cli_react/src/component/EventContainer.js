@@ -12,10 +12,11 @@ const EventContainer = (props) => {
     const [toDisplay, setToDisplay] = useState([]);
 
     useEffect(() => {
-        if (isLogged() & (props.events.length > 0)) {
-            setNbPages(Math.ceil(props.events.length / nbItemsPerPage));
-            prepareDisplay();
-        }
+        console.log('props.events :>> ', props.events);
+            if (isLogged() & (props.events.length > 0)) {
+                setNbPages(Math.ceil(props.events.length / nbItemsPerPage));
+                prepareDisplay();
+            } else setToDisplay([]);
     }, [props.events, page]);
 
     const prepareDisplay = () => {
@@ -26,27 +27,31 @@ const EventContainer = (props) => {
     };
 
     return (
-        <div className='eventTilesContainer'>
-            {toDisplay
-                ? toDisplay.map((event) => {
-                      return (
-                          <EventTile
-                              key={event.name + event.id}
-                              name={event.name}
-                              city={event.city}
-                              type={event.type}
-                              id={event.id}
-                          />
-                      );
-                  })
-                : null}
-
+        <div className='paginationContainer'>
+            <div className='paginationTilesContainer'>
+                {toDisplay
+                    ? toDisplay.map((event) => {
+                          return (
+                              <EventTile
+                                  key={event.name + event.id}
+                                  name={event.name}
+                                  city={event.city}
+                                  type={event.type}
+                                  id={event.id}
+                              />
+                          );
+                      })
+                    : null}
+            </div>
             <Pagination
                 count={nbPages}
                 page={page}
                 onChange={(event, val) => {
                     setPage(val);
                 }}
+                color='secondary'
+                variant='outlined'
+                shape='rounded'
             />
         </div>
     );

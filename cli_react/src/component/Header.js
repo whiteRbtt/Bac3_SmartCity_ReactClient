@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useHistory } from 'react-router-dom';
 
 import '../App.css';
-import logo from '../shop.png';
+import logo from '../services/img/activity.png';
 import { isAdmin, logout, isLogged } from '../services/Toolbox';
 
 import Button from '@mui/material/Button';
