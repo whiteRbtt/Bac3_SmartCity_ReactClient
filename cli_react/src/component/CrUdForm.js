@@ -3,22 +3,21 @@ import '../App.css';
 
 import {
     mailNotValid,
-    strBlankError,
+    blankFieldError,
     missingFields,
     errorFetching,
-    wrongId,
+    idNotValid,
     updateSucces,
     addSucces,
     priceNotValid,
     nameNotValid,
     registerUpdateError,
-    passwordNotValid,
+    passwordHelper,
     birthdateNotValid,
     mustBePositive,
     securityNotValid,
-    noRowSelected,
-    noTableSelected,
 } from '../services/string';
+
 import {
     transformDate,
     isEmailValid,
@@ -32,17 +31,16 @@ import {
     isSecurityLevelValid,
     isMaxPlaceValid,
 } from '../services/Toolbox';
+
 import { addObjectRel, updateObjectRel } from '../services/api/Object';
 import { addProduct, updateProduct } from '../services/api/Product';
 import { addRegister } from '../services/api/Participation';
 import { registerAdmin, updateUserProfile } from '../services/api/User';
+import { addStand, updateStand } from '../services/api/Stand';
+import { addEvent, updateEvent } from '../services/api/Event';
 
 import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
 import { Checkbox, TextField, Button, Typography } from '@mui/material';
-import { addStand, updateStand } from '../services/api/Stand';
-import { addEvent, updateEvent } from '../services/api/Event';
-import { toDate } from 'date-fns';
-import { SettingsRemoteOutlined } from '@mui/icons-material';
 
 const CrUdForm = (props) => {
     const [action, setAction] = useState();
@@ -118,16 +116,16 @@ const CrUdForm = (props) => {
                     setStandId(row.id_stand);
                     break;
                 case 'Stand':
-                    setStandId(row.id)
-                    setType(row.type)
-                    setManager(row.manager_name)
-                    setAreaSize(row.area_size)
-                    setEventId(row.id_event)
+                    setStandId(row.id);
+                    setType(row.type);
+                    setManager(row.manager_name);
+                    setAreaSize(row.area_size);
+                    setEventId(row.id_event);
                     break;
                 case 'Utilisateur':
-                    setMailAddress(row.mail_address)
-                    row.role ==="admin" ? setAdmin(true) : setAdmin(false)
-                    setBirthDate(new Date(row.birthdate))
+                    setMailAddress(row.mail_address);
+                    row.role === 'admin' ? setAdmin(true) : setAdmin(false);
+                    setBirthDate(new Date(row.birthdate));
                     break;
                 case 'Produit':
                     setProductId(row.id);
@@ -174,7 +172,7 @@ const CrUdForm = (props) => {
                     await updateProduct(parseInt(productId), name, description, parseFloat(price));
                     confirmChanges();
                 } else {
-                    setMessage(wrongId);
+                    setMessage(idNotValid);
                 }
             }
         } else {
@@ -194,11 +192,7 @@ const CrUdForm = (props) => {
     };
 
     const addOrUpdateUser = async () => {
-        if (
-            isEmailValid(mailAddress) &
-            isPasswordValid(password) &
-            isBirthDateValid(transformDate(birthDate))
-        ) {
+        if (isEmailValid(mailAddress) & isPasswordValid(password) & isBirthDateValid(transformDate(birthDate))) {
             if ((action === 'add') & isNameValid(name)) {
                 await registerAdmin(mailAddress, password, name, transformDate(birthDate), admin ? 'admin' : 'user');
                 confirmChanges();
@@ -337,14 +331,14 @@ const CrUdForm = (props) => {
                             value={standId}
                             onChange={(event) => setStandId(event.target.value)}
                             error={standId === '' ? null : !isIdValid(standId)}
-                            helperText={standId === '' ? null : isIdValid(standId) ? null : wrongId}
+                            helperText={standId === '' ? null : isIdValid(standId) ? null : idNotValid}
                         />
                         <TextField
                             label='Product ID'
                             value={productId}
                             onChange={(event) => setProductId(event.target.value)}
                             error={productId === '' ? null : !isIdValid(productId)}
-                            helperText={productId === '' ? null : isIdValid(productId) ? null : wrongId}
+                            helperText={productId === '' ? null : isIdValid(productId) ? null : idNotValid}
                         />
                     </div>
                 ) : action === 'update' ? (
@@ -354,7 +348,7 @@ const CrUdForm = (props) => {
                             value={standId}
                             onChange={(event) => setStandId(event.target.value)}
                             error={standId === '' ? null : !isIdValid(standId)}
-                            helperText={standId === '' ? null : isIdValid(standId) ? null : wrongId}
+                            helperText={standId === '' ? null : isIdValid(standId) ? null : idNotValid}
                         />
 
                         <TextField
@@ -362,7 +356,7 @@ const CrUdForm = (props) => {
                             value={newStandId}
                             onChange={(event) => setNewStandId(event.target.value)}
                             error={newStandId === '' ? null : !isIdValid(newStandId)}
-                            helperText={newStandId === '' ? null : isIdValid(newStandId) ? null : wrongId}
+                            helperText={newStandId === '' ? null : isIdValid(newStandId) ? null : idNotValid}
                         />
 
                         <TextField
@@ -370,7 +364,7 @@ const CrUdForm = (props) => {
                             value={productId}
                             onChange={(event) => setProductId(event.target.value)}
                             error={productId === '' ? null : !isIdValid(productId)}
-                            helperText={productId === '' ? null : isIdValid(productId) ? null : wrongId}
+                            helperText={productId === '' ? null : isIdValid(productId) ? null : idNotValid}
                         />
 
                         <TextField
@@ -378,7 +372,7 @@ const CrUdForm = (props) => {
                             value={newProductId}
                             onChange={(event) => setNewProductId(event.target.value)}
                             error={newProductId === '' ? null : !isIdValid(newProductId)}
-                            helperText={newProductId === '' ? null : isIdValid(newProductId) ? null : wrongId}
+                            helperText={newProductId === '' ? null : isIdValid(newProductId) ? null : idNotValid}
                         />
                     </div>
                 ) : null
@@ -424,7 +418,7 @@ const CrUdForm = (props) => {
                             value={description}
                             onChange={(event) => setDescription(event.target.value)}
                             error={description === '' ? null : !isNotBlank(description)}
-                            helperText={description === '' ? null : isNotBlank(description) ? null : strBlankError}
+                            helperText={description === '' ? null : isNotBlank(description) ? null : blankFieldError}
                         />
                         <TextField
                             label='Price'
@@ -454,7 +448,7 @@ const CrUdForm = (props) => {
                             value={eventId}
                             onChange={(event) => setEventId(event.target.value)}
                             error={eventId === '' ? null : !isIdValid(eventId)}
-                            helperText={eventId === '' ? null : isIdValid(eventId) ? null : wrongId}
+                            helperText={eventId === '' ? null : isIdValid(eventId) ? null : idNotValid}
                         />
                     </div>
                 ) : action === 'update' ? null : null
@@ -484,7 +478,7 @@ const CrUdForm = (props) => {
                             value={password}
                             onChange={(event) => setPassword(event.target.value)}
                             error={password === '' ? null : !isPasswordValid(password)}
-                            helperText={password === '' ? null : isPasswordValid(password) ? null : passwordNotValid}
+                            helperText={password === '' ? null : isPasswordValid(password) ? null : passwordHelper}
                         />
                         <DesktopDatePicker
                             label='Date de naissance'
@@ -504,11 +498,7 @@ const CrUdForm = (props) => {
                     </div>
                 ) : action === 'update' ? (
                     <div className='crudForm'>
-                        <TextField
-                            label='Email'
-                            value={mailAddress}
-                            disabled={true}
-                        />
+                        <TextField label='Email' value={mailAddress} disabled={true} />
                         <TextField
                             label='new mail'
                             value={newMailAddress}
@@ -523,7 +513,7 @@ const CrUdForm = (props) => {
                             value={password}
                             onChange={(event) => setPassword(event.target.value)}
                             error={password === '' ? null : !isPasswordValid(password)}
-                            helperText={password === '' ? null : isPasswordValid(password) ? null : passwordNotValid}
+                            helperText={password === '' ? null : isPasswordValid(password) ? null : passwordHelper}
                         />
                         <DesktopDatePicker
                             label='Date de naissance'
@@ -554,7 +544,7 @@ const CrUdForm = (props) => {
                             value={type}
                             onChange={(event) => setType(event.target.value)}
                             error={type === '' ? null : !isNotBlank(type)}
-                            helperText={type === '' ? null : isNotBlank(type) ? null : strBlankError}
+                            helperText={type === '' ? null : isNotBlank(type) ? null : blankFieldError}
                         />
                         <TextField
                             label='Manager'
@@ -575,7 +565,7 @@ const CrUdForm = (props) => {
                             value={eventId}
                             onChange={(event) => setEventId(event.target.value)}
                             error={eventId === '' ? null : !isIdValid(eventId)}
-                            helperText={eventId === '' ? null : isIdValid(eventId) ? null : wrongId}
+                            helperText={eventId === '' ? null : isIdValid(eventId) ? null : idNotValid}
                         />
                     </div>
                 ) : action === 'update' ? (
@@ -601,7 +591,7 @@ const CrUdForm = (props) => {
                             value={eventId}
                             onChange={(event) => setEventId(event.target.value)}
                             error={eventId === '' ? null : !isIdValid(eventId)}
-                            helperText={eventId === '' ? null : isIdValid(eventId) ? null : wrongId}
+                            helperText={eventId === '' ? null : isIdValid(eventId) ? null : idNotValid}
                         />
                     </div>
                 ) : null
@@ -642,21 +632,21 @@ const CrUdForm = (props) => {
                             value={streetName}
                             onChange={(event) => setStreetName(event.target.value)}
                             error={streetName === '' ? null : !isNotBlank(streetName)}
-                            helperText={streetName === '' ? null : isNotBlank(streetName) ? null : strBlankError}
+                            helperText={streetName === '' ? null : isNotBlank(streetName) ? null : blankFieldError}
                         />
                         <TextField
                             label='house number (facult)'
                             value={houseNb}
                             onChange={(event) => setHouseNb(event.target.value)}
                             error={houseNb === '' ? null : !isIdValid(houseNb)}
-                            helperText={houseNb === '' ? null : isIdValid(houseNb) ? null : wrongId}
+                            helperText={houseNb === '' ? null : isIdValid(houseNb) ? null : idNotValid}
                         />
                         <TextField
                             label='postcode'
                             value={postCode}
                             onChange={(event) => setPostCode(event.target.value)}
                             error={postCode === '' ? null : !isIdValid(postCode)}
-                            helperText={postCode === '' ? null : isIdValid(postCode) ? null : wrongId}
+                            helperText={postCode === '' ? null : isIdValid(postCode) ? null : idNotValid}
                         />
                         <TextField
                             label='city name'
@@ -670,14 +660,14 @@ const CrUdForm = (props) => {
                             value={description}
                             onChange={(event) => setDescription(event.target.value)}
                             error={description === '' ? null : !isNotBlank(description)}
-                            helperText={description === '' ? null : isNotBlank(description) ? null : strBlankError}
+                            helperText={description === '' ? null : isNotBlank(description) ? null : blankFieldError}
                         />
                         <TextField
                             label='type'
                             value={type}
                             onChange={(event) => setType(event.target.value)}
                             error={type === '' ? null : !isNotBlank(type)}
-                            helperText={type === '' ? null : isNotBlank(type) ? null : strBlankError}
+                            helperText={type === '' ? null : isNotBlank(type) ? null : blankFieldError}
                         />
                         <TextField
                             label='security level'
@@ -697,7 +687,7 @@ const CrUdForm = (props) => {
                             value={maxPlace}
                             onChange={(event) => setMaxPlace(event.target.value)}
                             error={maxPlace === '' ? null : !isMaxPlaceValid(maxPlace)}
-                            helperText={maxPlace === '' ? null : isMaxPlaceValid(maxPlace) ? null : wrongId}
+                            helperText={maxPlace === '' ? null : isMaxPlaceValid(maxPlace) ? null : idNotValid}
                         />
                         <div className='checkboxContainer'>
                             <Typography variant='body3'>Enfants :</Typography>
@@ -752,21 +742,21 @@ const CrUdForm = (props) => {
                             value={streetName}
                             onChange={(event) => setStreetName(event.target.value)}
                             error={streetName === '' ? null : !isNotBlank(streetName)}
-                            helperText={streetName === '' ? null : isNotBlank(streetName) ? null : strBlankError}
+                            helperText={streetName === '' ? null : isNotBlank(streetName) ? null : blankFieldError}
                         />
                         <TextField
                             label='house number (facultatif)'
                             value={houseNb}
                             onChange={(event) => setHouseNb(event.target.value)}
                             error={houseNb === '' ? null : !isIdValid(houseNb)}
-                            helperText={houseNb === '' ? null : isIdValid(houseNb) ? null : wrongId}
+                            helperText={houseNb === '' ? null : isIdValid(houseNb) ? null : idNotValid}
                         />
                         <TextField
                             label='postcode'
                             value={postCode}
                             onChange={(event) => setPostCode(event.target.value)}
                             error={postCode === '' ? null : !isIdValid(postCode)}
-                            helperText={postCode === '' ? null : isIdValid(postCode) ? null : wrongId}
+                            helperText={postCode === '' ? null : isIdValid(postCode) ? null : idNotValid}
                         />
                         <TextField
                             label='city name'
@@ -780,14 +770,14 @@ const CrUdForm = (props) => {
                             value={description}
                             onChange={(event) => setDescription(event.target.value)}
                             error={description === '' ? null : !isNotBlank(description)}
-                            helperText={description === '' ? null : isNotBlank(description) ? null : strBlankError}
+                            helperText={description === '' ? null : isNotBlank(description) ? null : blankFieldError}
                         />
                         <TextField
                             label='type'
                             value={type}
                             onChange={(event) => setType(event.target.value)}
                             error={type === '' ? null : !isNotBlank(type)}
-                            helperText={type === '' ? null : isNotBlank(type) ? null : strBlankError}
+                            helperText={type === '' ? null : isNotBlank(type) ? null : blankFieldError}
                         />
                         <TextField
                             label='security level'
@@ -807,7 +797,7 @@ const CrUdForm = (props) => {
                             value={maxPlace}
                             onChange={(event) => setMaxPlace(event.target.value)}
                             error={maxPlace === '' ? null : !isMaxPlaceValid(maxPlace)}
-                            helperText={maxPlace === '' ? null : isMaxPlaceValid(maxPlace) ? null : wrongId}
+                            helperText={maxPlace === '' ? null : isMaxPlaceValid(maxPlace) ? null : idNotValid}
                         />
                         <div className='checkboxContainer'>
                             <Typography variant='body3'>Enfants :</Typography>

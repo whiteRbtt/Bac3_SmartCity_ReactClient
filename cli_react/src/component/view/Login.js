@@ -11,7 +11,7 @@ import {
 } from '../../services/Toolbox';
 import {
     mailNotValid,
-    passwordMinMaxChar,
+    passwordHelper,
     credentialNotValid,
     errorFetching,
     missingFields,
@@ -58,7 +58,7 @@ const Login = () => {
                     value={password}
                     onChange={(event) => setPassword(event.target.value)}
                     error={password === '' ? null : !isPasswordValid(password)}
-                    helperText={password === '' ? null : isPasswordValid(password) ? null : passwordMinMaxChar}
+                    helperText={password === '' ? null : isPasswordValid(password) ? null : passwordHelper}
                 />
 
                 <Button variant='contained' onClick={handleClick}>

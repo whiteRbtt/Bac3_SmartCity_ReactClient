@@ -5,7 +5,7 @@ import { register } from '../../services/api/User';
 import '../../App.css';
 import {
     mailNotValid,
-    passwordMinMaxChar,
+    passwordHelper,
     missingFields,
     errorFetching,
     squalala,
@@ -86,7 +86,7 @@ const Register = () => {
                     value={password}
                     onChange={(event) => setPassword(event.target.value)}
                     error={password === '' ? null : !isPasswordValid(password)}
-                    helperText={password === '' ? null : isPasswordValid(password) ? null : passwordMinMaxChar}
+                    helperText={password === '' ? null : isPasswordValid(password) ? null : passwordHelper}
                 />
 
                 <TextField
@@ -94,7 +94,7 @@ const Register = () => {
                     value={pwdConfirm}
                     onChange={(event) => setPwdConfirm(event.target.value)}
                     error={pwdConfirm === '' ? null : !isPasswordValid(pwdConfirm)}
-                    helperText={pwdConfirm === '' ? null : isPasswordValid(pwdConfirm) ? null : passwordMinMaxChar}
+                    helperText={pwdConfirm === '' ? null : isPasswordValid(pwdConfirm) ? null : passwordHelper}
                 />
 
                 <DesktopDatePicker

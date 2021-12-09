@@ -5,15 +5,14 @@ import { updateOwnPwd, uploadAvatar } from '../../services/api/User';
 import { isLogged, isPasswordValid } from '../../services/Toolbox';
 import {
     passwordSucces,
-    passwordMinMaxChar,
+    passwordHelper,
     errorFetching,
     avatarSucces,
     imgTooLarge,
-    noAvatarSubmited,
+    missingAvatar,
     passwordsNotMatching,
     missingFields,
     passwordNotValid,
-    currentPasswordNotValid,
 } from '../../services/string';
 import '../../App.css';
 import geralt from '../../services/img/geralt.png';
@@ -42,10 +41,10 @@ const Settings = (props) => {
                         setNewPasswordConfirm('');
                         setMessage(passwordSucces);
                     } catch (err) {
-                        err.response.status === 401 ? setMessage(currentPasswordNotValid) : setMessage(errorFetching);
+                        err.response.status === 401 ? setMessage(passwordNotValid) : setMessage(errorFetching);
                         console.error(err);
                     }
-                } else setMessage(passwordNotValid);
+                } else setMessage(passwordHelper);
             } else setMessage(passwordsNotMatching);
         } else setMessage(missingFields);
     };
@@ -63,7 +62,7 @@ const Settings = (props) => {
                 console.error(err);
                 if (err.response) err.response.status === 413 ? setMessage(imgTooLarge) : setMessage(errorFetching);
             }
-        } else setMessage(noAvatarSubmited);
+        } else setMessage(missingAvatar);
     };
 
     return (
@@ -86,7 +85,7 @@ const Settings = (props) => {
                             onChange={(event) => setNewPassword(event.target.value)}
                             error={newPassword === '' ? null : !isPasswordValid(newPassword)}
                             helperText={
-                                newPassword === '' ? null : isPasswordValid(newPassword) ? null : passwordMinMaxChar
+                                newPassword === '' ? null : isPasswordValid(newPassword) ? null : passwordHelper
                             }
                         />
 
@@ -100,7 +99,7 @@ const Settings = (props) => {
                                     ? null
                                     : isPasswordValid(newPasswordConfirm)
                                     ? null
-                                    : passwordMinMaxChar
+                                    : passwordHelper
                             }
                         />
 
