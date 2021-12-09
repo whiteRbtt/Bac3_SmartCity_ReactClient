@@ -144,7 +144,7 @@ const Admin = () => {
         e.preventDefault();
         setMessage()
         if (selectedTable !== 'Participation') {
-            row ? setAction('update') : setMessage(noRowSelected);
+            table ? row ? setAction('update') : setMessage(noRowSelected) : setMessage(noTableSelected);
         } else setMessage(registerUpdate)
         
     };
@@ -199,7 +199,9 @@ const Admin = () => {
                         </FormControl>
                     </div>
                     <div className='dataGrid'>{createGrid()}</div>
-                    <div className='errorMessage'>{message}</div>
+                    <Typography variant='body1' className='errorMessage'>
+                        {message}
+                    </Typography>
                     <div className='adminButtonsContainer'>
                         <Button variant='outlined' onClick={handleDelete}>
                             supprimer

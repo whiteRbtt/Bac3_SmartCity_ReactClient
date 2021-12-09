@@ -63,7 +63,7 @@ const CrUdForm = (props) => {
     const [description, setDescription] = useState('');
     const [type, setType] = useState('');
     const [city, setCity] = useState('');
-    const [securityLevel, setSecurityLevel] = useState('');
+    const [securityLevel, setSecurityLevel] = useState(1);
     const [childrenAccepted, setChildrenAccepted] = useState(false);
     const [requireMask, setRequireMask] = useState(false);
     const [CST, setCST] = useState(false);
@@ -135,8 +135,39 @@ const CrUdForm = (props) => {
                     break;
                 default:
             }
+        } else {
+            setEventId('');
+            setName('');
+            setStartingDate(new Date());
+            setEndingDate(new Date());
+            setDescription('');
+            setType('');
+            setSecurityLevel(1);
+            setMaxPlace('');
+            setMailAddressCreator('');
+            setStreetName('');
+            setHouseNb('');
+            setCity('');
+            setPostCode('');
+            setChildrenAccepted(false);
+            setCST(false);
+            setRequireMask(false);
+            setProductId('');
+            setStandId('');
+            setStandId('');
+            setType('');
+            setManager('');
+            setAreaSize(1);
+            setEventId('');
+            setMailAddress('');
+            setAdmin(false);
+            setBirthDate(new Date());
+            setProductId('');
+            setName('');
+            setDescription('');
+            setPrice('');
         }
-    }, [row]);
+    }, [row, action]);
 
     const confirmChanges = () => {
         action === 'add' ? props.message(addSucces) : props.message(updateSucces);
@@ -319,7 +350,6 @@ const CrUdForm = (props) => {
 
     return (
         <div className='crudFormContainer'>
-            {console.log(`row`, row)}
             {/*------------------------------Object------------------------------*/}
             {table === 'Objet' ? (
                 action === 'add' ? (
@@ -820,7 +850,11 @@ const CrUdForm = (props) => {
             ) : null}
 
             {/*------------------------------Good looking button------------------------------*/}
-            {message ? <div className='errorMessage'>{message}</div> : null}
+            {message ? (
+                <Typography variant='body2' className='errorMessage'>
+                    {message}
+                </Typography>
+            ) : null}
             <Button variant='contained' onClick={handleSubmit}>
                 Soumettre
             </Button>
