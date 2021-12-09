@@ -419,34 +419,33 @@ header {
 /***********************************ADMIN***********************************/
 
 .adminContainer {
-    margin-top: 20px;
+    margin-top: 50px;
+    margin-bottom: 50px;
     display: flex;
     flex-direction: row;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-evenly;
-}
-
-.adminContainer.adminContainer > * {
-    margin-top: 30px;
+    flex-wrap: wrap;
 }
 
 .adminSelectTable {
     width: 200px;
-    background-color: #e2ece9;
-    padding : 15px 15px 15px 15px;
+    background-color: #f8edeb;
+    box-shadow: 0px 0px 15px #f72585;
     border-radius: 10px;
+    padding : 15px 15px 15px 15px;
 }
 
 .dataGrid {
     height: 400px;
-    width: 80%;
-    background-color: #ffffff;
+    width: 700px;
+    background-color: #f8edeb;
     padding : 15px 15px 15px 15px;
     border-radius: 20px;
 }
 
 .adminButtonsContainer {
-    width: 60%;
+    width: 500px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -454,7 +453,7 @@ header {
 }
 
 .adminSelectContainer{
-    width: 50%;
+    width: fit-content;
     height: 800px;
     display: flex;
     flex-direction: column;
@@ -463,10 +462,13 @@ header {
 }
 
 .adminFormContainer {
-    width: fit-content;
-    padding-bottom: 30px;
-    margin-bottom: 30px;
+    margin-top: 50px;
+}
 
+
+
+.crudFormContainer {
+    width: 350px;
     background-color: #f8edeb;
     box-shadow: 0px 0px 15px #f72585;
     border-radius: 10px;
@@ -477,15 +479,21 @@ header {
 }
 
 .crudForm {
-    width: 350px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: space-evenly;
 }
 
 .crudForm.crudForm > * {
     margin-top: 30px;
 }
+
+.crudFormContainer.crudFormContainer > * {
+    margin-bottom: 40px;
+}
+
+
 
 .checkboxContainer{
     display: flex;

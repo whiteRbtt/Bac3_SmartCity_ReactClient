@@ -80,10 +80,13 @@ export default function Event() {
                 if (isRegistered) {
                     await delRegister(parseInt(eventId));
                     setIsRegistered(false);
+                    setNbPlacesLeft(nbPlacesLeft - 1);
                 } else {
                     await addRegister(parseInt(eventId));
                     setIsRegistered(true);
+                    setNbPlacesLeft(nbPlacesLeft + 1);
                 }
+                setMessage('');
             } catch (err) {
                 setMessage(errorFetching);
             }

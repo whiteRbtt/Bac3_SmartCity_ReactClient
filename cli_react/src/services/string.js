@@ -20,6 +20,7 @@ const delSucces = "L'élément a été supprimé avec succès"
 const updateSucces = "L'élément a été modifié avec succès"
 const addSucces = "L'élément a été ajouté avec succès"
 const noRowSelected = "Veuillez sélectionner une ligne"
+const noTableSelected = 'Veuillez sélectionner une table';
 const priceNotValid = 'Veuillez entre un prix valide (0.01 min)'
 const nameNotValid = 'Le nom comporte des caractères interdits'
 const registerUpdateError = 'Veuillez plutot supprimer et créer une nouvelle participation'
@@ -34,6 +35,7 @@ const squalala = 'squalala nous sommes partis';
 
 
 export {
+    noTableSelected,
     url,
     credentialNotValid,
     mailNotValid,

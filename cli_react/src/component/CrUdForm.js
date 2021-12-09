@@ -16,6 +16,8 @@ import {
     birthdateNotValid,
     mustBePositive,
     securityNotValid,
+    noRowSelected,
+    noTableSelected,
 } from '../services/string';
 import {
     transformDate,
@@ -43,6 +45,7 @@ import { addEvent, updateEvent } from '../services/api/Event';
 const CrUdForm = (props) => {
     const [action, setAction] = useState(props.action);
     const [table, setTable] = useState(props.table);
+    const [row, setRow] = useState(props.row);
     const [message, setMessage] = useState('');
 
     const [standId, setStandId] = useState('');
@@ -79,8 +82,33 @@ const CrUdForm = (props) => {
             setMessage('');
             setAction(props.action);
             setTable(props.table);
+            setRow(props.row)
+
+            if(table){
+                if(action === 'update'){
+                    if (row) {
+                        console.log(`bouh`)
+                        switch (table) {
+                            case 'Evenement':
+                                break;
+                            case 'Objet':
+                                break;
+                            case 'Participation':
+                                break;
+                            case 'Stand':
+                                break;
+                            case 'Utilisateur':
+                                break;
+                            case 'Produit':
+                                break;
+                            default:
+                        }
+                    } else setMessage(noRowSelected);
+                } 
+            }else setMessage(noTableSelected);
+            
         }
-    }, [props.action, props.table]);
+    }, [props.action, props.table, props.row]);
 
     const confirmChanges = () => {
         action === 'add' ? props.message(addSucces) : props.message(updateSucces);
@@ -269,9 +297,9 @@ const CrUdForm = (props) => {
     };
 
     return (
-        <div className='crudForm'>
+        <div className='crudFormContainer'>
+            {console.log(`row`, row)}
             {/*------------------------------Object------------------------------*/}
-
             {table === 'Objet' ? (
                 action === 'add' ? (
                     <div className='crudForm'>
@@ -807,7 +835,7 @@ const CrUdForm = (props) => {
             ) : null}
 
             {/*------------------------------Good looking button------------------------------*/}
-            <div className='errorMessage'>{message}</div>
+            {message?<div className='errorMessage'>{message}</div>:null}
             {((action === 'add') | (action === 'update')) & (props.table !== '') ? (
                 <Button variant='contained' onClick={handleSubmit}>
                     Soumettre
@@ -819,48 +847,3 @@ const CrUdForm = (props) => {
 
 export default CrUdForm;
 
-/*
------------------ create ---------------------
-
-event
-{
-    "name":"Tournoi de Beauclair",
-    "startingDate": "1970-05-06",
-    "endingDate": "1970-09-06",
-    "streetName":"Tertre des vaincus",
-    "houseNumber":11, (FACULT)
-    "postalCode":5555,
-    "city":"Beauclair",
-    "description":"Tournoi de chevalerie en honneur dela duchesse Anna-Henrietta de Toussaint",
-    "type":"Tournois",
-    "securityLevel":4,
-    "childrenAccepted" : true,
-    "requireMask" : false,
-    "requireCovidSafeTicket" : false,
-    "maxPlaceCount":500
-}
-
-
------------------ update ---------------------
-
-event
-{
-    "idEvent" : 10,
-    "name":"Tournoi de Beauclair",
-    "startingDate": "1970-05-06",
-    "endingDate": "1970-09-06",
-    "streetName":"Tertre des vaincus",
-    "houseNumber":11, (FACULT)
-    "postalCode":5555,
-    "city":"Beauclair",
-    "childrenAccepted" : true,
-    "description":"Tournoi de chevalerie en honneur dela duchesse Anna-Henrietta de Toussaint",
-    "type":"Tournois",
-    "securityLevel":4,
-    "requireMask" : false,
-    "requireCovidSafeTicket" : false,
-    "maxPlaceCount":500,
-    "mailAddressCreator" : "goldbridge@gmail.be"
-}
-
-*/

@@ -23,10 +23,11 @@ import { DataGrid } from '@mui/x-data-grid';
 
 const Admin = () => {
     const [selectedTable, setSelectedTable] = useState('');
-    const [selectedRowID, setSelectedRowId] = useState('');
-    const [selectedRow, setSelectedRow] = useState('');
-    const [currentTable, setCurrentTable] = useState([]);
-    const [message, setMessage] = useState('');
+
+    const [table, setTable] = useState();
+    const [row, setRow] = useState();
+
+    const [message, setMessage] = useState();
     const [action, setAction] = useState();
     const [toggleFetching, setToggleFetching] = useState(true);
 
@@ -35,36 +36,31 @@ const Admin = () => {
 
         if (isLogged() && isMounted) {
             fetchTable();
-        }
 
-        setAction(null);
-        setSelectedRowId('');
+            setAction();
+            setRow();
+            setMessage();
+        }
 
         return () => {
             isMounted = false;
         };
     }, [selectedTable, toggleFetching]);
 
-    useEffect(() => {
-        if (currentTable) {
-            setSelectedRow(currentTable[selectedRowID - 1]);
-        }
-    }, [selectedRowID]);
-
     const fetchTable = async () => {
         try {
             if (selectedTable === 'Evenement') {
-                setCurrentTable(await getAllEvents());
+                setTable(await getAllEvents());
             } else if (selectedTable === 'Utilisateur') {
-                setCurrentTable(await getAllUsers());
+                setTable(await getAllUsers());
             } else if (selectedTable === 'Produit') {
-                setCurrentTable(await getAllProducts());
+                setTable(await getAllProducts());
             } else if (selectedTable === 'Stand') {
-                setCurrentTable(await getAllStands());
+                setTable(await getAllStands());
             } else if (selectedTable === 'Objet') {
-                setCurrentTable(await getAllObject());
+                setTable(await getAllObject());
             } else if (selectedTable === 'Participation') {
-                setCurrentTable(await getAllRegister());
+                setTable(await getAllRegister());
             }
         } catch (err) {
             setMessage(errorFetching);
@@ -73,11 +69,11 @@ const Admin = () => {
     };
 
     const createGrid = () => {
-        if (currentTable) {
+        if (table) {
             // init columns
             let columns = [];
             let colId = 1;
-            for (const key in currentTable[0]) {
+            for (const key in table[0]) {
                 let wth = 150;
                 if (
                     ((key === 'name') & (selectedTable !== 'Utilisateur')) |
@@ -106,7 +102,7 @@ const Admin = () => {
             // init rows
             let rows = [];
             let rowId = 1;
-            currentTable.forEach((row) => {
+            table.forEach((row) => {
                 let newRow = { id: rowId };
                 let i = 1;
                 for (const key in row) {
@@ -122,49 +118,52 @@ const Admin = () => {
                     rows={rows}
                     columns={columns}
                     hideFooterPagination
-                    onSelectionModelChange={(e) => setSelectedRowId(e)}
-                    selectionModel={selectedRowID}
+                    onSelectionModelChange={(e) => handleSelectRow(e)}
                 />
             );
         }
     };
 
-    // CRUD
+    // events
 
-    const handleCreate = async (e) => {
-        e.preventDefault();
-        setMessage('');
-        setAction('add');
+    const handleSelectRow = (e) => {
+        if (e[0]) setRow(table[e[0] - 1]);
     };
 
     const handleRead = (e) => {
         e.preventDefault();
-        setMessage('');
         setSelectedTable(e.target.value);
+    };
+
+    const handleCreate = async (e) => {
+        e.preventDefault();
+        setAction('add');
     };
 
     const handleUpdate = async (e) => {
         e.preventDefault();
-        setMessage('');
-        setAction('update');
+        setMessage()
+        row ? setAction('update') : setMessage(noRowSelected)
+        
+        
     };
 
     const handleDelete = async (e) => {
         e.preventDefault();
-        if (selectedRow) {
+        if (row) {
             try {
                 if (selectedTable === 'Evenement') {
-                    await delEvent(selectedRow.id);
+                    await delEvent(row.id);
                 } else if (selectedTable === 'Utilisateur') {
-                    await delUser(selectedRow.mail_address);
+                    await delUser(row.mail_address);
                 } else if (selectedTable === 'Produit') {
-                    await delProduct(selectedRow.id);
+                    await delProduct(row.id);
                 } else if (selectedTable === 'Stand') {
-                    await delStand(selectedRow.id);
+                    await delStand(row.id);
                 } else if (selectedTable === 'Objet') {
-                    await delRelObject(selectedRow.id_stand, selectedRow.id_product);
+                    await delRelObject(row.id_stand, row.id_product);
                 } else if (selectedTable === 'Participation') {
-                    await delRegisterAdmin(selectedRow.id_event, selectedRow.mail_address_user);
+                    await delRegisterAdmin(row.id_event, row.mail_address_user);
                 }
                 setMessage(delSucces);
                 setToggleFetching(!toggleFetching);
@@ -199,6 +198,7 @@ const Admin = () => {
                         </FormControl>
                     </div>
                     <div className='dataGrid'>{createGrid()}</div>
+                    <div className='errorMessage'>{message}</div>
                     <div className='adminButtonsContainer'>
                         <Button variant='outlined' onClick={handleDelete}>
                             supprimer
@@ -210,18 +210,19 @@ const Admin = () => {
                             ajouter
                         </Button>
                     </div>
-                    <div className='errorMessage'>{message}</div>
                 </div>
 
-                <div className='adminFormContainer'>
-                    <CrUdForm
-                        action={action}
-                        table={selectedTable}
-                        renderTable={setToggleFetching}
-                        toggleValue={toggleFetching}
-                        message={setMessage}
-                    />
-                </div>
+                {action ? (
+                    <div className='adminFormContainer'>
+                        <CrUdForm
+                            action={action}
+                            table={selectedTable}
+                            row={row}
+                            renderTable={setToggleFetching}
+                            toggleValue={toggleFetching}
+                        />
+                    </div>
+                ) : null}
             </div>
 
             {isLogged() ? null : <Redirect to='/connexion' />}
