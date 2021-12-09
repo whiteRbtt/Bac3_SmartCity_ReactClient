@@ -57,14 +57,13 @@ const isMaxPlaceValid = (nb) => {
     return (nb > 0 & isIdValid(nb))
 }
 
-
 const isPriceValid = (price) => {
-    const reg = new RegExp(/\d{1,3}(?:[.,]\d{3})*(?:[.,]\d{2})/g)
+    const reg = new RegExp(/\d{1,3}(?:[.,]\d{3})*(?:[.,]\d)/g)
     return (reg.test(price) & parseFloat(price) > 0);
 }
 
 const isNameValid = (name) => {
-    const reg = new RegExp(/^[a-z ,.'-]+$/g)
+    const reg = new RegExp(/^[A-Za-zéè0-9 ,.'-]+$/g)
     return reg.test(name);
 }
 

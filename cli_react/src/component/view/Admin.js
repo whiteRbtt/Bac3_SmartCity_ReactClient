@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import '../../App.css';
 import Header from '../Header';
 import { isLogged } from '../../services/Toolbox';
-import { errorFetching, delSucces, noRowSelected } from '../../services/string';
+import { errorFetching, delSucces, noRowSelected, noTableSelected, registerUpdate } from '../../services/string';
 import { getAllEvents, delEvent } from '../../services/api/Event';
 import { getAllProducts, delProduct } from '../../services/api/Product';
 import { getAllUsers, delUser } from '../../services/api/User';
@@ -39,7 +39,6 @@ const Admin = () => {
 
             setAction();
             setRow();
-            setMessage();
         }
 
         return () => {
@@ -132,19 +131,22 @@ const Admin = () => {
 
     const handleRead = (e) => {
         e.preventDefault();
+        setMessage()
         setSelectedTable(e.target.value);
     };
 
     const handleCreate = async (e) => {
         e.preventDefault();
-        setAction('add');
+        setMessage()
+        table ? setAction('add'):setMessage(noTableSelected)
     };
 
     const handleUpdate = async (e) => {
         e.preventDefault();
         setMessage()
-        row ? setAction('update') : setMessage(noRowSelected)
-        
+        if (selectedTable !== 'Participation') {
+            row ? setAction('update') : setMessage(noRowSelected);
+        } else setMessage(registerUpdate)
         
     };
 
@@ -220,6 +222,7 @@ const Admin = () => {
                             row={row}
                             renderTable={setToggleFetching}
                             toggleValue={toggleFetching}
+                            message={setMessage}
                         />
                     </div>
                 ) : null}

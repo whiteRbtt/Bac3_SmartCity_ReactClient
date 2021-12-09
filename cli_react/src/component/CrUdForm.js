@@ -41,11 +41,13 @@ import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
 import { Checkbox, TextField, Button, Typography } from '@mui/material';
 import { addStand, updateStand } from '../services/api/Stand';
 import { addEvent, updateEvent } from '../services/api/Event';
+import { toDate } from 'date-fns';
+import { SettingsRemoteOutlined } from '@mui/icons-material';
 
 const CrUdForm = (props) => {
-    const [action, setAction] = useState(props.action);
-    const [table, setTable] = useState(props.table);
-    const [row, setRow] = useState(props.row);
+    const [action, setAction] = useState();
+    const [table, setTable] = useState();
+    const [row, setRow] = useState();
     const [message, setMessage] = useState('');
 
     const [standId, setStandId] = useState('');
@@ -82,33 +84,61 @@ const CrUdForm = (props) => {
             setMessage('');
             setAction(props.action);
             setTable(props.table);
-            setRow(props.row)
-
-            if(table){
-                if(action === 'update'){
-                    if (row) {
-                        console.log(`bouh`)
-                        switch (table) {
-                            case 'Evenement':
-                                break;
-                            case 'Objet':
-                                break;
-                            case 'Participation':
-                                break;
-                            case 'Stand':
-                                break;
-                            case 'Utilisateur':
-                                break;
-                            case 'Produit':
-                                break;
-                            default:
-                        }
-                    } else setMessage(noRowSelected);
-                } 
-            }else setMessage(noTableSelected);
-            
+            setRow(props.row);
         }
     }, [props.action, props.table, props.row]);
+
+    useEffect(() => {
+        if (action === 'update') {
+            switch (table) {
+                case 'Evenement':
+                    setEventId(row.id);
+                    setName(row.name);
+                    setStartingDate(new Date(row.starting_date));
+                    setEndingDate(new Date(row.ending_date));
+
+                    setDescription(row.description);
+                    setType(row.type);
+                    setSecurityLevel(row.security_level);
+                    setMaxPlace(row.max_place_count);
+                    setMailAddressCreator(row.mail_address_creator);
+
+                    setStreetName(row.street_name);
+                    row.house_number ? setHouseNb(row.house_number) : setHouseNb('');
+                    setCity(row.city);
+                    setPostCode(row.postal_code);
+
+                    setChildrenAccepted(row.children_accepted);
+                    setCST(row.require_covid_safe_ticket);
+                    setRequireMask(row.require_mask);
+
+                    break;
+                case 'Objet':
+                    setProductId(row.id_product);
+                    setStandId(row.id_stand);
+                    break;
+                case 'Stand':
+                    setStandId(row.id)
+                    setType(row.type)
+                    setManager(row.manager_name)
+                    setAreaSize(row.area_size)
+                    setEventId(row.id_event)
+                    break;
+                case 'Utilisateur':
+                    setMailAddress(row.mail_address)
+                    row.role ==="admin" ? setAdmin(true) : setAdmin(false)
+                    setBirthDate(new Date(row.birthdate))
+                    break;
+                case 'Produit':
+                    setProductId(row.id);
+                    setName(row.name);
+                    setDescription(row.description);
+                    setPrice(row.price);
+                    break;
+                default:
+            }
+        }
+    }, [row]);
 
     const confirmChanges = () => {
         action === 'add' ? props.message(addSucces) : props.message(updateSucces);
@@ -167,10 +197,9 @@ const CrUdForm = (props) => {
         if (
             isEmailValid(mailAddress) &
             isPasswordValid(password) &
-            isNameValid(name) &
             isBirthDateValid(transformDate(birthDate))
         ) {
-            if (action === 'add') {
+            if ((action === 'add') & isNameValid(name)) {
                 await registerAdmin(mailAddress, password, name, transformDate(birthDate), admin ? 'admin' : 'user');
                 confirmChanges();
             } else {
@@ -181,7 +210,7 @@ const CrUdForm = (props) => {
                         password,
                         transformDate(birthDate),
                         admin ? 'admin' : 'user'
-                    ); // TODO pas logique, modifier api
+                    );
                     confirmChanges();
                 } else {
                     setMessage(missingFields);
@@ -226,7 +255,7 @@ const CrUdForm = (props) => {
                     transformDate(startingDate),
                     transformDate(endingDate),
                     streetName,
-                    parseInt(houseNb),
+                    houseNb ? parseInt(houseNb) : undefined,
                     parseInt(postCode),
                     city,
                     childrenAccepted,
@@ -246,7 +275,7 @@ const CrUdForm = (props) => {
                         transformDate(startingDate),
                         transformDate(endingDate),
                         streetName,
-                        parseInt(houseNb),
+                        houseNb ? parseInt(houseNb) : undefined,
                         parseInt(postCode),
                         city,
                         childrenAccepted,
@@ -365,7 +394,7 @@ const CrUdForm = (props) => {
                             value={name}
                             onChange={(event) => setName(event.target.value)}
                             error={name === '' ? null : !isNameValid(name)}
-                            helperText={name === '' ? null : isNameValid(name) ? null : strBlankError}
+                            helperText={name === '' ? null : isNameValid(name) ? null : nameNotValid}
                         />
                         <TextField
                             label='Description'
@@ -382,19 +411,13 @@ const CrUdForm = (props) => {
                     </div>
                 ) : action === 'update' ? (
                     <div className='crudForm'>
-                        <TextField
-                            label='Product ID'
-                            value={productId}
-                            onChange={(event) => setProductId(event.target.value)}
-                            error={productId === '' ? null : !isIdValid(productId)}
-                            helperText={productId === '' ? null : isIdValid(productId) ? null : wrongId}
-                        />
+                        <TextField label='Product ID' value={productId} disabled={true} />
                         <TextField
                             label='Name'
                             value={name}
                             onChange={(event) => setName(event.target.value)}
                             error={name === '' ? null : !isNameValid(name)}
-                            helperText={name === '' ? null : isNameValid(name) ? null : strBlankError}
+                            helperText={name === '' ? null : isNameValid(name) ? null : nameNotValid}
                         />
                         <TextField
                             label='Description'
@@ -484,9 +507,7 @@ const CrUdForm = (props) => {
                         <TextField
                             label='Email'
                             value={mailAddress}
-                            onChange={(event) => setMailAddress(event.target.value)}
-                            error={mailAddress === '' ? null : !isEmailValid(mailAddress)}
-                            helperText={mailAddress === '' ? null : isEmailValid(mailAddress) ? null : mailNotValid}
+                            disabled={true}
                         />
                         <TextField
                             label='new mail'
@@ -559,13 +580,7 @@ const CrUdForm = (props) => {
                     </div>
                 ) : action === 'update' ? (
                     <div className='crudForm'>
-                        <TextField
-                            label='Stand id'
-                            value={standId}
-                            onChange={(event) => setStandId(event.target.value)}
-                            error={standId === '' ? null : !isIdValid(standId)}
-                            helperText={standId === '' ? null : isIdValid(standId) ? null : wrongId}
-                        />
+                        <TextField label='Stand id' value={standId} disabled={true} />
                         <TextField label='Type' value={type} onChange={(event) => setType(event.target.value)} />
                         <TextField
                             label='Manager'
@@ -705,13 +720,8 @@ const CrUdForm = (props) => {
                     </div>
                 ) : action === 'update' ? (
                     <div className='crudForm'>
-                        <TextField
-                            label='Event id'
-                            value={eventId}
-                            onChange={(event) => setEventId(event.target.value)}
-                            error={eventId === '' ? null : !isIdValid(eventId)}
-                            helperText={eventId === '' ? null : isIdValid(eventId) ? null : wrongId}
-                        />
+                        <TextField label='Event id' value={eventId} disabled={true} />
+                        <TextField label='mail creator' value={mailAddressCreator} disabled={true} />
                         <TextField
                             label='name'
                             value={name}
@@ -745,7 +755,7 @@ const CrUdForm = (props) => {
                             helperText={streetName === '' ? null : isNotBlank(streetName) ? null : strBlankError}
                         />
                         <TextField
-                            label='house number (facult)'
+                            label='house number (facultatif)'
                             value={houseNb}
                             onChange={(event) => setHouseNb(event.target.value)}
                             error={houseNb === '' ? null : !isIdValid(houseNb)}
@@ -817,33 +827,17 @@ const CrUdForm = (props) => {
                             <Typography variant='body3'>CST :</Typography>
                             <Checkbox checked={CST} onChange={(event) => setCST(event.target.checked)} />
                         </div>
-                        <TextField
-                            label='mail creator'
-                            value={mailAddressCreator}
-                            onChange={(event) => setMailAddressCreator(event.target.value)}
-                            error={mailAddressCreator === '' ? null : !isEmailValid(mailAddressCreator)}
-                            helperText={
-                                mailAddressCreator === ''
-                                    ? null
-                                    : isEmailValid(mailAddressCreator)
-                                    ? null
-                                    : mailNotValid
-                            }
-                        />
                     </div>
                 ) : null
             ) : null}
 
             {/*------------------------------Good looking button------------------------------*/}
-            {message?<div className='errorMessage'>{message}</div>:null}
-            {((action === 'add') | (action === 'update')) & (props.table !== '') ? (
-                <Button variant='contained' onClick={handleSubmit}>
-                    Soumettre
-                </Button>
-            ) : null}
+            {message ? <div className='errorMessage'>{message}</div> : null}
+            <Button variant='contained' onClick={handleSubmit}>
+                Soumettre
+            </Button>
         </div>
     );
 };
 
 export default CrUdForm;
-

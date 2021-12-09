@@ -11,7 +11,6 @@ const missingFields = 'Certains champs sont manquants ou erronés';
 const mustBe18 = 'Vous devez avoir au moins 18 ans';
 const samePwd = 'Les mots de passe doivent etre similaires';
 const registerSucces = 'profil créé avec succes';
-const pastEventMessage = "L'évenement à déja eu lieu, revenez l'année prochaine !";
 const missingId = 'Veuillez entrer un id valide';
 const wrongId = "Doit etre un chiffre ou un nombre";
 const avatarSucces = "L'avatar à été modifié avec succes"
@@ -32,9 +31,11 @@ const noAvatarSubmited = "Veuillez sélectionner une image"
 const passwordsNotMatching = "Les mots de passe sont différents"
 const currentPasswordNotValid = 'Le mot de passe actuel est erroné';
 const squalala = 'squalala nous sommes partis';
+const registerUpdate = 'Veuillez simplement, supprimer et recréer une réservation'
 
 
 export {
+    registerUpdate,
     noTableSelected,
     url,
     credentialNotValid,
@@ -48,7 +49,6 @@ export {
     mustBe18,
     samePwd,
     registerSucces,
-    pastEventMessage,
     missingId,
     wrongId,
     avatarSucces,
