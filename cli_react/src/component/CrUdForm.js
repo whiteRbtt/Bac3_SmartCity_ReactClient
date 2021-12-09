@@ -313,8 +313,6 @@ const CrUdForm = (props) => {
                     setMessage(errorFetching);
             }
         } catch (err) {
-            // TODO gérer les erreurs type "déja inséré"
-            console.error(err);
             setMessage(errorFetching);
         }
     };

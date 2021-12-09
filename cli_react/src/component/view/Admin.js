@@ -63,7 +63,6 @@ const Admin = () => {
             }
         } catch (err) {
             setMessage(errorFetching);
-            console.error(err);
         }
     };
 

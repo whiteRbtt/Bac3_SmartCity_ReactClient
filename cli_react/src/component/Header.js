@@ -42,7 +42,9 @@ const Header = () => {
     return (
         <header>
             <div id='headerContainer1'>
-                <img src={logo} alt='logo' id='logo' />
+                <Link to={`/`}>
+                    <img src={logo} alt='logo' id='logo' />
+                </Link>
                 <nav id='linksContainer'>
                     <Link to={`/`} className='headerLink'>
                         Accueil

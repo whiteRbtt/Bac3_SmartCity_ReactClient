@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Redirect, useParams } from 'react-router-dom';
 
-import { errorFetching, pastEventMessage } from '../../services/string';
+import { errorFetching} from '../../services/string';
 import { isLogged } from '../../services/Toolbox';
 import { getEvent } from '../../services/api/Event';
 import { getRegisterByEventId, addRegister, delRegister, getNbRegisterEvent } from '../../services/api/Participation';
@@ -9,8 +9,7 @@ import { getRegisterByEventId, addRegister, delRegister, getNbRegisterEvent } fr
 import '../../App.css';
 import Header from '../Header';
 
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
+import { Typography, Button } from '@mui/material';
 import { ChildFriendly, Masks, ConfirmationNumber } from '@mui/icons-material';
 
 export default function Event() {
