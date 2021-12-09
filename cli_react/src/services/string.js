@@ -5,7 +5,7 @@ const errorFetching = "Une erreur s'est produite, veuillez réessayer plus tard"
 const noResults = 'Aucun évenement ne correspond à la recherche';
 const credentialNotValid = 'Utilisateur introuvable ou information erronées';
 const passwordsNotMatching = 'Les mots de passe doivent être similaires';
-const imgTooLarge = "L'avatar ne peut pas dépasser 150 x 150 px";
+const imgTooLarge = "L'avatar doit être un jpeg ou png de maximum 150 x 150 px";
 const registerUpdateError = 'Veuillez plutôt supprimer et créer une nouvelle participation';
 const passwordNotValid = 'Le mot de passe actuel est erroné';
 

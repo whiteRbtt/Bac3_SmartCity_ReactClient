@@ -44,7 +44,7 @@ const Settings = (props) => {
                         err.response.status === 401 ? setMessage(passwordNotValid) : setMessage(errorFetching);
                         console.error(err);
                     }
-                } else setMessage(passwordHelper);
+                } 
             } else setMessage(passwordsNotMatching);
         } else setMessage(missingFields);
     };
@@ -52,16 +52,19 @@ const Settings = (props) => {
     const handleClickAvatar = async (e) => {
         e.preventDefault();
         if (newAvatar !== null) {
-            try {
-                const formData = new FormData();
-                for (const image of newAvatar) formData.append('avatar', image);
-                const res = await uploadAvatar(formData);
-                setNewAvatar(res.data.profilePicture); // TODO possible memory leak
-                setMessage(avatarSucces);
-            } catch (err) {
-                console.error(err);
-                if (err.response) err.response.status === 413 ? setMessage(imgTooLarge) : setMessage(errorFetching);
-            }
+            console.log(`newAvatar[0].size`, newAvatar[0].size)
+            if(newAvatar[0].size < 15000){
+                try {
+                    const formData = new FormData();
+                    for (const image of newAvatar) formData.append('avatar', image);
+                    const res = await uploadAvatar(formData);
+                    setNewAvatar(res.data.profilePicture);
+
+                    setMessage(avatarSucces);
+                } catch (err) {
+                    setMessage(errorFetching);
+                }
+            } else setMessage(imgTooLarge);          
         } else setMessage(missingAvatar);
     };
 
