@@ -12,7 +12,7 @@ import {
     missingAvatar,
     passwordsNotMatching,
     missingFields,
-    passwordNotValid,
+    apiErrors,
 } from '../../services/string';
 import '../../App.css';
 import geralt from '../../services/img/geralt.png';
@@ -31,6 +31,9 @@ const Settings = (props) => {
 
     const handleClickPwd = async (e) => {
         e.preventDefault();
+        console.log(`password`, password)
+        console.log(`newPassword`, newPassword)
+        console.log(`newPasswordConfirm`, newPasswordConfirm)
         if ((password !== '') & (newPassword !== '') & (newPasswordConfirm !== '')) {
             if (newPassword === newPasswordConfirm) {
                 if (isPasswordValid(newPassword)) {
@@ -41,10 +44,9 @@ const Settings = (props) => {
                         setNewPasswordConfirm('');
                         setMessage(passwordSucces);
                     } catch (err) {
-                        err.response.status === 401 ? setMessage(passwordNotValid) : setMessage(errorFetching);
-                        console.error(err);
+                        setMessage(apiErrors[err.response.data.error] ?? errorFetching);
                     }
-                } 
+                }
             } else setMessage(passwordsNotMatching);
         } else setMessage(missingFields);
     };
@@ -52,7 +54,6 @@ const Settings = (props) => {
     const handleClickAvatar = async (e) => {
         e.preventDefault();
         if (newAvatar !== null) {
-            console.log(`newAvatar[0].size`, newAvatar[0].size)
             if(newAvatar[0].size < 15000){
                 try {
                     const formData = new FormData();

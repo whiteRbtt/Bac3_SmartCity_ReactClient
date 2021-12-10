@@ -45,7 +45,6 @@ const Profile = () => {
             const res = await getAccountPict();
             setAvatar(res);
         } catch (err) {
-            setMessage(errorFetching);
         }
     };
 
