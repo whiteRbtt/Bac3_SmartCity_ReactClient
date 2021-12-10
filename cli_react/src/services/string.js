@@ -32,10 +32,8 @@ const nameNotValid = 'Le nom comporte des caractères interdits';
 const mustBePositive = 'La valeur doit être supérieure à 0';
 const securityNotValid = 'La valeur doit être comprise entre 1 et 5';
 const missingAvatar = 'Veuillez sélectionner une image';
-const registerUpdate = 'Veuillez plutôt supprimer et recréer une réservation';
 
 export {
-    registerUpdate,
     noTableSelected,
     url,
     credentialNotValid,

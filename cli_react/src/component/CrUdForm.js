@@ -11,7 +11,6 @@ import {
     addSucces,
     priceNotValid,
     nameNotValid,
-    registerUpdateError,
     passwordHelper,
     birthdateNotValid,
     mustBePositive,
@@ -34,10 +33,12 @@ import {
 
 import { addObjectRel, updateObjectRel } from '../services/api/Object';
 import { addProduct, updateProduct } from '../services/api/Product';
-import { addRegister } from '../services/api/Participation';
+import { updateRegister, addRegisterAdmin } from '../services/api/Participation';
 import { registerAdmin, updateUserProfile } from '../services/api/User';
 import { addStand, updateStand } from '../services/api/Stand';
 import { addEvent, updateEvent } from '../services/api/Event';
+import Header from './Header';
+
 
 import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
 import { Checkbox, TextField, Button, Typography } from '@mui/material';
@@ -73,6 +74,7 @@ const CrUdForm = (props) => {
     const [manager, setManager] = useState('');
     const [areaSize, setAreaSize] = useState(1);
     const [eventId, setEventId] = useState('');
+    const [newEventId, setNewEventId] = useState('');
     const [password, setPassword] = useState('');
     const [birthDate, setBirthDate] = useState(new Date());
     const [admin, setAdmin] = useState(false);
@@ -133,9 +135,14 @@ const CrUdForm = (props) => {
                     setDescription(row.description);
                     setPrice(row.price);
                     break;
+                case 'Participation':
+                    setEventId(row.id_event);
+                    setMailAddress(row.mail_address_user);
+                    break;
                 default:
             }
         } else {
+            setNewEventId('')
             setEventId('');
             setName('');
             setStartingDate(new Date());
@@ -213,13 +220,23 @@ const CrUdForm = (props) => {
 
     const addOrUpdateRegister = async () => {
         if (isEmailValid(mailAddress) & isIdValid(eventId)) {
-            await addRegister(parseFloat(eventId), mailAddress);
-            confirmChanges();
-        } else {
             if (action === 'add') {
-                setMessage(missingFields);
-            } else setMessage(registerUpdateError);
-        }
+                await addRegisterAdmin(parseFloat(eventId), mailAddress);
+                confirmChanges()
+            } else {
+                if(isIdValid(newEventId)){
+                    await updateRegister(
+                        parseFloat(eventId),
+                        mailAddress,
+                        transformDate(new Date()),
+                        parseInt(newEventId),
+                        mailAddress
+                    );
+                    confirmChanges();
+                }else setMessage(missingFields)
+            }
+            confirmChanges();
+        } else setMessage(missingFields);
     };
 
     const addOrUpdateUser = async () => {
@@ -371,13 +388,7 @@ const CrUdForm = (props) => {
                     </div>
                 ) : action === 'update' ? (
                     <div className='crudForm'>
-                        <TextField
-                            label='Stand ID'
-                            value={standId}
-                            onChange={(event) => setStandId(event.target.value)}
-                            error={standId === '' ? null : !isIdValid(standId)}
-                            helperText={standId === '' ? null : isIdValid(standId) ? null : idNotValid}
-                        />
+                        <TextField label='Stand ID' value={standId} disabled={true} />
 
                         <TextField
                             label='new stand ID'
@@ -387,13 +398,7 @@ const CrUdForm = (props) => {
                             helperText={newStandId === '' ? null : isIdValid(newStandId) ? null : idNotValid}
                         />
 
-                        <TextField
-                            label='Product ID'
-                            value={productId}
-                            onChange={(event) => setProductId(event.target.value)}
-                            error={productId === '' ? null : !isIdValid(productId)}
-                            helperText={productId === '' ? null : isIdValid(productId) ? null : idNotValid}
-                        />
+                        <TextField label='Product ID' value={productId} disabled={true} />
 
                         <TextField
                             label='new product ID'
@@ -479,7 +484,19 @@ const CrUdForm = (props) => {
                             helperText={eventId === '' ? null : isIdValid(eventId) ? null : idNotValid}
                         />
                     </div>
-                ) : action === 'update' ? null : null
+                ) : action === 'update' ? (
+                    <div className='crudForm'>
+                        <TextField label='Event id' value={eventId} disabled={true} />
+                        <TextField label='Email' value={mailAddress} disabled={true} />
+                        <TextField
+                            label='New event id'
+                            value={newEventId}
+                            onChange={(event) => setNewEventId(event.target.value)}
+                            error={newEventId === '' ? null : !isIdValid(newEventId)}
+                            helperText={newEventId === '' ? null : isIdValid(newEventId) ? null : idNotValid}
+                        />
+                    </div>
+                ) : null
             ) : null}
 
             {/*------------------------------User------------------------------*/}

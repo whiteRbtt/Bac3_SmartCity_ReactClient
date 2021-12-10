@@ -46,7 +46,7 @@ const addStand = async (type, manager, size, idEvent) => {
 
 const updateStand = async (idStand, type, manager, size, idEvent) => {
     const res = await axios.patch(
-        `${url}/product/update`,
+        `${url}/event/stand/update`,
         {
             idStand: idStand,
             type: type,

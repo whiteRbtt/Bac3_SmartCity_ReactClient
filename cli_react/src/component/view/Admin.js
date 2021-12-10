@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import '../../App.css';
 import Header from '../Header';
 import { isLogged } from '../../services/Toolbox';
-import { errorFetching, delSucces, noRowSelected, noTableSelected, registerUpdate } from '../../services/string';
+import { errorFetching, delSucces, noRowSelected, noTableSelected } from '../../services/string';
 import { getAllEvents, delEvent } from '../../services/api/Event';
 import { getAllProducts, delProduct } from '../../services/api/Product';
 import { getAllUsers, delUser } from '../../services/api/User';
@@ -143,10 +143,7 @@ const Admin = () => {
     const handleUpdate = async (e) => {
         e.preventDefault();
         setMessage()
-        if (selectedTable !== 'Participation') {
-            table ? row ? setAction('update') : setMessage(noRowSelected) : setMessage(noTableSelected);
-        } else setMessage(registerUpdate)
-        
+        table ? row ? setAction('update') : setMessage(noRowSelected) : setMessage(noTableSelected);
     };
 
     const handleDelete = async (e) => {

@@ -111,9 +111,11 @@ const Register = () => {
                 <Button variant='contained' onClick={handleClick}>
                     Inscription
                 </Button>
-                <Link to={`/Connexion`} className='registerLink'>
-                    Connexion
-                </Link>
+                <Typography variant='body2' className='errorMessage'>
+                    <Link to={`/Connexion`} className='registerLink'>
+                        Connexion
+                    </Link>
+                </Typography>
             </div>
             {isLogged() ? <Redirect to='/' /> : null}
         </div>

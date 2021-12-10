@@ -99,6 +99,23 @@ const addRegisterAdmin = async (idEvent, mailUser) => {
     return res;
 };
 
+const updateRegister = async (idEvent, mailAddress, registerDate, newIdEvent, newMailAddress) => {
+    const res = await axios.patch(
+        `${url}/user/reservation/update`,
+        {
+            idEvent: idEvent,
+            mailAddress: mailAddress,
+            registerDate: registerDate,
+            newIdEvent: newIdEvent,
+            newMailAddress: newMailAddress,
+        },
+        {
+            headers: { authorization: `Bearer ${getToken()}` },
+        }
+    );
+    return res;
+};
+
 const delRegister = async (idEvent) => {
         await axios.delete(`${url}/user/reservation/delete`, {
         headers: { authorization: `Bearer ${getToken()}` },
@@ -129,5 +146,6 @@ export {
     addRegisterAdmin,
     delRegister,
     delRegisterAdmin,
-    getAllRegister
+    getAllRegister,
+    updateRegister,
 };

@@ -65,9 +65,11 @@ const Login = () => {
                     Connexion
                 </Button>
 
-                <Link to={`/inscription`} className='registerLink'>
-                    Inscription
-                </Link>
+                <Typography variant='body2' className='errorMessage'>
+                    <Link to={`/inscription`} className='registerLink'>
+                        Inscription
+                    </Link>
+                </Typography>
             </div>
             {isLogged() ? <Redirect to='/' /> : null}
         </div>
