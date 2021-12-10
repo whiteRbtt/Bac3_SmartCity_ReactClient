@@ -40,7 +40,7 @@ const isPasswordValid = (str) => {
 };
 
 const isEmailValid = (str) => {
-    const reg = new RegExp(/^\S+@\S+$/g);
+    const reg = new RegExp(/\w+@\w+\.\w+/g);
     return reg.test(str);
 };
 

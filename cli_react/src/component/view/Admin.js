@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import '../../App.css';
 import Header from '../Header';
 import { isLogged } from '../../services/Toolbox';
-import { errorFetching, delSucces, noRowSelected, noTableSelected } from '../../services/string';
+import { errorFetching, delSucces, noRowSelected, noTableSelected, apiErrors } from '../../services/string';
 import { getAllEvents, delEvent } from '../../services/api/Event';
 import { getAllProducts, delProduct } from '../../services/api/Product';
 import { getAllUsers, delUser } from '../../services/api/User';

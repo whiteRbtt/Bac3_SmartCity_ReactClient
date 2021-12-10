@@ -15,6 +15,7 @@ import {
     birthdateNotValid,
     mustBePositive,
     securityNotValid,
+    apiErrors
 } from '../services/string';
 
 import {
@@ -37,13 +38,12 @@ import { updateRegister, addRegisterAdmin } from '../services/api/Participation'
 import { registerAdmin, updateUserProfile } from '../services/api/User';
 import { addStand, updateStand } from '../services/api/Stand';
 import { addEvent, updateEvent } from '../services/api/Event';
-import Header from './Header';
-
 
 import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
 import { Checkbox, TextField, Button, Typography } from '@mui/material';
 
 const CrUdForm = (props) => {
+
     const [action, setAction] = useState();
     const [table, setTable] = useState();
     const [row, setRow] = useState();
@@ -142,7 +142,7 @@ const CrUdForm = (props) => {
                 default:
             }
         } else {
-            setNewEventId('')
+            setNewEventId('');
             setEventId('');
             setName('');
             setStartingDate(new Date());
@@ -222,9 +222,9 @@ const CrUdForm = (props) => {
         if (isEmailValid(mailAddress) & isIdValid(eventId)) {
             if (action === 'add') {
                 await addRegisterAdmin(parseFloat(eventId), mailAddress);
-                confirmChanges()
+                confirmChanges();
             } else {
-                if(isIdValid(newEventId)){
+                if (isIdValid(newEventId)) {
                     await updateRegister(
                         parseFloat(eventId),
                         mailAddress,
@@ -233,7 +233,7 @@ const CrUdForm = (props) => {
                         mailAddress
                     );
                     confirmChanges();
-                }else setMessage(missingFields)
+                } else setMessage(missingFields);
             }
             confirmChanges();
         } else setMessage(missingFields);
@@ -361,7 +361,8 @@ const CrUdForm = (props) => {
                     setMessage(errorFetching);
             }
         } catch (err) {
-            setMessage(errorFetching);
+            const frMessage = apiErrors[err.response.data.error];
+            setMessage(frMessage)
         }
     };
 
