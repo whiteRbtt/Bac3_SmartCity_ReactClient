@@ -42,6 +42,7 @@ const apiErrors = {
     ['Insupported file type']: "Le format du fichier n'est pas supporté",
     ['Object already registered for this stand']: 'Le produit est déja vendu sur ce stand',
     ['Object already registered']: 'Le produit est déja vendu sur ce stand',
+    ["New user already register for the specified event"] : 'Utilisateur déja inscrit',
 
     ['User not found']: 'Utilisateur introuvable',
     ['Stand not found']: 'Stand introuvable',

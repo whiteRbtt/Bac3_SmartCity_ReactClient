@@ -41,6 +41,7 @@ import { addEvent, updateEvent } from '../services/api/Event';
 
 import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
 import { Checkbox, TextField, Button, Typography } from '@mui/material';
+import { TryOutlined } from '@mui/icons-material';
 
 const CrUdForm = (props) => {
 
@@ -126,6 +127,7 @@ const CrUdForm = (props) => {
                     break;
                 case 'Utilisateur':
                     setMailAddress(row.mail_address);
+                    setName(row.name)
                     row.role === 'admin' ? setAdmin(true) : setAdmin(false);
                     setBirthDate(new Date(row.birthdate));
                     break;
@@ -224,12 +226,12 @@ const CrUdForm = (props) => {
                 await addRegisterAdmin(parseFloat(eventId), mailAddress);
                 confirmChanges();
             } else {
-                if (isIdValid(newEventId)) {
+                if (newEventId ? isIdValid(newEventId) : true) {
                     await updateRegister(
-                        parseFloat(eventId),
+                        parseInt(eventId),
                         mailAddress,
                         transformDate(new Date()),
-                        parseInt(newEventId),
+                        newEventId ? parseInt(newEventId) : parseInt(eventId),
                         mailAddress
                     );
                     confirmChanges();
@@ -240,18 +242,22 @@ const CrUdForm = (props) => {
     };
 
     const addOrUpdateUser = async () => {
-        if (isEmailValid(mailAddress) & isPasswordValid(password) & isBirthDateValid(transformDate(birthDate))) {
-            if ((action === 'add') & isNameValid(name)) {
-                await registerAdmin(mailAddress, password, name, transformDate(birthDate), admin ? 'admin' : 'user');
+        if (
+            isEmailValid(mailAddress) &
+            isNameValid(name) &
+            isBirthDateValid(transformDate(birthDate))
+        ) {
+            if (action === 'add') {
+                await registerAdmin(mailAddress, name, transformDate(birthDate), admin ? 'admin' : 'user');
                 confirmChanges();
             } else {
-                if (isEmailValid(newMailAddress)) {
+                if (newMailAddress ? isEmailValid(newMailAddress) : true) {
                     await updateUserProfile(
                         mailAddress,
-                        newMailAddress,
-                        password,
+                        newMailAddress ? newMailAddress : undefined,
                         transformDate(birthDate),
-                        admin ? 'admin' : 'user'
+                        admin ? 'admin' : 'user',
+                        name
                     );
                     confirmChanges();
                 } else {
@@ -555,11 +561,11 @@ const CrUdForm = (props) => {
                             }
                         />
                         <TextField
-                            label='Password'
-                            value={password}
-                            onChange={(event) => setPassword(event.target.value)}
-                            error={password === '' ? null : !isPasswordValid(password)}
-                            helperText={password === '' ? null : isPasswordValid(password) ? null : passwordHelper}
+                            label='Name'
+                            value={name}
+                            onChange={(event) => setName(event.target.value)}
+                            error={name === '' ? null : !isNameValid(name)}
+                            helperText={name === '' ? null : isNameValid(name) ? null : nameNotValid}
                         />
                         <DesktopDatePicker
                             label='Date de naissance'
