@@ -10,7 +10,8 @@ import {
     errorFetching,
     squalala,
     nameNotValid,
-    apiErrors
+    apiErrors,
+    passwordsNotMatching
 } from '../../services/string';
 import {
     transformDate,
@@ -30,25 +31,23 @@ const Register = () => {
     const [mail, setMail] = useState('');
     const [password, setPassword] = useState('');
     const [pwdConfirm, setPwdConfirm] = useState('');
-    const [date, setDate] = useState(new Date());
+    const [date, setDate] = useState('');
     const [maxDate, setMaxDate] = useState(new Date());
     const [message, setMessage] = useState('');
 
     useEffect(() => {
         const today = new Date()
-        setMaxDate(`${today.getFullYear() - 18}-${today.getMonth() + 1}-${today.getDate()}`);
-        setDate(`${today.getFullYear() - 18}-${today.getMonth() + 1}-${today.getDate()}`);
+        setMaxDate(new Date(`${today.getFullYear() - 18}-${today.getMonth() + 1}-${today.getDate()}`));
     }, []);
-
-
 
     const handleClick = async (e) => {
         e.preventDefault();
+
         if (
             isEmailValid(mail) &
             isNameValid(name) &
             isPasswordValid(password) &
-            isPasswordValid(pwdConfirm) &
+            password === pwdConfirm &
             isBirthDateValid(date)
         ) {
             try {
@@ -58,7 +57,7 @@ const Register = () => {
             } catch (err) {
                 setMessage(apiErrors[err.response.data.error] ?? errorFetching);
             }
-        } else setMessage(missingFields);
+        } else setMessage(password !== pwdConfirm ? passwordsNotMatching : missingFields);
     };    
 
     return (
@@ -97,10 +96,9 @@ const Register = () => {
 
                 <DesktopDatePicker
                     label='Date de naissance'
-                    value={date}
+                    value={date === '' ? maxDate : date}
                     minDate={new Date('1920-01-01')}
                     maxDate={maxDate}
-                    disableFuture
                     onChange={(newValue) => {
                         setDate(newValue);
                     }}
