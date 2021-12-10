@@ -364,11 +364,9 @@ const CrUdForm = (props) => {
                     await addOrUpdateProduct();
                     break;
                 default:
-                    setMessage(errorFetching);
             }
         } catch (err) {
-            const frMessage = apiErrors[err.response.data.error];
-            setMessage(frMessage)
+            setMessage(apiErrors[err.response.data.error] ?? errorFetching);
         }
     };
 

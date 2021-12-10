@@ -12,7 +12,7 @@ import {
 import {
     mailNotValid,
     passwordHelper,
-    credentialNotValid,
+    apiErrors,
     errorFetching,
     missingFields,
     squalala,
@@ -34,16 +34,13 @@ const Login = () => {
                 await persistUser();
                 setMessage(squalala)
             } catch (err) {
-                err.response.status !== 500 ? setMessage(credentialNotValid) : setMessage(errorFetching);
+                setMessage(apiErrors[err.response.data.error] ?? errorFetching);
             }
         } else setMessage(missingFields);
     };
 
     return (
         <div className='centerBoxContainer'>
-            <Typography variant='8' className='errorMessage'>
-                {message}
-            </Typography>
             <div className='loginContainer'>
                 <TextField
                     label='Email'
@@ -71,6 +68,9 @@ const Login = () => {
                     </Link>
                 </Typography>
             </div>
+            <Typography variant='body 2' className='whiteNeon' style={{marginTop : 50}}>
+                {message}
+            </Typography>
             {isLogged() ? <Redirect to='/' /> : null}
         </div>
     );

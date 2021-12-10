@@ -35,7 +35,7 @@ const missingAvatar = 'Veuillez sélectionner une image';
 
 const apiErrors = {
     ['No updatable attribute']: 'Aucune modification détectée',
-
+    ["Invalid password"]: "Mot de passe errorné",
     ['Invalid mail address, use the format : xxx@yyy.zz']: mailNotValid,
     ['Address mail already registered']: 'Il existe déja un compte lié à cette adresse',
     ['Participation already registered for this event']: "Cet utilisateur est déja inscrit à l'évenement",
@@ -49,6 +49,7 @@ const apiErrors = {
     ['Creator not found, please verify his mail address']: "L'email du créateur est erroné",
     ['Event not found']: 'Evenement introuvable',
     ['Product not found']: 'Produit introuvable',
+    ["Mail address not found"] : "Utilisateur introuvable"
 };
 
 export {

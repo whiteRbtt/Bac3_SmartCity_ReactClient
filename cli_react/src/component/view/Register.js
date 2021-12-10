@@ -10,6 +10,7 @@ import {
     errorFetching,
     squalala,
     nameNotValid,
+    apiErrors
 } from '../../services/string';
 import {
     transformDate,
@@ -30,18 +31,19 @@ const Register = () => {
     const [password, setPassword] = useState('');
     const [pwdConfirm, setPwdConfirm] = useState('');
     const [date, setDate] = useState(new Date());
+    const [maxDate, setMaxDate] = useState(new Date());
     const [message, setMessage] = useState('');
 
     useEffect(() => {
-        if(typeof(date) === "object")
-            setDate(`${date.getFullYear() - 18}-${date.getMonth() + 1}-${date.getDate()}`);
+        const today = new Date()
+        setMaxDate(`${today.getFullYear() - 18}-${today.getMonth() + 1}-${today.getDate()}`);
+        setDate(`${today.getFullYear() - 18}-${today.getMonth() + 1}-${today.getDate()}`);
     }, []);
 
 
 
     const handleClick = async (e) => {
         e.preventDefault();
-        if (typeof date === 'object')  setDate(transformDate(date));
         if (
             isEmailValid(mail) &
             isNameValid(name) &
@@ -50,12 +52,11 @@ const Register = () => {
             isBirthDateValid(date)
         ) {
             try {
-                await register(mail, password, name, date);
+                await register(mail, password, name, transformDate(date));
                 await persistUser();
                 setMessage(squalala);
             } catch (err) {
-                setMessage(errorFetching);
-                console.error(err);
+                setMessage(apiErrors[err.response.data.error] ?? errorFetching);
             }
         } else setMessage(missingFields);
     };    
@@ -63,9 +64,6 @@ const Register = () => {
     return (
         <div className='centerBoxContainer'>
             <div className='registerContainer'>
-                <Typography variant='8' className='errorMessage'>
-                    {message}
-                </Typography>
                 <TextField
                     label='Nom'
                     value={name}
@@ -101,7 +99,7 @@ const Register = () => {
                     label='Date de naissance'
                     value={date}
                     minDate={new Date('1920-01-01')}
-                    maxDate={new Date(date)}
+                    maxDate={maxDate}
                     disableFuture
                     onChange={(newValue) => {
                         setDate(newValue);
@@ -117,6 +115,9 @@ const Register = () => {
                     </Link>
                 </Typography>
             </div>
+            <Typography variant='body 2' className='whiteNeon' style={{ marginTop: 50, marginBottom:50 }}>
+                {message}
+            </Typography>
             {isLogged() ? <Redirect to='/' /> : null}
         </div>
     );
