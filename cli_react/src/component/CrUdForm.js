@@ -15,6 +15,7 @@ import {
     birthdateNotValid,
     mustBePositive,
     securityNotValid,
+    apiErrors
 } from '../services/string';
 
 import {
@@ -37,13 +38,13 @@ import { updateRegister, addRegisterAdmin } from '../services/api/Participation'
 import { registerAdmin, updateUserProfile } from '../services/api/User';
 import { addStand, updateStand } from '../services/api/Stand';
 import { addEvent, updateEvent } from '../services/api/Event';
-import Header from './Header';
-
 
 import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
 import { Checkbox, TextField, Button, Typography } from '@mui/material';
+import { TryOutlined } from '@mui/icons-material';
 
 const CrUdForm = (props) => {
+
     const [action, setAction] = useState();
     const [table, setTable] = useState();
     const [row, setRow] = useState();
@@ -126,6 +127,7 @@ const CrUdForm = (props) => {
                     break;
                 case 'Utilisateur':
                     setMailAddress(row.mail_address);
+                    setName(row.name)
                     row.role === 'admin' ? setAdmin(true) : setAdmin(false);
                     setBirthDate(new Date(row.birthdate));
                     break;
@@ -142,7 +144,7 @@ const CrUdForm = (props) => {
                 default:
             }
         } else {
-            setNewEventId('')
+            setNewEventId('');
             setEventId('');
             setName('');
             setStartingDate(new Date());
@@ -222,36 +224,40 @@ const CrUdForm = (props) => {
         if (isEmailValid(mailAddress) & isIdValid(eventId)) {
             if (action === 'add') {
                 await addRegisterAdmin(parseFloat(eventId), mailAddress);
-                confirmChanges()
+                confirmChanges();
             } else {
-                if(isIdValid(newEventId)){
+                if (newEventId ? isIdValid(newEventId) : true) {
                     await updateRegister(
-                        parseFloat(eventId),
+                        parseInt(eventId),
                         mailAddress,
                         transformDate(new Date()),
-                        parseInt(newEventId),
+                        newEventId ? parseInt(newEventId) : parseInt(eventId),
                         mailAddress
                     );
                     confirmChanges();
-                }else setMessage(missingFields)
+                } else setMessage(missingFields);
             }
             confirmChanges();
         } else setMessage(missingFields);
     };
 
     const addOrUpdateUser = async () => {
-        if (isEmailValid(mailAddress) & isPasswordValid(password) & isBirthDateValid(transformDate(birthDate))) {
-            if ((action === 'add') & isNameValid(name)) {
-                await registerAdmin(mailAddress, password, name, transformDate(birthDate), admin ? 'admin' : 'user');
+        if (
+            isEmailValid(mailAddress) &
+            isNameValid(name) &
+            isBirthDateValid(transformDate(birthDate))
+        ) {
+            if (action === 'add') {
+                await registerAdmin(mailAddress, name, transformDate(birthDate), admin ? 'admin' : 'user');
                 confirmChanges();
             } else {
-                if (isEmailValid(newMailAddress)) {
+                if (newMailAddress ? isEmailValid(newMailAddress) : true) {
                     await updateUserProfile(
                         mailAddress,
-                        newMailAddress,
-                        password,
+                        newMailAddress ? newMailAddress : undefined,
                         transformDate(birthDate),
-                        admin ? 'admin' : 'user'
+                        admin ? 'admin' : 'user',
+                        name
                     );
                     confirmChanges();
                 } else {
@@ -361,7 +367,8 @@ const CrUdForm = (props) => {
                     setMessage(errorFetching);
             }
         } catch (err) {
-            setMessage(errorFetching);
+            const frMessage = apiErrors[err.response.data.error];
+            setMessage(frMessage)
         }
     };
 
@@ -554,11 +561,11 @@ const CrUdForm = (props) => {
                             }
                         />
                         <TextField
-                            label='Password'
-                            value={password}
-                            onChange={(event) => setPassword(event.target.value)}
-                            error={password === '' ? null : !isPasswordValid(password)}
-                            helperText={password === '' ? null : isPasswordValid(password) ? null : passwordHelper}
+                            label='Name'
+                            value={name}
+                            onChange={(event) => setName(event.target.value)}
+                            error={name === '' ? null : !isNameValid(name)}
+                            helperText={name === '' ? null : isNameValid(name) ? null : nameNotValid}
                         />
                         <DesktopDatePicker
                             label='Date de naissance'

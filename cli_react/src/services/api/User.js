@@ -96,15 +96,15 @@ const updateOwnPwd = async (oldPwd, newPwd) => {
     return res;
 };
 
-const updateUserProfile = async (mail, newMail, pwd, birthdate, role) => {
+const updateUserProfile = async (mail, newMail, birthdate, role, name) => {
     const res = await axios.patch(
         `${url}/user/account/admin/update`,
         {
             userMailAddress: mail,
             newUserMailAddress: newMail,
-            password: pwd,
             birthdate: birthdate,
             role: role,
+            name: name,
         },
         {
             headers: { authorization: `Bearer ${getToken()}` },
