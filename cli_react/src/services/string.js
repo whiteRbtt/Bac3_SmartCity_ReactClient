@@ -8,6 +8,7 @@ const passwordsNotMatching = 'Les mots de passe doivent être similaires';
 const imgTooLarge = "L'avatar doit être un jpeg ou png de maximum 150 x 150 px";
 const registerUpdateError = 'Veuillez plutôt supprimer et créer une nouvelle participation';
 const passwordNotValid = 'Le mot de passe actuel est erroné';
+const cannotReachServer = 'Le service est inaccessible, veuillez contacter le support client'
 
 // SUCCES
 const passwordSucces = 'Mot de passe modifié avec succès';
@@ -54,6 +55,7 @@ const apiErrors = {
 };
 
 export {
+    cannotReachServer,
     apiErrors,
     noTableSelected,
     url,

@@ -16,6 +16,7 @@ import {
     errorFetching,
     missingFields,
     squalala,
+    cannotReachServer,
 } from '../../services/string';
 
 import { Button, Typography, TextField } from '@mui/material';
@@ -34,7 +35,7 @@ const Login = () => {
                 await persistUser();
                 setMessage(squalala)
             } catch (err) {
-                setMessage(apiErrors[err.response.data.error] ?? errorFetching);
+                setMessage(err.response ? apiErrors[err.response.data.error] ?? errorFetching : cannotReachServer);
             }
         } else setMessage(missingFields);
     };

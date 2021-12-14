@@ -11,7 +11,8 @@ import {
     squalala,
     nameNotValid,
     apiErrors,
-    passwordsNotMatching
+    passwordsNotMatching,
+    cannotReachServer
 } from '../../services/string';
 import {
     transformDate,
@@ -55,7 +56,7 @@ const Register = () => {
                 await persistUser();
                 setMessage(squalala);
             } catch (err) {
-                setMessage(apiErrors[err.response.data.error] ?? errorFetching);
+                setMessage(err.response ? apiErrors[err.response.data.error] ?? errorFetching : cannotReachServer);
             }
         } else setMessage(password !== pwdConfirm ? passwordsNotMatching : missingFields);
     };    

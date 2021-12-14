@@ -79,11 +79,11 @@ export default function Event() {
                 if (isRegistered) {
                     await delRegister(parseInt(eventId));
                     setIsRegistered(false);
-                    setNbPlacesLeft(nbPlacesLeft - 1);
+                    setNbPlacesLeft(nbPlacesLeft + 1);
                 } else {
                     await addRegister(parseInt(eventId));
                     setIsRegistered(true);
-                    setNbPlacesLeft(nbPlacesLeft + 1);
+                    setNbPlacesLeft(nbPlacesLeft - 1);
                 }
                 setMessage('');
             } catch (err) {
@@ -143,8 +143,20 @@ export default function Event() {
                               } ${event.city}`
                             : ' '}
                     </Typography>
-                    <Typography variant='h5'>{nbPlacesLeft ? nbPlacesLeft : ' '} places restantes</Typography>
-                    <Typography variant='h5'>{event ? event.stand_count : ' '} exposants</Typography>
+                    <Typography variant='h5'>
+                        {nbPlacesLeft
+                            ? nbPlacesLeft > 1
+                                ? nbPlacesLeft + ' places restantes'
+                                : nbPlacesLeft + ' place restante'
+                            : ' '}
+                    </Typography>
+                    <Typography variant='h5'>
+                        {event
+                            ? event.stand_count > 1
+                                ? event.stand_count + ' exposants'
+                                : event.stand_count + ' exposant'
+                            : ' '}{' '}
+                    </Typography>
                 </div>
             </div>
             {isLogged() ? null : <Redirect to='/connexion' />}
