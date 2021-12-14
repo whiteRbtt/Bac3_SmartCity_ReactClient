@@ -2,30 +2,34 @@
     color: rgb(177, 22, 22);
 }
 
-body{
+body {
     background-color: #02032e;
 }
 
-.whiteNeon{
+.whiteNeon {
     color: #e2ece9;
     text-shadow: 0px 0px 5px #f72585;
 }
 
-.whiteColor{
+.whiteColor {
     color: #e2ece9;
 }
 
-.pinkColor{
-    color: #f72585
+.pinkColor {
+    color: #f72585;
 }
 
-#welcome{
+#welcome {
     text-shadow: 0px 0px 20px #f72585;
 }
 
-.tilesFont{
+.tilesFont {
     color: #02032e;
     text-shadow: 0px 0px 1px #02032e;
+}
+
+.passwordField {
+    width: 230px;
 }
 
 /***********************************HEADER***********************************/
@@ -82,10 +86,9 @@ header {
     justify-content: space-evenly;
 }
 
-#adminButton{
+#adminButton {
     opacity: 0.8;
 }
-
 
 /***********************************LOGIN AND REGISTER***********************************/
 
@@ -171,9 +174,6 @@ header {
     border-radius: 5px;
 }
 
-
-
-
 .paginationContainer {
     width: 100%;
     display: flex;
@@ -182,14 +182,14 @@ header {
     justify-content: space-evenly;
 }
 
-.paginationTilesContainer{
+.paginationTilesContainer {
     margin-bottom: 75px;
     height: 100%;
     width: 100%;
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content:center;
+    justify-content: center;
     flex-wrap: wrap;
 }
 
@@ -215,7 +215,7 @@ header {
     color: #e2ece9;
 }
 
-#homeImg{
+#homeImg {
     margin-top: 50px;
     height: 400px;
     opacity: 0.7;
@@ -230,7 +230,6 @@ header {
     align-items: center;
     justify-content: space-around;
 }
-
 
 /***********************************EVENT***********************************/
 
@@ -271,7 +270,6 @@ header {
     justify-content: space-between;
 }
 
-
 .eventRightContainer {
     height: 400px;
     margin-top: 50px;
@@ -283,7 +281,7 @@ header {
 
 /***********************************SEARCH***********************************/
 
-.searchContainer{
+.searchContainer {
     margin-top: 50px;
     display: flex;
     flex-direction: column;
@@ -313,7 +311,6 @@ header {
     justify-content: space-evenly;
 }
 
-
 /***********************************PROFILE***********************************/
 
 .profileContainerTop {
@@ -328,8 +325,8 @@ header {
 }
 
 .avatar {
-    height : 250px;
-    width : 250px;
+    height: 250px;
+    width: 250px;
     border-radius: 20px;
     box-shadow: 0px 0px 5px #928d8f;
 }
@@ -349,7 +346,6 @@ header {
     align-items: center;
     justify-content: space-evenly;
     flex-wrap: wrap;
-    
 }
 
 .futurePastEventsContainer {
@@ -361,10 +357,9 @@ header {
     justify-content: flex-start;
 }
 
-
 /***********************************SETTING***********************************/
 
-.settingsColumns{
+.settingsColumns {
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -405,7 +400,7 @@ header {
     text-shadow: 0px 0px 5px #f72585;
 }
 
-.errorMessageSettings{
+.errorMessageSettings {
     color: rgb(177, 22, 22);
     margin-top: 200px;
 }
@@ -427,14 +422,14 @@ header {
     background-color: #f8edeb;
     box-shadow: 0px 0px 15px #f72585;
     border-radius: 10px;
-    padding : 15px 15px 15px 15px;
+    padding: 15px 15px 15px 15px;
 }
 
 .dataGrid {
     height: 400px;
     width: 700px;
     background-color: #f8edeb;
-    padding : 15px 15px 15px 15px;
+    padding: 15px 15px 15px 15px;
     border-radius: 20px;
 }
 
@@ -446,7 +441,7 @@ header {
     justify-content: space-between;
 }
 
-.adminSelectContainer{
+.adminSelectContainer {
     width: fit-content;
     height: 800px;
     display: flex;
@@ -458,8 +453,6 @@ header {
 .adminFormContainer {
     margin-top: 50px;
 }
-
-
 
 .crudFormContainer {
     width: 350px;
@@ -487,9 +480,7 @@ header {
     margin-bottom: 40px;
 }
 
-
-
-.checkboxContainer{
+.checkboxContainer {
     display: flex;
     flex-direction: row;
     width: 200px;

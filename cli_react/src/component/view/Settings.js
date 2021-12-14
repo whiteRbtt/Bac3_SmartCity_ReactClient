@@ -18,7 +18,18 @@ import '../../App.css';
 import geralt from '../../services/img/geralt.png';
 import Header from '../Header';
 
-import { Typography, TextField, Button } from '@mui/material';
+import {
+    Button,
+    Typography,
+    TextField,
+    IconButton,
+    InputAdornment,
+    OutlinedInput,
+    InputLabel,
+    FormControl,
+} from '@mui/material';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 const Settings = (props) => {
     const [password, setPassword] = useState('');
@@ -27,13 +38,17 @@ const Settings = (props) => {
     const [avatar] = useState(props.location.avatar ? props.location.avatar : null);
     const [newAvatar, setNewAvatar] = useState();
     const [message, setMessage] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
 
+    const handleClickShowPassword = () => {
+        setShowPassword(!showPassword);
+    };
 
     const handleClickPwd = async (e) => {
         e.preventDefault();
-        console.log(`password`, password)
-        console.log(`newPassword`, newPassword)
-        console.log(`newPasswordConfirm`, newPasswordConfirm)
+        console.log(`password`, password);
+        console.log(`newPassword`, newPassword);
+        console.log(`newPasswordConfirm`, newPasswordConfirm);
         if ((password !== '') & (newPassword !== '') & (newPasswordConfirm !== '')) {
             if (newPassword === newPasswordConfirm) {
                 if (isPasswordValid(newPassword)) {
@@ -54,7 +69,7 @@ const Settings = (props) => {
     const handleClickAvatar = async (e) => {
         e.preventDefault();
         if (newAvatar !== null) {
-            if(newAvatar[0].size < 15000){
+            if (newAvatar[0].size < 15000) {
                 try {
                     const formData = new FormData();
                     for (const image of newAvatar) formData.append('avatar', image);
@@ -65,7 +80,7 @@ const Settings = (props) => {
                 } catch (err) {
                     setMessage(errorFetching);
                 }
-            } else setMessage(imgTooLarge);          
+            } else setMessage(imgTooLarge);
         } else setMessage(missingAvatar);
     };
 
@@ -77,35 +92,73 @@ const Settings = (props) => {
                     <div className='passwordSettingContainer'>
                         <Typography variant='h5'>Modifier le mot de passe</Typography>
 
-                        <TextField
-                            label='Actuel'
-                            value={password}
-                            onChange={(event) => setPassword(event.target.value)}
-                        />
+                        <FormControl className='passwordField'>
+                            <InputLabel htmlFor='password'>Actuel</InputLabel>
+                            <OutlinedInput
+                                id='password'
+                                label='Actuel'
+                                type={showPassword ? 'text' : 'password'}
+                                value={password}
+                                onChange={(event) => setPassword(event.target.value)}
+                                error={password === '' ? null : !isPasswordValid(password)}
+                                helperText={password === '' ? null : isPasswordValid(password) ? null : passwordHelper}
+                                endAdornment={
+                                    <InputAdornment position='end'>
+                                        <IconButton onClick={handleClickShowPassword} edge='end'>
+                                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                }
+                            />
+                        </FormControl>
 
-                        <TextField
-                            label='Nouveau'
-                            value={newPassword}
-                            onChange={(event) => setNewPassword(event.target.value)}
-                            error={newPassword === '' ? null : !isPasswordValid(newPassword)}
-                            helperText={
-                                newPassword === '' ? null : isPasswordValid(newPassword) ? null : passwordHelper
-                            }
-                        />
+                        <FormControl className='passwordField'>
+                            <InputLabel htmlFor='password'>Nouveau</InputLabel>
+                            <OutlinedInput
+                                id='password'
+                                label='Nouveau'
+                                type={showPassword ? 'text' : 'password'}
+                                value={newPassword}
+                                onChange={(event) => setNewPassword(event.target.value)}
+                                error={newPassword === '' ? null : !isPasswordValid(newPassword)}
+                                helperText={
+                                    newPassword === '' ? null : isPasswordValid(newPassword) ? null : passwordHelper
+                                }
+                                endAdornment={
+                                    <InputAdornment position='end'>
+                                        <IconButton onClick={handleClickShowPassword} edge='end'>
+                                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                }
+                            />
+                        </FormControl>
 
-                        <TextField
-                            label='Répetez nouveau'
-                            value={newPasswordConfirm}
-                            onChange={(event) => setNewPasswordConfirm(event.target.value)}
-                            error={newPasswordConfirm === '' ? null : !isPasswordValid(newPasswordConfirm)}
-                            helperText={
-                                newPasswordConfirm === ''
-                                    ? null
-                                    : isPasswordValid(newPasswordConfirm)
-                                    ? null
-                                    : passwordHelper
-                            }
-                        />
+                        <FormControl className='passwordField'>
+                            <InputLabel htmlFor='password'>Répetez nouveau</InputLabel>
+                            <OutlinedInput
+                                id='password'
+                                label='Répetez nouveau'
+                                type={showPassword ? 'text' : 'password'}
+                                value={newPasswordConfirm}
+                                onChange={(event) => setNewPasswordConfirm(event.target.value)}
+                                error={newPasswordConfirm === '' ? null : !isPasswordValid(newPasswordConfirm)}
+                                helperText={
+                                    newPasswordConfirm === ''
+                                        ? null
+                                        : isPasswordValid(newPasswordConfirm)
+                                        ? null
+                                        : passwordHelper
+                                }
+                                endAdornment={
+                                    <InputAdornment position='end'>
+                                        <IconButton onClick={handleClickShowPassword} edge='end'>
+                                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                }
+                            />
+                        </FormControl>
 
                         <Button variant='outlined' onClick={handleClickPwd}>
                             modifier
