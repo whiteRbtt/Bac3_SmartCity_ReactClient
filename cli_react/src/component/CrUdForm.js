@@ -41,7 +41,6 @@ import { addEvent, updateEvent } from '../services/api/Event';
 
 import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
 import { Checkbox, TextField, Button, Typography } from '@mui/material';
-import { TryOutlined } from '@mui/icons-material';
 
 const CrUdForm = (props) => {
 
@@ -431,7 +430,10 @@ const CrUdForm = (props) => {
                         <TextField
                             label='Description'
                             value={description}
+                            multiline
                             onChange={(event) => setDescription(event.target.value)}
+                            error={description === '' ? null : !isNotBlank(description)}
+                            helperText={description === '' ? null : isNotBlank(description) ? null : blankFieldError}
                         />
                         <TextField
                             label='Price'
@@ -453,6 +455,7 @@ const CrUdForm = (props) => {
                         />
                         <TextField
                             label='Description'
+                            multiline
                             value={description}
                             onChange={(event) => setDescription(event.target.value)}
                             error={description === '' ? null : !isNotBlank(description)}
@@ -679,6 +682,7 @@ const CrUdForm = (props) => {
                         />
                         <TextField
                             label='street name'
+                            multiline
                             value={streetName}
                             onChange={(event) => setStreetName(event.target.value)}
                             error={streetName === '' ? null : !isNotBlank(streetName)}
@@ -707,6 +711,7 @@ const CrUdForm = (props) => {
                         />
                         <TextField
                             label='Description'
+                            multiline
                             value={description}
                             onChange={(event) => setDescription(event.target.value)}
                             error={description === '' ? null : !isNotBlank(description)}
@@ -789,6 +794,7 @@ const CrUdForm = (props) => {
                         />
                         <TextField
                             label='street name'
+                            multiline
                             value={streetName}
                             onChange={(event) => setStreetName(event.target.value)}
                             error={streetName === '' ? null : !isNotBlank(streetName)}
@@ -817,6 +823,7 @@ const CrUdForm = (props) => {
                         />
                         <TextField
                             label='Description'
+                            multiline
                             value={description}
                             onChange={(event) => setDescription(event.target.value)}
                             error={description === '' ? null : !isNotBlank(description)}
