@@ -50,16 +50,16 @@ const isIdValid = (id) => {
 }
 
 const isSecurityLevelValid = (lv) => {
-    return (lv > 0 & lv < 6);
+    return (lv > 0 && lv < 6);
 };
 
 const isMaxPlaceValid = (nb) => {
-    return (nb > 0 & isIdValid(nb))
+    return (nb > 0 && isIdValid(nb))
 }
 
 const isPriceValid = (price) => {
     const reg = new RegExp(/\d{1,3}(?:[.,]\d{3})*(?:[.,]\d)/g)
-    return (reg.test(price) & parseFloat(price) > 0);
+    return (reg.test(price) && parseFloat(price) > 0);
 }
 
 const isNameValid = (name) => {

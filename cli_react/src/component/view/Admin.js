@@ -74,16 +74,16 @@ const Admin = () => {
             for (const key in table[0]) {
                 let wth = 150;
                 if (
-                    ((key === 'name') & (selectedTable !== 'Utilisateur')) |
-                    (key === 'name_product') |
+                    ((key === 'name') && (selectedTable !== 'Utilisateur')) ||
+                    (key === 'name_product') ||
                     (key === 'street_name')
                 ) {
                     wth = 300;
                 } else if (key === 'description') {
                     wth = 500;
                 } else if (
-                    (key === 'mail_address_creator') |
-                    (key === 'mail_address_user') |
+                    (key === 'mail_address_creator') ||
+                    (key === 'mail_address_user') ||
                     (key === 'mail_address')
                 ) {
                     wth = 250;

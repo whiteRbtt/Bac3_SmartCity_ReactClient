@@ -35,23 +35,23 @@ const securityNotValid = 'La valeur doit être comprise entre 1 et 5';
 const missingAvatar = 'Veuillez sélectionner une image';
 
 const apiErrors = {
-    ['No updatable attribute']: 'Aucune modification détectée',
-    ['Invalid password']: 'Mot de passe errorné',
-    ['Incorrect current password']: 'Mot de passe errorné',
-    ['Invalid mail address, use the format : xxx@yyy.zz']: mailNotValid,
-    ['Address mail already registered']: 'Il existe déja un compte lié à cette adresse',
-    ['Participation already registered for this event']: "Cet utilisateur est déja inscrit à l'évenement",
-    ['Insupported file type']: "Le format du fichier n'est pas supporté",
-    ['Object already registered for this stand']: 'Le produit est déja vendu sur ce stand',
-    ['Object already registered']: 'Le produit est déja vendu sur ce stand',
-    ['New user already register for the specified event']: 'Utilisateur déja inscrit',
+    'No updatable attribute': 'Aucune modification détectée',
+    'Invalid password': 'Mot de passe errorné',
+    'Incorrect current password': 'Mot de passe errorné',
+    'Invalid mail address, use the format : xxx@yyy.zz': mailNotValid,
+    'Address mail already registered': 'Il existe déja un compte lié à cette adresse',
+    'Participation already registered for this event': "Cet utilisateur est déja inscrit à l'évenement",
+    'Insupported file type': "Le format du fichier n'est pas supporté",
+    'Object already registered for this stand': 'Le produit est déja vendu sur ce stand',
+    'Object already registered': 'Le produit est déja vendu sur ce stand',
+    'New user already register for the specified event': 'Utilisateur déja inscrit',
 
-    ['User not found']: 'Utilisateur introuvable',
-    ['Stand not found']: 'Stand introuvable',
-    ['Creator not found, please verify his mail address']: "L'email du créateur est erroné",
-    ['Event not found']: 'Evenement introuvable',
-    ['Product not found']: 'Produit introuvable',
-    ['Mail address not found']: 'Utilisateur introuvable',
+    'User not found': 'Utilisateur introuvable',
+    'Stand not found': 'Stand introuvable',
+    'Creator not found, please verify his mail address': "L'email du créateur est erroné",
+    'Event not found': 'Evenement introuvable',
+    'Product not found': 'Produit introuvable',
+    'Mail address not found': 'Utilisateur introuvable',
 };
 
 export {

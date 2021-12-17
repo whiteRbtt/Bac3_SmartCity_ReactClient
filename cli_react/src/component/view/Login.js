@@ -46,7 +46,7 @@ const Login = () => {
     const handleClick = async (e) => {
         e.preventDefault();
 
-        if (isEmailValid(mail) & isPasswordValid(password)) {
+        if (isEmailValid(mail) && isPasswordValid(password)) {
             try {
                 await login(mail, password);
                 await persistUser();

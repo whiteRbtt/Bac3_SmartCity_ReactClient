@@ -183,12 +183,12 @@ const CrUdForm = (props) => {
     };
 
     const addOrUpdateObject = async () => {
-        if (isIdValid(standId) & isIdValid(productId)) {
+        if (isIdValid(standId) && isIdValid(productId)) {
             if (action === 'add') {
                 await addObjectRel(parseInt(standId), parseInt(productId));
                 confirmChanges();
             } else {
-                if (isIdValid(newProductId) & isIdValid(newStandId)) {
+                if (isIdValid(newProductId) && isIdValid(newStandId)) {
                     await updateObjectRel(
                         parseInt(standId),
                         parseInt(productId),
@@ -202,7 +202,7 @@ const CrUdForm = (props) => {
     };
 
     const addOrUpdateProduct = async () => {
-        if (isNameValid(name) & isPriceValid(price) & isNotBlank(description)) {
+        if (isNameValid(name) && isPriceValid(price) && isNotBlank(description)) {
             if (action === 'add') {
                 await addProduct(name, description, parseFloat(price));
                 confirmChanges();
@@ -220,7 +220,7 @@ const CrUdForm = (props) => {
     };
 
     const addOrUpdateRegister = async () => {
-        if (isEmailValid(mailAddress) & isIdValid(eventId)) {
+        if (isEmailValid(mailAddress) && isIdValid(eventId)) {
             if (action === 'add') {
                 await addRegisterAdmin(parseFloat(eventId), mailAddress);
                 confirmChanges();
@@ -242,8 +242,8 @@ const CrUdForm = (props) => {
 
     const addOrUpdateUser = async () => {
         if (
-            isEmailValid(mailAddress) &
-            isNameValid(name) &
+            isEmailValid(mailAddress) &&
+            isNameValid(name) &&
             isBirthDateValid(transformDate(birthDate))
         ) {
             if (action === 'add') {
@@ -270,7 +270,7 @@ const CrUdForm = (props) => {
     };
 
     const addOrUpdateStand = async () => {
-        if (isNotBlank(type) & isNameValid(manager) & (areaSize > 0) & isIdValid(eventId)) {
+        if (isNotBlank(type) && isNameValid(manager) && (areaSize > 0) && isIdValid(eventId)) {
             if (action === 'add') {
                 await addStand(type, manager, parseInt(areaSize), parseInt(eventId));
                 confirmChanges();
@@ -287,13 +287,13 @@ const CrUdForm = (props) => {
 
     const addOrUpdateEvent = async () => {
         if (
-            isNameValid(name) &
-            isNotBlank(streetName) &
-            isNotBlank(city) &
-            isIdValid(postCode) &
-            isNotBlank(description) &
-            isNotBlank(type) &
-            isSecurityLevelValid(securityLevel) &
+            isNameValid(name) &&
+            isNotBlank(streetName) &&
+            isNotBlank(city) &&
+            isIdValid(postCode) &&
+            isNotBlank(description) &&
+            isNotBlank(type) &&
+            isSecurityLevelValid(securityLevel) &&
             (maxPlace > 0)
         ) {
             if (action === 'add') {
@@ -315,7 +315,7 @@ const CrUdForm = (props) => {
                 );
                 confirmChanges();
             } else {
-                if (isIdValid(eventId) & isEmailValid(mailAddressCreator)) {
+                if (isIdValid(eventId) && isEmailValid(mailAddressCreator)) {
                     await updateEvent(
                         eventId,
                         name,

@@ -61,10 +61,10 @@ const Register = () => {
         e.preventDefault();
 
         if (
-            isEmailValid(mail) &
-            isNameValid(name) &
-            isPasswordValid(password) &
-            password === pwdConfirm &
+            isEmailValid(mail) &&
+            isNameValid(name) &&
+            isPasswordValid(password) &&
+            password === pwdConfirm &&
             isBirthDateValid(date)
         ) {
             try {

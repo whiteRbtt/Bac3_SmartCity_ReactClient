@@ -26,7 +26,7 @@ const Research = () => {
         let targetDate;
         date ? (targetDate = transformDate(date)) : (targetDate = undefined);
 
-        if (date | isNotBlank(city)) {
+        if (date || isNotBlank(city)) {
             try {
                 const res = await searchEvent(targetDate, city);
                 if (res.length > 0) {

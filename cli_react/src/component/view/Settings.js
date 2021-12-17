@@ -49,7 +49,7 @@ const Settings = (props) => {
         console.log(`password`, password);
         console.log(`newPassword`, newPassword);
         console.log(`newPasswordConfirm`, newPasswordConfirm);
-        if ((password !== '') & (newPassword !== '') & (newPasswordConfirm !== '')) {
+        if ((password !== '') && (newPassword !== '') && (newPasswordConfirm !== '')) {
             if (newPassword === newPasswordConfirm) {
                 if (isPasswordValid(newPassword)) {
                     try {

@@ -16,7 +16,7 @@ const Header = () => {
     
 
     useEffect(() => {
-        if (isLogged() & isAdmin()) {
+        if (isLogged() && isAdmin()) {
             setIsHidden(false);
             if (location === '/admin') {
                 setButtonTarget('/');

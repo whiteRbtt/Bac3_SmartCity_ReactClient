@@ -10,21 +10,19 @@ import Research from '../component/view/Research';
 import Settings from '../component/view/Settings';
 
 export default function Routes() {    
-	return (        
-			<Router>            
-					<Switch>  
-
-						<Route exact path='/' component={Home}></Route>
-                        <Route path='/profil' component={Profile}></Route>      
-                        <Route path='/param' component={Settings}></Route>                  
-                        <Route path='/rechercher' component={Research}></Route>
-                        <Route path='/admin' component={Admin}></Route>
-                        <Route path='/inscription' component={Register}></Route>
-                        <Route path='/admin' component={Admin}></Route>
-                        <Route path='/connexion' component={Login}></Route>
-                        <Route path='/evenement/:id' component={Event}></Route>
-                        
-					</Switch>        
-			</Router>    
-	);
+	return (
+        <Router>
+            <Switch>
+                <Route path='/profil' component={Profile} />
+                <Route path='/param' component={Settings} />
+                <Route path='/rechercher' component={Research} />
+                <Route path='/admin' component={Admin} />
+                <Route path='/inscription' component={Register} />
+                <Route path='/admin' component={Admin} />
+                <Route path='/connexion' component={Login} />
+                <Route path='/evenement/:id' component={Event} />
+                <Route path='/' component={Home} />
+            </Switch>
+        </Router>
+    );
 }

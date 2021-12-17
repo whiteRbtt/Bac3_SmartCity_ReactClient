@@ -12,7 +12,7 @@ const EventContainer = (props) => {
     const [toDisplay, setToDisplay] = useState([]);
 
     useEffect(() => {
-            if (isLogged() & (props.events.length > 0)) {
+            if (isLogged() && (props.events.length > 0)) {
                 setNbPages(Math.ceil(props.events.length / nbItemsPerPage));
                 prepareDisplay();
             } else setToDisplay([]);
