@@ -26,7 +26,7 @@ const Header = () => {
                 setButtonLabel('Vers admin');
             }
         }
-    }, []);
+    }, [location]);
 
     const handleLogout = (e) => {
         e.preventDefault();

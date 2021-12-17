@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Redirect, useParams } from 'react-router-dom';
 
-import { errorFetching} from '../../services/string';
+import { errorFetching } from '../../services/string';
 import { isLogged } from '../../services/Toolbox';
 import { getEvent } from '../../services/api/Event';
 import { getRegisterByEventId, addRegister, delRegister, getNbRegisterEvent } from '../../services/api/Participation';
@@ -24,16 +24,41 @@ export default function Event() {
     useEffect(() => {
         let isMounted = true;
         if (isLogged() && isMounted) {
+            const fetchEvent = async () => {
+                try {
+                    setEvent(await getEvent(eventId));
+                } catch (err) {
+                    setMessage(errorFetching);
+                }
+            };
             fetchEvent();
         }
         return () => {
             isMounted = false;
         };
-    }, []);
+    }, [eventId]);
 
     useEffect(() => {
         let isMounted = true;
         if (isLogged() && isMounted && event) {
+            const fetchNbRegistration = async () => {
+                try {
+                    const nbRegister = await getNbRegisterEvent(eventId);
+                    setNbPlacesLeft(event.max_place_count - nbRegister);
+                } catch (err) {
+                    setNbPlacesLeft(event.max_place_count);
+                }
+            };
+
+            const checkRegistration = async () => {
+                try {
+                    await getRegisterByEventId(eventId);
+                    setIsRegistered(true);
+                } catch (err) {
+                    setIsRegistered(false);
+                }
+            };
+
             checkRegistration();
             fetchNbRegistration();
 
@@ -44,33 +69,7 @@ export default function Event() {
         return () => {
             isMounted = false;
         };
-    }, [event]);
-
-    const fetchNbRegistration = async () => {
-        try {
-            const nbRegister = await getNbRegisterEvent(eventId);
-            setNbPlacesLeft(event.max_place_count - nbRegister);
-        } catch (err) {
-            setNbPlacesLeft(event.max_place_count);
-        }
-    };
-
-    const fetchEvent = async () => {
-        try {
-            setEvent(await getEvent(eventId));
-        } catch (err) {
-            setMessage(errorFetching);
-        }
-    };
-
-    const checkRegistration = async () => {
-        try {
-            await getRegisterByEventId(eventId);
-            setIsRegistered(true);
-        } catch (err) {
-            setIsRegistered(false);
-        }
-    };
+    }, [event, eventId]);
 
     const handleClick = async (e) => {
         e.preventDefault();

@@ -35,6 +35,26 @@ const Admin = () => {
         let isMounted = true;
 
         if (isLogged() && isMounted) {
+            const fetchTable = async () => {
+                try {
+                    if (selectedTable === 'Evenement') {
+                        setTable(await getAllEvents());
+                    } else if (selectedTable === 'Utilisateur') {
+                        setTable(await getAllUsers());
+                    } else if (selectedTable === 'Produit') {
+                        setTable(await getAllProducts());
+                    } else if (selectedTable === 'Stand') {
+                        setTable(await getAllStands());
+                    } else if (selectedTable === 'Objet') {
+                        setTable(await getAllObject());
+                    } else if (selectedTable === 'Participation') {
+                        setTable(await getAllRegister());
+                    }
+                } catch (err) {
+                    setMessage(errorFetching);
+                }
+            };
+
             fetchTable();
 
             setAction();
@@ -45,26 +65,6 @@ const Admin = () => {
             isMounted = false;
         };
     }, [selectedTable, toggleFetching]);
-
-    const fetchTable = async () => {
-        try {
-            if (selectedTable === 'Evenement') {
-                setTable(await getAllEvents());
-            } else if (selectedTable === 'Utilisateur') {
-                setTable(await getAllUsers());
-            } else if (selectedTable === 'Produit') {
-                setTable(await getAllProducts());
-            } else if (selectedTable === 'Stand') {
-                setTable(await getAllStands());
-            } else if (selectedTable === 'Objet') {
-                setTable(await getAllObject());
-            } else if (selectedTable === 'Participation') {
-                setTable(await getAllRegister());
-            }
-        } catch (err) {
-            setMessage(errorFetching);
-        }
-    };
 
     const createGrid = () => {
         if (table) {
