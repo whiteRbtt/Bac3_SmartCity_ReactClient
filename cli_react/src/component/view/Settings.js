@@ -21,7 +21,6 @@ import Header from '../Header';
 import {
     Button,
     Typography,
-    TextField,
     IconButton,
     InputAdornment,
     OutlinedInput,
@@ -46,9 +45,6 @@ const Settings = (props) => {
 
     const handleClickPwd = async (e) => {
         e.preventDefault();
-        console.log(`password`, password);
-        console.log(`newPassword`, newPassword);
-        console.log(`newPasswordConfirm`, newPasswordConfirm);
         if ((password !== '') && (newPassword !== '') && (newPasswordConfirm !== '')) {
             if (newPassword === newPasswordConfirm) {
                 if (isPasswordValid(newPassword)) {

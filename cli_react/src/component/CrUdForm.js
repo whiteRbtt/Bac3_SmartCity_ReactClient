@@ -175,7 +175,7 @@ const CrUdForm = (props) => {
             setDescription('');
             setPrice('');
         }
-    }, [row, action]);
+    }, [row, action,table]);
 
     const confirmChanges = () => {
         action === 'add' ? props.message(addSucces) : props.message(updateSucces);
