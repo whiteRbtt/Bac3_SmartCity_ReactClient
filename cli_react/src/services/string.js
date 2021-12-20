@@ -5,7 +5,7 @@ const errorFetching = "Une erreur s'est produite, veuillez réessayer plus tard"
 const noResults = 'Aucun évenement ne correspond à la recherche';
 const credentialNotValid = 'Utilisateur introuvable ou information erronées';
 const passwordsNotMatching = 'Les mots de passe doivent être similaires';
-const imgTooLarge = "L'avatar doit être un jpeg ou png de maximum 150 x 150 px";
+const imgTooLarge = "L'avatar doit être un jpeg ou png de maximum 50ko";
 const registerUpdateError = 'Veuillez plutôt supprimer et créer une nouvelle participation';
 const passwordNotValid = 'Le mot de passe actuel est erroné';
 const cannotReachServer = 'Le service est inaccessible, veuillez contacter le support client'
@@ -36,8 +36,8 @@ const missingAvatar = 'Veuillez sélectionner une image';
 
 const apiErrors = {
     'No updatable attribute': 'Aucune modification détectée',
-    'Invalid password': 'Mot de passe errorné',
-    'Incorrect current password': 'Mot de passe errorné',
+    'Invalid password': 'Mot de passe erroné',
+    'Incorrect current password': 'Mot de passe erroné',
     'Invalid mail address, use the format : xxx@yyy.zz': mailNotValid,
     'Address mail already registered': 'Il existe déja un compte lié à cette adresse',
     'Participation already registered for this event': "Cet utilisateur est déja inscrit à l'évenement",

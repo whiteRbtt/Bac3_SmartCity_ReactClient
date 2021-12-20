@@ -65,7 +65,7 @@ const Settings = (props) => {
     const handleClickAvatar = async (e) => {
         e.preventDefault();
         if (newAvatar !== null) {
-            if (newAvatar[0].size < 15000) {
+            if (newAvatar[0].size < 50000) {
                 try {
                     const formData = new FormData();
                     for (const image of newAvatar) formData.append('avatar', image);
